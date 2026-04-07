@@ -9,8 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "axios": "^1.14.0",
+    "bootstrap": "^5.3.8",
+    "json-server": "^1.0.0-beta.15",
     "pinia": "^3.0.4",
     "vue": "^3.5.31",
+    "vue-csspin": "^0.1.12",
     "vue-router": "^5.0.4"
   },
   "devDependencies": {
