@@ -1,7 +1,8 @@
 <template>
   <div class="component-wrapper p-3">
     <h2>홈</h2>
-    
+    <FloatingAddBtn />
+    <RouterView />
   </div>
 </template>
 
@@ -9,10 +10,10 @@
 /**
  * 1. 외부 모듈 및 컴포넌트 Import
  */
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from "vue";
 // import { useRouter, useRoute } from 'vue-router';
 // import { useTransactionStore } from '@/stores/useTransactionStore';
-
+import FloatingAddBtn from "@/components/common/FloatingAddBtn.vue";
 /**
  * 2. Props 및 Emits 정의 (부모-자식 간 데이터 전달이 필요할 때 사용)
  */
@@ -43,7 +44,7 @@ const isLoading = ref(false);
  */
 const handleAction = () => {
   // 클릭 등의 이벤트 발생 시 실행될 로직
-  console.log('Action triggered!');
+  console.log("Action triggered!");
 };
 
 /**

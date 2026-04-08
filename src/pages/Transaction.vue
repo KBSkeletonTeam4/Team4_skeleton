@@ -1,7 +1,6 @@
 <template>
   <div class="component-wrapper p-3">
-    <h2>거래 내역</h2>
-    
+    <h2>거래 등록 및 수정</h2>
   </div>
 </template>
 
@@ -9,7 +8,7 @@
 /**
  * 1. 외부 모듈 및 컴포넌트 Import
  */
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from "vue";
 // import { useRouter, useRoute } from 'vue-router';
 // import { useTransactionStore } from '@/stores/useTransactionStore';
 
@@ -43,7 +42,7 @@ const isLoading = ref(false);
  */
 const handleAction = () => {
   // 클릭 등의 이벤트 발생 시 실행될 로직
-  console.log('Action triggered!');
+  console.log("Action triggered!");
 };
 
 /**
