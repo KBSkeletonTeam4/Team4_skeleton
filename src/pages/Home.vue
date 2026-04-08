@@ -1,5 +1,12 @@
 <template>
   <div class="home-page">
+    <section class="top-bar">
+      <div></div>
+      <button class="login-btn" @click="goToUserPage">
+        {{ settingStore.isLoggedIn ? '설정' : '로그인' }}
+      </button>
+    </section>
+
     <section class="month-selector">
       <button class="month-btn" @click="moveMonth(-1)">‹</button>
       <h2 class="month-title">{{ monthLabel }}</h2>
@@ -21,13 +28,16 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 import SummaryCard from '@/components/home/SummaryCard.vue';
 import { useTransactionStore } from '@/stores/useTransactionStore';
 import RecentList from '@/components/home/RecentList.vue';
+import { useSettingStore } from '@/stores/useSettingStore';
 
+const router = useRouter();
 const transactionStore = useTransactionStore();
 const { transactions } = storeToRefs(transactionStore);
-
+const settingStore = useSettingStore();
 const selectedDate = ref(new Date());
 
 const monthLabel = computed(() => {
@@ -80,6 +90,14 @@ const moveMonth = (direction) => {
   selectedDate.value = newDate;
 };
 
+const goToUserPage = () => {
+  if (settingStore.isLoggedIn) {
+    router.push('/settings');
+  } else {
+    router.push('/login');
+  }
+};
+
 onMounted(() => {
   transactionStore.fetchTransactions();
 });
@@ -92,6 +110,35 @@ onMounted(() => {
   min-height: 100vh;
   max-width: 880px;
   margin: 0 auto;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.login-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  background: #000666;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease;
+}
+
+.login-btn:hover {
+  opacity: 0.92;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
 }
 
 .month-selector {
