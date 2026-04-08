@@ -1,68 +1,121 @@
 <template>
-  <div class="component-wrapper p-3">
-    <h2>홈</h2>
-    
+  <div class="home-page">
+    <section class="month-selector">
+      <button class="month-btn" @click="moveMonth(-1)">‹</button>
+      <h2 class="month-title">{{ monthLabel }}</h2>
+      <button class="month-btn" @click="moveMonth(1)">›</button>
+    </section>
+
+    <SummaryCard
+      :month-label="monthLabel"
+      :total-income="monthlyIncome"
+      :total-expense="monthlyExpense"
+      :balance="monthlyBalance"
+      :is-loading="transactionStore.isLoading"
+    />
+
+    <RecentList :items="recentTransactions" />
   </div>
 </template>
 
 <script setup>
-/**
- * 1. 외부 모듈 및 컴포넌트 Import
- */
 import { ref, computed, onMounted } from 'vue';
-// import { useRouter, useRoute } from 'vue-router';
-// import { useTransactionStore } from '@/stores/useTransactionStore';
+import { storeToRefs } from 'pinia';
+import SummaryCard from '@/components/home/SummaryCard.vue';
+import { useTransactionStore } from '@/stores/useTransactionStore';
+import RecentList from '@/components/home/RecentList.vue';
 
-/**
- * 2. Props 및 Emits 정의 (부모-자식 간 데이터 전달이 필요할 때 사용)
- */
-// const props = defineProps({
-//   item: { type: Object, required: true }
-// });
-// const emit = defineEmits(['update', 'delete']);
+const transactionStore = useTransactionStore();
+const { transactions } = storeToRefs(transactionStore);
 
-/**
- * 3. 스토어(Pinia) 및 라우터(Vue Router) 초기화
- */
-// const router = useRouter();
-// const transactionStore = useTransactionStore();
+const selectedDate = ref(new Date());
 
-/**
- * 4. 반응형 상태(State) 정의
- */
-const isLoading = ref(false);
-// const localData = ref('');
+const monthLabel = computed(() => {
+  const year = selectedDate.value.getFullYear();
+  const month = selectedDate.value.getMonth() + 1;
+  return `${year}년 ${month}월`;
+});
 
-/**
- * 5. 계산된 속성(Computed) 정의
- */
-// const formattedData = computed(() => { return ... });
+const currentMonthKey = computed(() => {
+  const year = selectedDate.value.getFullYear();
+  const month = String(selectedDate.value.getMonth() + 1).padStart(2, '0');
+  return `${year}-${month}`;
+});
 
-/**
- * 6. 주요 함수(Methods) 및 이벤트 핸들러
- */
-const handleAction = () => {
-  // 클릭 등의 이벤트 발생 시 실행될 로직
-  console.log('Action triggered!');
+const currentMonthTransactions = computed(() => {
+  return transactions.value.filter((item) => {
+    return item.date?.startsWith(currentMonthKey.value);
+  });
+});
+
+const monthlyIncome = computed(() => {
+  return currentMonthTransactions.value
+    .filter((item) => item.type === 'income')
+    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+});
+
+const monthlyExpense = computed(() => {
+  return currentMonthTransactions.value
+    .filter((item) => item.type === 'expense')
+    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+});
+
+const monthlyBalance = computed(() => {
+  return monthlyIncome.value - monthlyExpense.value;
+});
+
+const recentTransactions = computed(() => {
+  return [...currentMonthTransactions.value]
+    .sort((a, b) => {
+      const aDateTime = `${a.date} ${a.time || '00:00'}`;
+      const bDateTime = `${b.date} ${b.time || '00:00'}`;
+      return new Date(bDateTime) - new Date(aDateTime);
+    })
+    .slice(0, 5);
+});
+
+const moveMonth = (direction) => {
+  const newDate = new Date(selectedDate.value);
+  newDate.setMonth(newDate.getMonth() + direction);
+  selectedDate.value = newDate;
 };
 
-/**
- * 7. 생명주기 훅(Lifecycle Hooks)
- */
 onMounted(() => {
-  // 컴포넌트가 화면에 마운트된 직후 실행 (예: API 데이터 Fetching)
-  // console.log('Component is mounted!');
+  transactionStore.fetchTransactions();
 });
 </script>
 
 <style scoped>
-/**
- * scoped 속성: 이 곳에 작성된 CSS는 해당 컴포넌트에만 적용되어 스타일 충돌을 방지합니다.
- * 시니어 타깃에 맞춘 글씨 크기나 명확한 색상 대비 등을 이곳에 추가하세요.
- */
-.component-wrapper {
-  /* 예: 배경색, 둥근 모서리 등 개별 컴포넌트 스타일 */
-  background-color: #ffffff;
-  border-radius: 8px;
+.home-page {
+  padding: 1rem;
+  background: #f7f5fb;
+  min-height: 100vh;
+}
+
+.month-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.month-title {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #161c7a;
+}
+
+.month-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #ece9f7;
+  color: #161c7a;
+  font-size: 1.4rem;
+  font-weight: 800;
+  cursor: pointer;
 }
 </style>
