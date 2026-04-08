@@ -121,6 +121,7 @@ const goToHistory = () => {
 .recent-header h3 {
   font-size: 20px;
   font-weight: bold;
+  color: #1a237e;
 }
 
 .more-btn {
