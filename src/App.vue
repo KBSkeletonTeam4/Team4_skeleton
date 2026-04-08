@@ -1,7 +1,6 @@
 <template>
-  <div class="container py-3" :class="`font-size-${fontSize}`">
+  <div class="container" :class="`font-size-${fontSize}`">
     <Header />
-
     <div class="main-content">
       <router-view />
       <!-- <Loading v-if="dateStore.states.isLoading" /> -->
@@ -23,12 +22,16 @@ const { fontSize } = storeToRefs(settingStore);
 <style>
 /* 앱 전체의 기본 레이아웃과 
   시니어 맞춤형 폰트 사이즈를 제어하는 글로벌 스타일 */
+* {
+  margin: 0;
+  padding: 0;
+}
 
-#app-container {
+.container {
+  min-width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* Header.vue에 맞춘 부드러운 배경색 통일 */
   background-color: #fbf8ff;
   color: #000666;
 }
