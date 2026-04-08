@@ -1,12 +1,11 @@
 // stores/useSettingsStore.js
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-import api from '@/api/axios';
+import { ref } from "vue";
+import { defineStore } from "pinia";
 
-export const useSettingsStore = defineStore('settings', () => {
+export const useSettingStore = defineStore("settings", () => {
   // State
-  const profile = ref({ name: '김형석', email: '' });
-  const fontSize = ref('large'); // 'normal', 'large', 'xlarge'
+  const profile = ref({ name: "김형석", phone: "010-1234-5678" });
+  const fontSize = ref("large"); // 'normal', 'large', 'xlarge'
 
   // Actions
   const updateFontSize = (size) => {
