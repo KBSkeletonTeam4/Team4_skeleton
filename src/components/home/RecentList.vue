@@ -1,7 +1,16 @@
 <template>
   <div class="component-wrapper p-3">
     <h2>최근 거래 내역</h2>
-    
+    <ul>
+      <li v-for="item in recentTransactions" :key="item.id">
+        <div>{{ item }}</div>
+        <div>category: {{ item.category }}</div>
+        <div>memo: {{ item.memo }}</div>
+        <div>date: {{ item.date }} {{ item.time }}</div>
+        <div>type: {{ item.type }}</div>
+        <div>amount: {{ item.amount }}</div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -10,6 +19,7 @@
  * 1. 외부 모듈 및 컴포넌트 Import
  */
 import { ref, computed, onMounted } from 'vue';
+import database from '@/../db.json';
 // import { useRouter, useRoute } from 'vue-router';
 // import { useTransactionStore } from '@/stores/useTransactionStore';
 
@@ -31,12 +41,32 @@ import { ref, computed, onMounted } from 'vue';
  * 4. 반응형 상태(State) 정의
  */
 const isLoading = ref(false);
+
+// 선택 월 변수. 다른 컴포넌트에서 선택한 값 추가 예정
+const selectedMonth = ref('2026-04');
+
+// db.json에서 필요 데이터 추출
+const budget = database.budget;
+const expenseCategory = database.expenseCategory;
+const incomeCategory = database.incomeCategory;
 // const localData = ref('');
 
 /**
  * 5. 계산된 속성(Computed) 정의
  */
 // const formattedData = computed(() => { return ... });
+
+// 선택월 최근 5개 거래내역 필터링
+const recentTransactions = computed(() => {
+  const monthFilteredTransactions = budget.filter((item) =>
+    item.date.startsWith(selectedMonth.value),
+  );
+  monthFilteredTransactions.sort(
+    (a, b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`),
+  );
+
+  return monthFilteredTransactions.slice(0, 5);
+});
 
 /**
  * 6. 주요 함수(Methods) 및 이벤트 핸들러
