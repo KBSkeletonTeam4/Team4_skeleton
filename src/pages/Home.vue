@@ -88,34 +88,156 @@ onMounted(() => {
 <style scoped>
 .home-page {
   padding: 1rem;
-  background: #f7f5fb;
+  background: #fbf8ff;
   min-height: 100vh;
+  max-width: 880px;
+  margin: 0 auto;
 }
 
 .month-selector {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.4rem;
   margin-bottom: 1rem;
+  padding-top: 0.2rem;
 }
 
 .month-title {
   margin: 0;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #161c7a;
+  padding: 0 0.45rem 0.15rem;
+  font-size: 1.85rem;
+  font-weight: 900;
+  color: #000666;
+  letter-spacing: -0.03em;
+  border-bottom: 4px solid #000666;
+  line-height: 1.1;
 }
 
 .month-btn {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   border: none;
   border-radius: 50%;
-  background: #ece9f7;
-  color: #161c7a;
-  font-size: 1.4rem;
-  font-weight: 800;
+  background: transparent;
+  color: #767683;
+  font-size: 1.55rem;
+  font-weight: 900;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.month-btn:hover {
+  background: #f0eef8;
+  color: #000666;
+}
+
+/* RecentList 쪽 카드 톤 맞추기 */
+:deep(.recent-list-wrap) {
+  margin-top: 1rem;
+  padding: 0;
+  background: transparent;
+}
+
+:deep(.recent-header) {
+  margin-bottom: 0.8rem;
+}
+
+:deep(.recent-title) {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #000666;
+  letter-spacing: -0.03em;
+}
+
+:deep(.empty-box) {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1rem;
+  color: #666;
+  box-shadow: 0 8px 20px rgba(26, 27, 35, 0.04);
+}
+
+:deep(.recent-list) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+:deep(.recent-item) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.15rem 1rem;
+  margin-bottom: 0.8rem;
+  border: none;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(26, 27, 35, 0.04);
+}
+
+:deep(.recent-item:last-child) {
+  margin-bottom: 0;
+}
+
+:deep(.category) {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1b23;
+}
+
+:deep(.date) {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #6f7080;
+}
+
+:deep(.type-badge) {
+  display: none;
+}
+
+:deep(.amount) {
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+:deep(.amount.income) {
+  color: #1b6d24;
+}
+
+:deep(.amount.expense) {
+  color: #400003;
+}
+
+@media (max-width: 768px) {
+  .home-page {
+    padding: 0.9rem;
+  }
+
+  .month-title {
+    font-size: 1.55rem;
+  }
+
+  :deep(.recent-title) {
+    font-size: 1.5rem;
+  }
+
+  :deep(.recent-item) {
+    padding: 1rem 0.9rem;
+  }
+
+  :deep(.category) {
+    font-size: 0.98rem;
+  }
+
+  :deep(.amount) {
+    font-size: 1rem;
+  }
 }
 </style>

@@ -7,17 +7,23 @@
 
     <div class="summary-row">
       <div class="summary-box income">
-        <p class="summary-label">총 수입</p>
-        <strong class="summary-amount">{{
-          formatCurrency(totalIncome)
-        }}</strong>
+        <div class="summary-top">
+          <p class="summary-label">총 수입</p>
+          <span class="summary-icon">↗</span>
+        </div>
+        <strong class="summary-amount">
+          {{ formatCurrency(totalIncome) }}
+        </strong>
       </div>
 
       <div class="summary-box expense">
-        <p class="summary-label">총 지출</p>
-        <strong class="summary-amount">{{
-          formatCurrency(totalExpense)
-        }}</strong>
+        <div class="summary-top">
+          <p class="summary-label">총 지출</p>
+          <span class="summary-icon">↘</span>
+        </div>
+        <strong class="summary-amount">
+          {{ formatCurrency(totalExpense) }}
+        </strong>
       </div>
     </div>
   </section>
@@ -60,24 +66,40 @@ const formatCurrency = (value) => {
 }
 
 .balance-card {
-  background: #f1eff7;
-  border-radius: 20px;
-  padding: 2rem 1.5rem;
+  background: #f3f2fe;
+  border-radius: 24px;
+  padding: 2.25rem 1.5rem 1.75rem;
   text-align: center;
+  box-shadow: 0 8px 24px rgba(26, 27, 35, 0.05);
+  border: 1px solid rgba(198, 197, 212, 0.35);
 }
 
 .balance-label {
-  margin: 0 0 0.8rem;
-  font-size: 1.8rem;
-  color: #555;
-  font-weight: 500;
+  margin: 0 0 0.9rem;
+  font-size: 1.45rem;
+  color: #5c5f73;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .balance-amount {
   margin: 0;
-  font-size: 3.2rem;
+  font-size: 3.4rem;
+  line-height: 1.08;
   font-weight: 900;
   color: #000666;
+  letter-spacing: -0.05em;
+}
+
+.balance-sub {
+  margin: 1rem auto 0;
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.95rem;
+  color: #5c5f73;
+  background: #e2e1ed;
+  border-radius: 999px;
+  font-weight: 600;
 }
 
 .summary-row {
@@ -87,40 +109,63 @@ const formatCurrency = (value) => {
 }
 
 .summary-box {
-  background: #f1eff7;
+  background: #f3f2fe;
   border-radius: 20px;
-  padding: 1.4rem;
+  padding: 1.35rem 1.2rem;
+  box-shadow: 0 8px 20px rgba(26, 27, 35, 0.04);
+  border: 1px solid rgba(198, 197, 212, 0.28);
+}
+
+.summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.15rem;
 }
 
 .summary-label {
-  margin: 0 0 1rem;
-  font-size: 1.5rem;
-  color: #4a4a4a;
-  font-weight: 500;
+  margin: 0;
+  font-size: 1.35rem;
+  color: #454652;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.summary-icon {
+  font-size: 1.2rem;
+  font-weight: 900;
 }
 
 .summary-amount {
   display: block;
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 900;
   text-align: right;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
+.income .summary-icon,
 .income .summary-amount {
   color: green;
 }
 
+.expense .summary-icon,
 .expense .summary-amount {
   color: red;
 }
 
 @media (max-width: 768px) {
   .balance-label {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .balance-amount {
-    font-size: 2.4rem;
+    font-size: 2.6rem;
+  }
+
+  .balance-sub {
+    font-size: 0.85rem;
   }
 
   .summary-row {
@@ -128,11 +173,11 @@ const formatCurrency = (value) => {
   }
 
   .summary-label {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 
   .summary-amount {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
   }
 }
 </style>
