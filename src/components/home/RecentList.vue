@@ -1,19 +1,16 @@
 <template>
   <div class="recent-wrapper">
-    <!-- 헤더 -->
     <div class="recent-header">
       <h3>최근 거래 내역</h3>
       <button class="more-btn" @click="goToHistory">전체보기</button>
     </div>
 
-    <!-- 리스트 -->
     <div class="recent-list">
       <div
         class="recent-item"
-        v-for="item in recentTransactions"
+        v-for="item in items"
         :key="item.id"
       >
-        <!-- 왼쪽 -->
         <div class="left">
           <div class="icon-box">
             <i :class="['fas', getIcon(item.type, item.category)]"></i>
@@ -27,7 +24,6 @@
           </div>
         </div>
 
-        <!-- 오른쪽 -->
         <div
           class="amount"
           :class="{
@@ -36,7 +32,7 @@
           }"
         >
           {{ item.type === 'expense' ? '-' : '+' }}
-          {{ item.amount.toLocaleString() }}원
+          {{ Number(item.amount).toLocaleString() }}원
         </div>
       </div>
     </div>
@@ -44,45 +40,35 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import database from '@/../db.json';
+import { useTransactionStore } from '@/stores/useTransactionStore'; // 🌟 db.json 대신 스토어 임포트!
 
-const router = useRouter();
-
-// 선택월. 홈화면에서 선택한 것이 적용되도록 수정 예정
-const selectedMonth = ref('2026-04');
-
-// 데이터 import
-const budget = database.budget;
-const expenseCategory = database.expenseCategory;
-const incomeCategory = database.incomeCategory;
-
-// 선택월 최근 5개 거래내역 필터링
-const recentTransactions = computed(() => {
-  return budget
-    .filter((item) => item.date.startsWith(selectedMonth.value))
-    .sort(
-      (a, b) =>
-        new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`),
-    )
-    .slice(0, 5);
+// 부모 컴포넌트(Home.vue)에서 데이터를 넘겨받습니다.
+const props = defineProps({
+  items: {
+    type: Array,
+    default: () => [],
+  },
 });
 
-// 아이콘 가져오기
-const getIcon = (type, category) => {
-  const categories = type === 'expense' ? expenseCategory : incomeCategory;
+const router = useRouter();
+const transactionStore = useTransactionStore();
 
+// 아이콘 가져오기 (스토어의 카테고리 데이터 활용)
+const getIcon = (type, category) => {
+  // 스토어에서 불러온 카테고리 배열을 사용합니다.
+  const categories = type === 'expense' ? transactionStore.expenseCategories : transactionStore.incomeCategories;
+  
   const cat = categories.find((c) => c.name === category);
 
   if (cat && cat.icon) {
-    return cat.icon.split(' ')[1]; // fa-cart-shopping
+    return cat.icon.split(' ')[1]; // 예: 'fa-cart-shopping'
   }
 
-  return 'fa-coins';
+  return 'fa-coins'; // 기본 아이콘
 };
 
-// 연월일시 출력 방식 수정
+// 날짜 포맷팅 함수 (기존 코드 유지)
 const formatDateTime = (date, time) => {
   const d = new Date(`${date} ${time}`);
 
@@ -106,94 +92,19 @@ const goToHistory = () => {
 </script>
 
 <style scoped>
-.recent-wrapper {
-  margin-top: 20px;
-}
-
-/* 헤더 */
-.recent-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.recent-header h3 {
-  font-size: 20px;
-  font-weight: bold;
-  color: #1a237e;
-}
-
-.more-btn {
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: none;
-  background-color: #e0e7ff;
-  color: #1a237e;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* 리스트 */
-.recent-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.recent-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  border-radius: 12px;
-  background-color: #ffffff;
-  border: 1px solid #eee;
-}
-
-/* 왼쪽 */
-.left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.icon-box {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  background-color: #f3f4f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-box i {
-  font-size: 18px;
-  color: #4c56af;
-}
-
-.info .title {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.info .date {
-  font-size: 13px;
-  color: #666;
-}
-
-/* 금액 */
-.amount {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.amount.income {
-  color: #1b6d24;
-}
-
-.amount.expense {
-  color: #ba1a1a;
-}
+/* (기존의 CSS 스타일 코드는 충돌이 없으므로 그대로 두시면 됩니다!) */
+.recent-wrapper { margin-top: 20px; }
+.recent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.recent-header h3 { font-size: 20px; font-weight: bold; color: #1a237e; }
+.more-btn { padding: 6px 12px; border-radius: 20px; border: none; background-color: #e0e7ff; color: #1a237e; font-weight: bold; cursor: pointer; }
+.recent-list { display: flex; flex-direction: column; gap: 12px; }
+.recent-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-radius: 12px; background-color: #ffffff; border: 1px solid #eee; }
+.left { display: flex; align-items: center; gap: 12px; }
+.icon-box { width: 48px; height: 48px; border-radius: 10px; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; }
+.icon-box i { font-size: 18px; color: #4c56af; }
+.info .title { font-weight: bold; font-size: 16px; }
+.info .date { font-size: 13px; color: #666; }
+.amount { font-weight: bold; font-size: 16px; }
+.amount.income { color: #1b6d24; }
+.amount.expense { color: #ba1a1a; }
 </style>

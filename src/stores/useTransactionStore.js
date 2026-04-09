@@ -27,12 +27,20 @@ export const useTransactionStore = defineStore("transaction", () => {
   // Actions
   // 전체 거래 내역 불러오기 (GET)
   const fetchTransactions = async () => {
+    isLoading.value = true;
+    try {
     // 🌟 수정 포인트 2: api.get 자체가 이미 data를 반환하므로 response.data를 안 해도 됩니다!
     // 파라미터는 두 번째 인자로 넘겨줍니다.
     const data = await api.get("/budget", {
       _sort: "-date,-time",
     });
     transactions.value = data;
+    } catch (error) {
+      console.error('거래 내역 조회 실패:', error);
+    } finally {
+      isLoading.value = false;
+    }
+
   };
 
   // 카테고리 데이터 불러오기 (GET)

@@ -287,6 +287,27 @@
       "phone": "010-1234-5678",
       "password": "1234",
       "fontSize": "large"
+    },
+    {
+      "name": "심혜근",
+      "phone": "010-1234-1234",
+      "password": "1234",
+      "fontSize": "large",
+      "id": "grubLgFK3PE"
+    },
+    {
+      "name": "호날두",
+      "phone": "010-7777-7777",
+      "password": "1234",
+      "fontSize": "medium",
+      "id": "-PQ16duilzM"
+    },
+    {
+      "name": "홍길동",
+      "phone": "010-2222-2222",
+      "password": "1234",
+      "fontSize": "medium",
+      "id": "MXiXg77x-e0"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
