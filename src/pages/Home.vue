@@ -1,8 +1,8 @@
 <template>
   <div class="component-wrapper p-3">
     <h2>홈</h2>
-    <!-- 최근 거래내역 리스트 -->
-    <RecentList />
+    <FloatingAddBtn @add-click="$router.push({ name: 'transaction/add' })" />
+    <RouterView />
   </div>
 </template>
 
@@ -16,7 +16,7 @@ import RecentList from '@/components/home/RecentList.vue';
 // import RecentList from '@/components/home/RecentList_chatgpt.vue';
 // import { useRouter, useRoute } from 'vue-router';
 // import { useTransactionStore } from '@/stores/useTransactionStore';
-
+import FloatingAddBtn from '@/components/common/FloatingAddBtn.vue';
 /**
  * 2. Props 및 Emits 정의 (부모-자식 간 데이터 전달이 필요할 때 사용)
  */

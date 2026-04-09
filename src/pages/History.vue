@@ -1,7 +1,8 @@
 <template>
   <div class="component-wrapper p-3">
     <h2>거래 내역</h2>
-    
+    <FloatingAddBtn />
+    <RouterView />
   </div>
 </template>
 
@@ -9,7 +10,8 @@
 /**
  * 1. 외부 모듈 및 컴포넌트 Import
  */
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from "vue";
+import FloatingAddBtn from "@/components/common/FloatingAddBtn.vue";
 // import { useRouter, useRoute } from 'vue-router';
 // import { useTransactionStore } from '@/stores/useTransactionStore';
 
@@ -43,7 +45,7 @@ const isLoading = ref(false);
  */
 const handleAction = () => {
   // 클릭 등의 이벤트 발생 시 실행될 로직
-  console.log('Action triggered!');
+  console.log("Action triggered!");
 };
 
 /**
@@ -64,5 +66,7 @@ onMounted(() => {
   /* 예: 배경색, 둥근 모서리 등 개별 컴포넌트 스타일 */
   background-color: #ffffff;
   border-radius: 8px;
+  position: relative;
+  min-height: 100vh;
 }
 </style>
