@@ -5,6 +5,13 @@
       <button class="login-btn" @click="goToUserPage">
         {{ settingStore.isLoggedIn ? '설정' : '로그인' }}
       </button>
+      <button
+        v-if="settingStore.isLoggedIn"
+        class="logout-btn"
+        @click="handleLogout"
+      >
+        로그아웃
+      </button>
     </section>
 
     <section class="month-selector">
@@ -101,6 +108,11 @@ const goToUserPage = () => {
 onMounted(() => {
   transactionStore.fetchTransactions();
 });
+
+const handleLogout = () => {
+  settingStore.logout();
+  router.push('/login');
+};
 </script>
 
 <style scoped>
@@ -116,28 +128,30 @@ onMounted(() => {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 0.75rem;
   margin-bottom: 0.8rem;
 }
 
-.login-btn {
+.login-btn,
+.logout-btn {
   border: none;
   border-radius: 999px;
   padding: 0.7rem 1.2rem;
-  background: #000666;
-  color: #ffffff;
   font-size: 0.95rem;
   font-weight: 800;
   cursor: pointer;
   transition:
     transform 0.15s ease,
-    opacity 0.2s ease;
+    opacity 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .login-btn:hover {
   opacity: 0.92;
 }
 
-.login-btn:active {
+.login-btn:active,
+.logout-btn:active {
   transform: scale(0.98);
 }
 
@@ -181,7 +195,6 @@ onMounted(() => {
   color: #000666;
 }
 
-/* RecentList 쪽 카드 톤 맞추기 */
 :deep(.recent-list-wrap) {
   margin-top: 1rem;
   padding: 0;
@@ -285,6 +298,27 @@ onMounted(() => {
 
   :deep(.amount) {
     font-size: 1rem;
+  }
+  .logout-btn {
+    width: 100%;
+    border: none;
+    border-radius: 18px;
+    padding: 1rem;
+    background: #000666;
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 900;
+    cursor: pointer;
+  }
+  .logout-btn {
+    background: #f1f3f9;
+    color: #334155;
+    border: 1px solid #d9e0ee;
+  }
+
+  .logout-btn:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
   }
 }
 </style>

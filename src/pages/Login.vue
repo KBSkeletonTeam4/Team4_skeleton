@@ -2,31 +2,40 @@
   <div class="auth-page">
     <div class="auth-card">
       <h1 class="auth-title">로그인</h1>
-      <p class="auth-subtitle">전화번호와 비번입력하게나/p></p>
+      <p class="auth-subtitle">전화번호와 비밀번호를 입력하세요</p>
 
-      <div class="form-group">
-        <label for="phone">전화번호</label>
-        <input
-          id="phone"
-          v-model="phone"
-          type="text"
-          placeholder="010-1234-5678"
-        />
-      </div>
+      <form @submit.prevent="handleLogin">
+        <div class="form-group">
+          <label for="phone">전화번호</label>
+          <input
+            id="phone"
+            :value="phone"
+            type="text"
+            maxlength="13"
+            placeholder="010-1234-5678"
+            inputmode="numeric"
+            @input="onPhoneInput"
+          />
+        </div>
 
-      <div class="form-group">
-        <label for="password">비밀번호</label>
-        <input
-          id="password"
-          v-model="password"
-          type="password"
-          maxlength="4"
-          placeholder="숫자 4자리"
-        />
-      </div>
+        <div class="form-group">
+          <label for="password">비밀번호</label>
+          <input
+            id="password"
+            v-model="password"
+            type="password"
+            maxlength="4"
+            placeholder="숫자 4자리"
+            inputmode="numeric"
+          />
+        </div>
 
-      <button class="primary-btn" @click="handleLogin">로그인</button>
-      <button class="sub-btn" @click="goToSignup">회원가입</button>
+        <button class="primary-btn" type="submit">로그인</button>
+      </form>
+
+      <button class="sub-btn" type="button" @click="goToSignup">
+        회원가입
+      </button>
     </div>
   </div>
 </template>
@@ -41,6 +50,26 @@ const settingStore = useSettingStore();
 
 const phone = ref('');
 const password = ref('');
+
+const onlyNumbers = (value) => {
+  return String(value)
+    .replace(/[^0-9]/g, '')
+    .slice(0, 11);
+};
+
+const formatPhoneNumber = (value) => {
+  const numbers = onlyNumbers(value);
+
+  if (numbers.length <= 3) return numbers;
+  if (numbers.length <= 7) {
+    return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+  }
+  return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+};
+
+const onPhoneInput = (event) => {
+  phone.value = formatPhoneNumber(event.target.value);
+};
 
 const handleLogin = async () => {
   try {

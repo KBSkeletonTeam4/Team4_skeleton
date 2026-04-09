@@ -4,34 +4,43 @@
       <h1 class="auth-title">회원가입</h1>
       <p class="auth-subtitle">이름, 전화번호, 비밀번호 4자리를 입력하세요</p>
 
-      <div class="form-group">
-        <label for="name">이름</label>
-        <input id="name" v-model="name" type="text" placeholder="이름 입력" />
-      </div>
+      <form @submit.prevent="handleSignup">
+        <div class="form-group">
+          <label for="name">이름</label>
+          <input id="name" v-model="name" type="text" placeholder="이름 입력" />
+        </div>
 
-      <div class="form-group">
-        <label for="phone">전화번호</label>
-        <input
-          id="phone"
-          v-model="phone"
-          type="text"
-          placeholder="010-1234-5678"
-        />
-      </div>
+        <div class="form-group">
+          <label for="phone">전화번호</label>
+          <input
+            id="phone"
+            :value="phone"
+            type="text"
+            maxlength="13"
+            placeholder="010-1234-5678"
+            inputmode="numeric"
+            @input="onPhoneInput"
+          />
+        </div>
 
-      <div class="form-group">
-        <label for="password">비밀번호</label>
-        <input
-          id="password"
-          v-model="password"
-          type="password"
-          maxlength="4"
-          placeholder="숫자 4자리"
-        />
-      </div>
+        <div class="form-group">
+          <label for="password">비밀번호</label>
+          <input
+            id="password"
+            v-model="password"
+            type="password"
+            maxlength="4"
+            placeholder="숫자 4자리"
+            inputmode="numeric"
+          />
+        </div>
 
-      <button class="primary-btn" @click="handleSignup">회원가입</button>
-      <button class="sub-btn" @click="goToLogin">로그인으로 이동</button>
+        <button class="primary-btn" type="submit">회원가입</button>
+      </form>
+
+      <button class="sub-btn" type="button" @click="goToLogin">
+        로그인으로 이동
+      </button>
     </div>
   </div>
 </template>
@@ -47,6 +56,26 @@ const settingStore = useSettingStore();
 const name = ref('');
 const phone = ref('');
 const password = ref('');
+
+const onlyNumbers = (value) => {
+  return String(value)
+    .replace(/[^0-9]/g, '')
+    .slice(0, 11);
+};
+
+const formatPhoneNumber = (value) => {
+  const numbers = onlyNumbers(value);
+
+  if (numbers.length <= 3) return numbers;
+  if (numbers.length <= 7) {
+    return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+  }
+  return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+};
+
+const onPhoneInput = (event) => {
+  phone.value = formatPhoneNumber(event.target.value);
+};
 
 const handleSignup = async () => {
   try {

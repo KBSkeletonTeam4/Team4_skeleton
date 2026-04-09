@@ -12,14 +12,8 @@
         <p class="profile-phone">{{ settingStore.currentUser.phone }}</p>
       </div>
 
-      <div class="profile-form" v-if="settingStore.currentUser">
-        <input v-model="editName" type="text" placeholder="이름을 입력하세요" />
-        <input
-          v-model="editPhone"
-          type="text"
-          placeholder="전화번호를 입력하세요"
-        />
-        <button class="profile-btn" @click="saveProfile">
+      <div class="profile-action" v-if="settingStore.currentUser">
+        <button class="profile-btn" type="button" @click="openEditModal">
           내 정보 수정하기
         </button>
       </div>
@@ -33,6 +27,7 @@
       <button
         class="font-option"
         :class="{ active: settingStore.fontSize === 'medium' }"
+        type="button"
         @click="changeFontSize('medium')"
       >
         <span>표준</span>
@@ -42,6 +37,7 @@
       <button
         class="font-option"
         :class="{ active: settingStore.fontSize === 'large' }"
+        type="button"
         @click="changeFontSize('large')"
       >
         <span>크게</span>
@@ -51,6 +47,7 @@
       <button
         class="font-option"
         :class="{ active: settingStore.fontSize === 'xlarge' }"
+        type="button"
         @click="changeFontSize('xlarge')"
       >
         <span>매우 크게</span>
@@ -58,8 +55,46 @@
       </button>
     </section>
 
-    <button class="logout-btn" @click="handleLogout">로그아웃</button>
-    <button class="delete-btn" @click="handleDeleteAccount">회원탈퇴</button>
+    <button class="logout-btn" type="button" @click="handleLogout">
+      로그아웃
+    </button>
+    <button class="delete-btn" type="button" @click="handleDeleteAccount">
+      회원탈퇴
+    </button>
+
+    <div v-if="isEditModalOpen" class="modal-overlay" @click="closeEditModal">
+      <div class="edit-modal" @click.stop>
+        <h3 class="modal-title">내 정보 수정</h3>
+
+        <form @submit.prevent="saveProfile">
+          <input
+            v-model="editName"
+            type="text"
+            placeholder="이름을 입력하세요"
+          />
+
+          <input
+            :value="editPhone"
+            type="text"
+            maxlength="13"
+            inputmode="numeric"
+            placeholder="전화번호를 입력하세요"
+            @input="onEditPhoneInput"
+          />
+
+          <div class="modal-actions">
+            <button
+              class="modal-cancel-btn"
+              type="button"
+              @click="closeEditModal"
+            >
+              취소
+            </button>
+            <button class="modal-save-btn" type="submit">저장</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -73,13 +108,46 @@ const settingStore = useSettingStore();
 
 const editName = ref('');
 const editPhone = ref('');
+const isEditModalOpen = ref(false);
+
+const onlyNumbers = (value) => {
+  return String(value)
+    .replace(/[^0-9]/g, '')
+    .slice(0, 11);
+};
+
+const formatPhoneNumber = (value) => {
+  const numbers = onlyNumbers(value);
+
+  if (numbers.length <= 3) return numbers;
+  if (numbers.length <= 7) {
+    return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+  }
+  return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+};
+
+const onEditPhoneInput = (event) => {
+  editPhone.value = formatPhoneNumber(event.target.value);
+};
 
 watchEffect(() => {
   if (settingStore.currentUser) {
     editName.value = settingStore.currentUser.name || '';
-    editPhone.value = settingStore.currentUser.phone || '';
+    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || '');
   }
 });
+
+const openEditModal = () => {
+  if (settingStore.currentUser) {
+    editName.value = settingStore.currentUser.name || '';
+    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || '');
+  }
+  isEditModalOpen.value = true;
+};
+
+const closeEditModal = () => {
+  isEditModalOpen.value = false;
+};
 
 const saveProfile = async () => {
   try {
@@ -89,6 +157,7 @@ const saveProfile = async () => {
     });
 
     alert('내 정보가 수정되었습니다.');
+    closeEditModal();
   } catch (error) {
     alert(error.message || '수정에 실패했습니다.');
   }
@@ -108,6 +177,7 @@ const handleLogout = () => {
   settingStore.logout();
   router.push('/login');
 };
+
 const handleDeleteAccount = async () => {
   const confirmed = window.confirm('정말 회원탈퇴 하시겠습니까?');
 
@@ -187,20 +257,8 @@ const handleDeleteAccount = async () => {
   font-weight: 600;
 }
 
-.profile-form input {
-  width: 100%;
-  padding: 0.95rem 1rem;
-  margin-bottom: 0.75rem;
-  border: 1px solid #d8d9e8;
-  border-radius: 16px;
-  font-size: 1rem;
-  box-sizing: border-box;
-  outline: none;
-}
-
-.profile-form input:focus {
-  border-color: #4c56af;
-  box-shadow: 0 0 0 3px rgba(76, 86, 175, 0.12);
+.profile-action {
+  margin-top: 1rem;
 }
 
 .profile-btn {
@@ -277,11 +335,6 @@ const handleDeleteAccount = async () => {
   cursor: pointer;
 }
 
-.empty-box {
-  text-align: center;
-  color: #666;
-  padding: 2rem 1rem;
-}
 .delete-btn {
   width: 100%;
   border: none;
@@ -291,8 +344,84 @@ const handleDeleteAccount = async () => {
   font-weight: 800;
   cursor: pointer;
   margin-top: 0.75rem;
-  background: #fdecec;
-  color: #ba1a1a;
+  background: red;
+  color: white;
+}
+
+.empty-box {
+  text-align: center;
+  color: #666;
+  padding: 2rem 1rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 27, 35, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 999;
+}
+
+.edit-modal {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 1.4rem;
+  box-shadow: 0 18px 40px rgba(26, 27, 35, 0.18);
+}
+
+.modal-title {
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #000666;
+}
+
+.edit-modal input {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #d8d9e8;
+  border-radius: 16px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.edit-modal input:focus {
+  border-color: #4c56af;
+  box-shadow: 0 0 0 3px rgba(76, 86, 175, 0.12);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.modal-cancel-btn,
+.modal-save-btn {
+  flex: 1;
+  border: none;
+  border-radius: 16px;
+  padding: 0.95rem 1rem;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.modal-cancel-btn {
+  background: #ece9f7;
+  color: #000666;
+}
+
+.modal-save-btn {
+  background: #000666;
+  color: #ffffff;
 }
 
 @media (max-width: 768px) {
