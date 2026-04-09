@@ -37,10 +37,13 @@
 
               <div class="input-group">
                 <label class="input-label">날짜</label>
-                <div class="date-selector" @click="openDatePicker">
+                <div class="date-selector">
                   <i class="fa-solid fa-calendar-day icon-primary"></i>
                   <span class="date-text">{{ formattedDate }}</span>
-                  <i class="fa-solid fa-chevron-down icon-expand"></i>
+                  <i
+                    class="fa-solid fa-chevron-down icon-expand"
+                    @click.stop="openDatePicker"
+                  ></i>
 
                   <input
                     ref="dateInputRef"
@@ -103,44 +106,55 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue';
 
 // --- 모달 및 입력 상태 ---
 const isModalOpen = ref(true); // 데모를 위해 기본값 true
-const transactionType = ref("expense");
-const amount = ref("");
-const memo = ref("");
-const selectedCategoryId = ref("1");
-const selectedDate = ref(new Date(2024, 4, 24));
+const transactionType = ref('expense');
+const amount = ref('');
+const memo = ref('');
+const selectedCategoryId = ref('1');
+// const selectedDate = ref(new Date());
+const selectedDate = ref(new Date().toISOString().slice(0, 10)); //
 
 // --- DB 카테고리 데이터 ---
 const incomeCategory = [
-  { id: "1", name: "월급", icon: "fa-solid fa-money-bill-wave" },
-  { id: "2", name: "용돈", icon: "fa-solid fa-envelope-open-text" },
-  { id: "3", name: "이자", icon: "fa-solid fa-piggy-bank" },
-  { id: "4", name: "기타", icon: "fa-solid fa-coins" },
+  { id: '1', name: '월급', icon: 'fa-solid fa-money-bill-wave' },
+  { id: '2', name: '용돈', icon: 'fa-solid fa-envelope-open-text' },
+  { id: '3', name: '이자', icon: 'fa-solid fa-piggy-bank' },
+  { id: '4', name: '기타', icon: 'fa-solid fa-coins' },
 ];
 
 const expenseCategory = [
-  { id: "1", name: "식비", icon: "fa-solid fa-utensils" },
-  { id: "2", name: "마트", icon: "fa-solid fa-cart-shopping" },
-  { id: "3", name: "교통", icon: "fa-solid fa-bus" },
-  { id: "4", name: "공과금/통신", icon: "fa-solid fa-file-invoice-dollar" },
-  { id: "5", name: "병원/약국", icon: "fa-solid fa-notes-medical" },
-  { id: "6", name: "손주/경조사", icon: "fa-solid fa-gift" },
+  { id: '1', name: '식비', icon: 'fa-solid fa-utensils' },
+  { id: '2', name: '마트', icon: 'fa-solid fa-cart-shopping' },
+  { id: '3', name: '교통', icon: 'fa-solid fa-bus' },
+  { id: '4', name: '공과금/통신', icon: 'fa-solid fa-file-invoice-dollar' },
+  { id: '5', name: '병원/약국', icon: 'fa-solid fa-notes-medical' },
+  { id: '6', name: '손주/경조사', icon: 'fa-solid fa-gift' },
 ];
 
 // --- Computed ---
 const currentCategories = computed(() => {
-  return transactionType.value === "income" ? incomeCategory : expenseCategory;
+  return transactionType.value === 'income' ? incomeCategory : expenseCategory;
 });
 
+// 날짜 포맷팅 수정: Date 객체가 아닌 문자열을 받도록 함. openDatePicker에서 고른 값이 문자열로 전달되기 때문
 const formattedDate = computed(() => {
-  const y = selectedDate.value.getFullYear();
-  const m = selectedDate.value.getMonth() + 1;
-  const d = selectedDate.value.getDate();
+  if (!selectedDate.value) return '';
+  const date = new Date(selectedDate.value);
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
   return `${y}년 ${m}월 ${d}일`;
 });
+
+const dateInputRef = ref(null);
+const openDatePicker = () => {
+  const input = dateInputRef.value;
+  input?.showPicker?.(); // 크롬
+  input?.click(); // fallback
+};
 
 // --- Methods ---
 const openModal = () => {
@@ -152,20 +166,20 @@ const closeModal = () => {
 
 const changeType = (type) => {
   transactionType.value = type;
-  selectedCategoryId.value = "1";
+  selectedCategoryId.value = '1';
 };
 
 const saveTransaction = () => {
   const category = currentCategories.value.find(
     (c) => c.id === selectedCategoryId.value,
   );
-  console.log("저장 데이터:", {
+  console.log('저장 데이터:', {
     type: transactionType.value,
     amount: amount.value,
     category: category?.name,
     memo: memo.value,
   });
-  alert("성공적으로 저장되었습니다.");
+  alert('성공적으로 저장되었습니다.');
   closeModal();
 };
 </script>
@@ -180,7 +194,7 @@ const saveTransaction = () => {
   --surface-low: #f3f2fe;
   --on-surface: #1a1b23;
   --outline: #767683;
-  font-family: "Public Sans", sans-serif;
+  font-family: 'Public Sans', sans-serif;
   min-height: 100vh;
   background-color: var(--surface);
 }
@@ -199,7 +213,7 @@ const saveTransaction = () => {
   align-items: center;
 }
 .logo {
-  font-family: "Lexend";
+  font-family: 'Lexend';
   font-size: 1.5rem;
   font-weight: 900;
   color: var(--primary);
@@ -213,7 +227,7 @@ const saveTransaction = () => {
   text-decoration: none;
   color: #475569;
   font-weight: 600;
-  font-family: "Lexend";
+  font-family: 'Lexend';
 }
 .nav-link.active {
   color: var(--primary);
@@ -299,7 +313,7 @@ const saveTransaction = () => {
   align-items: center;
 }
 .modal-title {
-  font-family: "Lexend";
+  font-family: 'Lexend';
   font-size: 2.5rem;
   font-weight: 800;
   color: var(--primary);
@@ -348,7 +362,7 @@ const saveTransaction = () => {
   padding: 1.5rem;
   border-radius: 1.5rem;
   border: none;
-  font-family: "Lexend";
+  font-family: 'Lexend';
   font-size: 1.6rem;
   font-weight: 700;
   cursor: pointer;
@@ -389,9 +403,15 @@ const saveTransaction = () => {
   cursor: pointer;
 }
 .date-text {
-  font-family: "Lexend";
+  font-family: 'Lexend';
   font-size: 1.6rem;
   font-weight: 700;
+}
+
+.hidden-date-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 .icon-primary {
   color: var(--primary);
@@ -399,7 +419,7 @@ const saveTransaction = () => {
 }
 .amount-input {
   width: 100%;
-  font-family: "Lexend";
+  font-family: 'Lexend';
   font-size: 4rem;
   font-weight: 900;
   padding: 2rem;
@@ -475,7 +495,7 @@ const saveTransaction = () => {
 .btn-save {
   padding: 1.8rem;
   border-radius: 5rem;
-  font-family: "Lexend";
+  font-family: 'Lexend';
   font-size: 2rem;
   font-weight: 900;
   cursor: pointer;
