@@ -15,7 +15,9 @@ const router = useRouter();
 const currentRoute = useRoute();
 
 const goToAddPage = () => {
-  router.push({ name: "transaction/add" });
+  router.push({
+    name: "transaction/add",
+  });
 };
 // const gotoaddpage 추가
 </script>
