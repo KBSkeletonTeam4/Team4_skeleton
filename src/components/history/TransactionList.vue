@@ -15,7 +15,12 @@
       </div>
 
       <div class="d-flex flex-column gap-3">
-        <TransactionItem v-for="item in items" :key="item.id" :item="item" />
+        <TransactionItem
+          v-for="item in items"
+          :key="item.id"
+          :item="item"
+          @edit="$emit('edit-transaction', $event)"
+        />
       </div>
     </section>
 
@@ -29,21 +34,24 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import TransactionItem from "./TransactionItem.vue";
+import { computed } from 'vue';
+import TransactionItem from './TransactionItem.vue';
+
+defineEmits(['edit-transaction']);
 
 const props = defineProps({
   transactions: { type: Array, required: true },
 });
 
-// 전달받은 데이터를 날짜(date) 기준으로 그룹화하는 계산 로직
 const groupedTransactions = computed(() => {
   return props.transactions.reduce((acc, curr) => {
-    // 날짜 키가 없으면 배열 생성
-    if (!acc[curr.date]) {
-      acc[curr.date] = [];
+    const dateKey = curr.date || '날짜 없음';
+
+    if (!acc[dateKey]) {
+      acc[dateKey] = [];
     }
-    acc[curr.date].push(curr);
+
+    acc[dateKey].push(curr);
     return acc;
   }, {});
 });

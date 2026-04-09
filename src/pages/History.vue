@@ -11,21 +11,20 @@
 
     <FilterBar :currentFilter="filterType" @change-filter="setFilter" />
 
-    <TransactionList :transactions="filteredTransactions" />
+    <TransactionList
+      :transactions="filteredTransactions"
+      @edit-transaction="openEditModal"
+    />
 
-    <!-- <div class="load-more-container">
-      <button class="btn-load-more">이전 내역 더보기 ▼</button>
-    </div> -->
+    <FloatingAddBtn @add-click="openCreateModal" />
 
-    <!-- <div class="d-flex justify-content-center mt-5">
-      <button
-        class="btn btn-light btn-lg rounded-pill shadow-sm px-5 py-3 fw-bold text-primary"
-      >
-        이전 내역 더보기 ▼
-      </button>
-    </div> -->
-
-    <FloatingAddBtn @add-click="$router.push({ name: 'transaction/add' })" />
+    <Transaction
+      v-if="isTransactionModalOpen"
+      :mode="modalMode"
+      :initialData="selectedTransaction"
+      @close="closeTransactionModal"
+      @save="handleSaveTransaction"
+    />
   </div>
 </template>
 
@@ -34,34 +33,71 @@ import { ref, computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useTransactionStore } from '@/stores/useTransactionStore';
 import FloatingAddBtn from '@/components/common/FloatingAddBtn.vue';
-
 import FilterBar from '@/components/history/FilterBar.vue';
 import TransactionList from '@/components/history/TransactionList.vue';
+import Transaction from '@/pages/Transaction.vue';
 
 const transactionStore = useTransactionStore();
 const { transactions } = storeToRefs(transactionStore);
 
-// 필터 상태 관리 ('all', 'income', 'expense')
 const filterType = ref('all');
+const isTransactionModalOpen = ref(false);
+const modalMode = ref('create');
+const selectedTransaction = ref(null);
 
-onMounted(() => {
-  // 스토어에 데이터가 없다면 불러오기
+onMounted(async () => {
   if (transactions.value.length === 0) {
-    transactionStore.fetchTransactions();
+    await transactionStore.fetchTransactions();
   }
 });
 
-// 필터 변경 함수 (자식 컴포넌트에서 emit으로 호출됨)
 const setFilter = (type) => {
   filterType.value = type;
 };
 
-// 필터링된 데이터 계산 (Computed)
+const openCreateModal = () => {
+  modalMode.value = 'create';
+  selectedTransaction.value = null;
+  isTransactionModalOpen.value = true;
+};
+
+const openEditModal = (transaction) => {
+  modalMode.value = 'edit';
+  selectedTransaction.value = { ...transaction };
+  isTransactionModalOpen.value = true;
+};
+
+const closeTransactionModal = () => {
+  isTransactionModalOpen.value = false;
+  selectedTransaction.value = null;
+};
+
+const handleSaveTransaction = async (payload) => {
+  try {
+    console.log('modalMode:', modalMode.value);
+    console.log('save payload:', payload);
+
+    if (modalMode.value === 'edit') {
+      await transactionStore.updateTransaction(payload);
+      alert('거래가 수정되었습니다.');
+    } else {
+      await transactionStore.addTransaction(payload);
+      alert('거래가 등록되었습니다.');
+    }
+
+    closeTransactionModal();
+  } catch (error) {
+    console.error('거래 저장 실패:', error);
+    alert('처리 중 오류가 발생했습니다.');
+  }
+};
+
 const filteredTransactions = computed(() => {
   if (filterType.value === 'all') return transactions.value;
   return transactions.value.filter((t) => t.type === filterType.value);
 });
 </script>
+
 <style scoped>
 * {
   font-family: 'Lexend', sans-serif;
@@ -69,7 +105,6 @@ const filteredTransactions = computed(() => {
 h1 {
   color: #000666;
 }
-/* 더보기 버튼 */
 .load-more-container {
   display: flex;
   justify-content: center;
@@ -90,7 +125,6 @@ h1 {
 .btn-load-more:hover {
   background-color: #f3f2fe;
 }
-/* 하단 플로팅 액션 버튼 (FAB) */
 .btn-fab {
   position: fixed;
   bottom: 40px;
@@ -108,7 +142,7 @@ h1 {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
-  z-index: 50; /* 항상 다른 요소들보다 위에 떠 있도록 설정 */
+  z-index: 50;
 }
 .btn-fab:hover {
   transform: translateY(-4px) scale(1.02);

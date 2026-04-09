@@ -1,231 +1,238 @@
 {
-	"budget": [
-	{
-		"id": "1",
-		"date": "2026-02-01",
-		"time": "09:30",
-		"type": "income",
-		"category": "연금",
-		"amount": 1200000,
-		"memo": "국민연금 입금"
-	},
-	{
-		"id": "2",
-		"date": "2026-02-05",
-		"time": "14:00",
-		"type": "expense",
-		"category": "마트",
-		"amount": 65000,
-		"memo": "설맞이 장보기 (전통시장)"
-	},
-	{
-		"id": "3",
-		"date": "2026-02-16",
-		"time": "10:30",
-		"type": "expense",
-		"category": "손주/경조사",
-		"amount": 150000,
-		"memo": "손주들 설날 세뱃돈"
-	},
-	{
-		"id": "4",
-		"date": "2026-02-18",
-		"time": "11:15",
-		"type": "expense",
-		"category": "병원/약국",
-		"amount": 25000,
-		"memo": "한의원 침 치료"
-	},
-	{
-		"id": "5",
-		"date": "2026-02-22",
-		"time": "10:00",
-		"type": "expense",
-		"category": "공과금/통신",
-		"amount": 95000,
-		"memo": "겨울철 난방비 및 관리비"
-	},
-	{
-		"id": "6",
-		"date": "2026-02-25",
-		"time": "13:40",
-		"type": "expense",
-		"category": "교통",
-		"amount": 12000,
-		"memo": "동창 모임 택시비"
-	},
-	{
-		"id": "7",
-		"date": "2026-02-28",
-		"time": "18:00",
-		"type": "income",
-		"category": "용돈",
-		"amount": 100000,
-		"memo": "둘째 딸이 보낸 용돈"
-	},
-	{
-		"id": "8",
-		"date": "2026-03-01",
-		"time": "09:30",
-		"type": "income",
-		"category": "연금",
-		"amount": 1200000,
-		"memo": "국민연금 입금"
-	},
-	{
-		"id": "9",
-		"date": "2026-03-04",
-		"time": "16:20",
-		"type": "expense",
-		"category": "마트",
-		"amount": 38000,
-		"memo": "동네 마트 부식 구매"
-	},
-	{
-		"id": "10",
-		"date": "2026-03-10",
-		"time": "10:00",
-		"type": "expense",
-		"category": "공과금/통신",
-		"amount": 65000,
-		"memo": "아파트 관리비 자동이체"
-	},
-	{
-		"id": "11",
-		"date": "2026-03-15",
-		"time": "14:30",
-		"type": "expense",
-		"category": "병원/약국",
-		"amount": 18000,
-		"memo": "치과 스케일링"
-	},
-	{
-		"id": "12",
-		"date": "2026-03-20",
-		"time": "09:15",
-		"type": "expense",
-		"category": "교통",
-		"amount": 25000,
-		"memo": "시외버스 (봄꽃 구경)"
-	},
-	{
-		"id": "13",
-		"date": "2026-03-20",
-		"time": "13:00",
-		"type": "expense",
-		"category": "식비",
-		"amount": 30000,
-		"memo": "봄나들이 점심 외식"
-	},
-	{
-		"id": "14",
-		"date": "2026-03-26",
-		"time": "11:00",
-		"type": "expense",
-		"category": "손주/경조사",
-		"amount": 50000,
-		"memo": "지인 자녀 결혼식 축의금"
-	},
-	{
-		"id": "15",
-		"date": "2026-03-30",
-		"time": "15:45",
-		"type": "expense",
-		"category": "병원/약국",
-		"amount": 45000,
-		"memo": "봄철 영양제 구입"
-	},
-	{
-		"id": "16",
-		"date": "2026-04-01",
-		"time": "09:30",
-		"type": "income",
-		"category": "연금",
-		"amount": 1200000,
-		"memo": "국민연금 입금"
-	},
-	{
-		"id": "17",
-		"date": "2026-04-02",
-		"time": "14:20",
-		"type": "expense",
-		"category": "마트",
-		"amount": 45000,
-		"memo": "하나로마트 장보기"
-	},
-	{
-		"id": "18",
-		"date": "2026-04-03",
-		"time": "10:00",
-		"type": "expense",
-		"category": "병원/약국",
-		"amount": 15000,
-		"memo": "동네 내과 정기검진"
-	},
-	{
-		"id": "19",
-		"date": "2026-04-03",
-		"time": "10:30",
-		"type": "expense",
-		"category": "병원/약국",
-		"amount": 8500,
-		"memo": "처방약 구입"
-	},
-	{
-		"id": "20",
-		"date": "2026-04-04",
-		"time": "11:00",
-		"type": "expense",
-		"category": "공과금/통신",
-		"amount": 32000,
-		"memo": "스마트폰 요금 자동이체"
-	},
-	{
-		"id": "21",
-		"date": "2026-04-05",
-		"time": "13:00",
-		"type": "income",
-		"category": "용돈",
-		"amount": 200000,
-		"memo": "첫째 아들 용돈"
-	},
-	{
-		"id": "22",
-		"date": "2026-04-05",
-		"time": "15:30",
-		"type": "expense",
-		"category": "손주/경조사",
-		"amount": 50000,
-		"memo": "손녀 장난감 선물"
-	},
-	{
-		"id": "23",
-		"date": "2026-04-06",
-		"time": "16:45",
-		"type": "expense",
-		"category": "식비",
-		"amount": 12000,
-		"memo": "동네 밥집"
-	},
-	{
-		"id": "24",
-		"date": "2026-04-07",
-		"time": "08:20",
-		"type": "expense",
-		"category": "교통",
-		"amount": 3000,
-		"memo": "마을버스"
-	},
-	{
-		"id": "25",
-		"date": "2026-04-07",
-		"time": "17:10",
-		"type": "expense",
-		"category": "마트",
-		"amount": 25000,
-		"memo": "정육점 돼지고기"
-	}
-	],
+  "budget": [
+    {
+      "id": "1",
+      "date": "2026-02-01",
+      "time": "09:30",
+      "type": "income",
+      "category": "연금",
+      "amount": 1200000,
+      "memo": "국민연금 입금"
+    },
+    {
+      "id": "2",
+      "date": "2026-02-05",
+      "time": "14:00",
+      "type": "expense",
+      "category": "마트",
+      "amount": 65000,
+      "memo": "설맞이 장보기 (전통시장)"
+    },
+    {
+      "id": "3",
+      "date": "2026-02-16",
+      "time": "10:30",
+      "type": "expense",
+      "category": "손주/경조사",
+      "amount": 150000,
+      "memo": "손주들 설날 세뱃돈"
+    },
+    {
+      "id": "4",
+      "date": "2026-02-18",
+      "time": "11:15",
+      "type": "expense",
+      "category": "병원/약국",
+      "amount": 25000,
+      "memo": "한의원 침 치료"
+    },
+    {
+      "id": "5",
+      "date": "2026-02-22",
+      "time": "10:00",
+      "type": "expense",
+      "category": "공과금/통신",
+      "amount": 95000,
+      "memo": "겨울철 난방비 및 관리비"
+    },
+    {
+      "id": "6",
+      "date": "2026-02-25",
+      "time": "13:40",
+      "type": "expense",
+      "category": "교통",
+      "amount": 12000,
+      "memo": "동창 모임 택시비"
+    },
+    {
+      "id": "7",
+      "date": "2026-02-28",
+      "time": "18:00",
+      "type": "income",
+      "category": "용돈",
+      "amount": 100000,
+      "memo": "둘째 딸이 보낸 용돈"
+    },
+    {
+      "id": "8",
+      "date": "2026-03-01",
+      "time": "09:30",
+      "type": "income",
+      "category": "연금",
+      "amount": 1200000,
+      "memo": "국민연금 입금"
+    },
+    {
+      "id": "9",
+      "date": "2026-03-04",
+      "time": "16:20",
+      "type": "expense",
+      "category": "마트",
+      "amount": 38000,
+      "memo": "동네 마트 부식 구매"
+    },
+    {
+      "id": "10",
+      "date": "2026-03-10",
+      "time": "10:00",
+      "type": "expense",
+      "category": "공과금/통신",
+      "amount": 65000,
+      "memo": "아파트 관리비 자동이체"
+    },
+    {
+      "id": "11",
+      "date": "2026-03-15",
+      "time": "14:30",
+      "type": "expense",
+      "category": "병원/약국",
+      "amount": 18000,
+      "memo": "치과 스케일링"
+    },
+    {
+      "id": "12",
+      "date": "2026-03-20",
+      "time": "09:15",
+      "type": "expense",
+      "category": "교통",
+      "amount": 25000,
+      "memo": "시외버스 (봄꽃 구경)"
+    },
+    {
+      "id": "13",
+      "date": "2026-03-20",
+      "time": "13:00",
+      "type": "expense",
+      "category": "식비",
+      "amount": 30000,
+      "memo": "봄나들이 점심 외식"
+    },
+    {
+      "id": "14",
+      "date": "2026-03-26",
+      "time": "11:00",
+      "type": "expense",
+      "category": "손주/경조사",
+      "amount": 50000,
+      "memo": "지인 자녀 결혼식 축의금"
+    },
+    {
+      "id": "15",
+      "date": "2026-03-30",
+      "time": "15:45",
+      "type": "expense",
+      "category": "병원/약국",
+      "amount": 45000,
+      "memo": "봄철 영양제 구입"
+    },
+    {
+      "id": "16",
+      "date": "2026-04-01",
+      "time": "09:30",
+      "type": "income",
+      "category": "연금",
+      "amount": 1200000,
+      "memo": "국민연금 입금"
+    },
+    {
+      "id": "17",
+      "date": "2026-04-02",
+      "time": "14:20",
+      "type": "expense",
+      "category": "마트",
+      "amount": 45000,
+      "memo": "하나로마트 장보기"
+    },
+    {
+      "id": "18",
+      "date": "2026-04-03",
+      "time": "10:00",
+      "type": "expense",
+      "category": "병원/약국",
+      "amount": 15000,
+      "memo": "동네 내과 정기검진"
+    },
+    {
+      "id": "19",
+      "date": "2026-04-03",
+      "time": "10:30",
+      "type": "expense",
+      "category": "병원/약국",
+      "amount": 8500,
+      "memo": "처방약 구입"
+    },
+    {
+      "id": "20",
+      "date": "2026-04-04",
+      "time": "11:00",
+      "type": "expense",
+      "category": "공과금/통신",
+      "amount": 32000,
+      "memo": "스마트폰 요금 자동이체"
+    },
+    {
+      "id": "21",
+      "date": "2026-04-05",
+      "time": "13:00",
+      "type": "income",
+      "category": "용돈",
+      "amount": 200000,
+      "memo": "첫째 아들 용돈"
+    },
+    {
+      "id": "22",
+      "date": "2026-04-05",
+      "time": "15:30",
+      "type": "expense",
+      "category": "손주/경조사",
+      "amount": 50000,
+      "memo": "손녀 장난감 선물"
+    },
+    {
+      "id": "23",
+      "date": "2026-04-06",
+      "time": "16:45",
+      "type": "expense",
+      "category": "식비",
+      "amount": 12000,
+      "memo": "동네 밥집"
+    },
+    {
+      "id": "24",
+      "date": "2026-04-07",
+      "time": "08:20",
+      "type": "expense",
+      "category": "교통",
+      "amount": 3000,
+      "memo": "마을버스"
+    },
+    {
+      "id": "25",
+      "type": "expense",
+      "amount": 2500,
+      "category": "마트",
+      "memo": "정육점 돼지고기",
+      "date": "2026-04-07"
+    },
+    {
+      "type": "expense",
+      "amount": 1231,
+      "category": "식비",
+      "memo": "",
+      "date": "2026-04-03",
+      "id": "rbeHOuKASp8"
+    }
+  ],
   "incomeCategory": [
     {
       "id": "1",
@@ -274,11 +281,11 @@
       "name": "병원/약국",
       "icon": "fa-solid fa-notes-medical"
     },
-	{
-	  "id": "6",
-	  "name": "손주/경조사",
-	  "icon": "fa-solid fa-gift"
-	}
+    {
+      "id": "6",
+      "name": "손주/경조사",
+      "icon": "fa-solid fa-gift"
+    }
   ],
   "profile": [
     {
@@ -288,5 +295,6 @@
       "password": "1234",
       "fontSize": "large"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
