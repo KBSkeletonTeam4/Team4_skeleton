@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE = "/api/products";
+const BASE = "http://localhost:3000";
 
 export const get = async (target, params) => {
   try {
@@ -45,4 +45,4 @@ export const remove = async (target, params) => {
   return {};
 };
 
-export default api;
+export default { get, post, put, remove };

@@ -10,13 +10,23 @@
 
 <script setup>
 // 전역 설정이 필요하다면 이곳에 작성
+import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import Header from "@/components/common/Header.vue";
 // import Loading from '@/components/common/Loading.vue';
 import { useSettingStore } from "@/stores/useSettingStore.js";
+import { useTransactionStore } from "@/stores/useTransactionStore";
 
 const settingStore = useSettingStore();
 const { fontSize } = storeToRefs(settingStore);
+
+const transactionStore = useTransactionStore();
+
+onMounted(() => {
+  // DB에서 거래 내역과 카테고리 목록을 싹 다 가져오라고 명령!
+  transactionStore.fetchTransactions();
+  transactionStore.fetchCategories();
+});
 </script>
 
 <style>
