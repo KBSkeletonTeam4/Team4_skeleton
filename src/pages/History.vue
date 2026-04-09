@@ -75,7 +75,7 @@ h1 {
   justify-content: center;
   margin-top: 64px;
 }
-.btn-load-more {
+/* .btn-load-more {
   background-color: #ffffff;
   color: #000666;
   font-size: 1.5rem;
@@ -86,10 +86,10 @@ h1 {
   box-shadow: 0 8px 24px rgba(26, 27, 35, 0.08);
   cursor: pointer;
   transition: background-color 0.2s ease;
-}
-.btn-load-more:hover {
+} */
+/* .btn-load-more:hover {
   background-color: #f3f2fe;
-}
+} */
 /* 하단 플로팅 액션 버튼 (FAB) */
 .btn-fab {
   position: fixed;
