@@ -11,6 +11,9 @@
  * 1. 외부 모듈 및 컴포넌트 Import
  */
 import { ref, computed, onMounted } from 'vue';
+// 최근 거래내역 컴포넌트 Import
+import RecentList from '@/components/home/RecentList.vue';
+// import RecentList from '@/components/home/RecentList_chatgpt.vue';
 // import { useRouter, useRoute } from 'vue-router';
 // import { useTransactionStore } from '@/stores/useTransactionStore';
 import FloatingAddBtn from '@/components/common/FloatingAddBtn.vue';
