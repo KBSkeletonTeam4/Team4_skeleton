@@ -30,21 +30,19 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import { storeToRefs } from "pinia";
-import { useTransactionStore } from "@/stores/useTransactionStore";
-import FloatingAddBtn from "@/components/common/FloatingAddBtn.vue";
+import { ref, computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useTransactionStore } from '@/stores/useTransactionStore';
+import FloatingAddBtn from '@/components/common/FloatingAddBtn.vue';
 
-
-import FilterBar from "@/components/history/FilterBar.vue";
-import TransactionList from "@/components/history/TransactionList.vue";
-import FloatingAddBtn from "@/components/common/FloatingAddBtn.vue";
+import FilterBar from '@/components/history/FilterBar.vue';
+import TransactionList from '@/components/history/TransactionList.vue';
 
 const transactionStore = useTransactionStore();
 const { transactions } = storeToRefs(transactionStore);
 
 // 필터 상태 관리 ('all', 'income', 'expense')
-const filterType = ref("all");
+const filterType = ref('all');
 
 onMounted(() => {
   // 스토어에 데이터가 없다면 불러오기
@@ -60,13 +58,13 @@ const setFilter = (type) => {
 
 // 필터링된 데이터 계산 (Computed)
 const filteredTransactions = computed(() => {
-  if (filterType.value === "all") return transactions.value;
+  if (filterType.value === 'all') return transactions.value;
   return transactions.value.filter((t) => t.type === filterType.value);
 });
 </script>
 <style scoped>
 * {
-  font-family: "Lexend", sans-serif;
+  font-family: 'Lexend', sans-serif;
 }
 h1 {
   color: #000666;
