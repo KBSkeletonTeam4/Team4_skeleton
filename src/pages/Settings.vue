@@ -2,65 +2,69 @@
   <div class="settings-page">
     <h1 class="page-title">프로필 설정</h1>
 
-    <section class="profile-card">
-      <div class="profile-image-wrap">
-        <div class="profile-image">👤</div>
-      </div>
+    <div class="settings-grid">
+      <section class="profile-card">
+        <div class="profile-image-wrap">
+          <div class="profile-image">👤</div>
+        </div>
 
-      <div class="profile-info" v-if="settingStore.currentUser">
-        <h2 class="profile-name">{{ settingStore.currentUser.name }} 님</h2>
-        <p class="profile-phone">{{ settingStore.currentUser.phone }}</p>
-      </div>
+        <div class="profile-info" v-if="settingStore.currentUser">
+          <h2 class="profile-name">{{ settingStore.currentUser.name }} 님</h2>
+          <p class="profile-phone">{{ settingStore.currentUser.phone }}</p>
+        </div>
 
-      <div class="profile-action" v-if="settingStore.currentUser">
-        <button class="profile-btn" type="button" @click="openEditModal">
-          내 정보 수정하기
+        <div class="profile-action" v-if="settingStore.currentUser">
+          <button class="profile-btn" type="button" @click="openEditModal">
+            내 정보 수정하기
+          </button>
+        </div>
+
+        <div v-else class="empty-box">로그인된 사용자가 없습니다.</div>
+      </section>
+
+      <section class="font-card">
+        <h2 class="font-card-title">글자 크기 설정</h2>
+
+        <button
+          class="font-option"
+          :class="{ active: settingStore.fontSize === 'medium' }"
+          type="button"
+          @click="changeFontSize('medium')"
+        >
+          <span>표준</span>
+          <span class="radio-circle"></span>
         </button>
-      </div>
 
-      <div v-else class="empty-box">로그인된 사용자가 없습니다.</div>
-    </section>
+        <button
+          class="font-option"
+          :class="{ active: settingStore.fontSize === 'large' }"
+          type="button"
+          @click="changeFontSize('large')"
+        >
+          <span>크게</span>
+          <span class="radio-circle"></span>
+        </button>
 
-    <section class="font-card">
-      <h2 class="font-card-title">글자 크기 설정</h2>
+        <button
+          class="font-option"
+          :class="{ active: settingStore.fontSize === 'xlarge' }"
+          type="button"
+          @click="changeFontSize('xlarge')"
+        >
+          <span>매우 크게</span>
+          <span class="radio-circle"></span>
+        </button>
+      </section>
+    </div>
 
-      <button
-        class="font-option"
-        :class="{ active: settingStore.fontSize === 'medium' }"
-        type="button"
-        @click="changeFontSize('medium')"
-      >
-        <span>표준</span>
-        <span class="radio-circle"></span>
+    <div class="bottom-actions">
+      <button class="logout-btn" type="button" @click="handleLogout">
+        로그아웃
       </button>
-
-      <button
-        class="font-option"
-        :class="{ active: settingStore.fontSize === 'large' }"
-        type="button"
-        @click="changeFontSize('large')"
-      >
-        <span>크게</span>
-        <span class="radio-circle"></span>
+      <button class="delete-btn" type="button" @click="handleDeleteAccount">
+        회원탈퇴
       </button>
-
-      <button
-        class="font-option"
-        :class="{ active: settingStore.fontSize === 'xlarge' }"
-        type="button"
-        @click="changeFontSize('xlarge')"
-      >
-        <span>매우 크게</span>
-        <span class="radio-circle"></span>
-      </button>
-    </section>
-
-    <button class="logout-btn" type="button" @click="handleLogout">
-      로그아웃
-    </button>
-    <button class="delete-btn" type="button" @click="handleDeleteAccount">
-      회원탈퇴
-    </button>
+    </div>
 
     <div v-if="isEditModalOpen" class="modal-overlay" @click="closeEditModal">
       <div class="edit-modal" @click.stop>
@@ -196,7 +200,7 @@ const handleDeleteAccount = async () => {
 <style scoped>
 .settings-page {
   min-height: 100vh;
-  background: #fbf8ff;
+  background: linear-gradient(180deg, #fbf8ff 0%, #f4f6ff 100%);
   padding: 1rem;
   max-width: 520px;
   margin: 0 auto;
@@ -208,6 +212,10 @@ const handleDeleteAccount = async () => {
   font-weight: 900;
   color: #4a4a57;
   letter-spacing: -0.03em;
+}
+
+.settings-grid {
+  display: block;
 }
 
 .profile-card,
@@ -323,6 +331,12 @@ const handleDeleteAccount = async () => {
   box-shadow: inset 0 0 0 6px #000666;
 }
 
+.bottom-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .logout-btn {
   width: 100%;
   border: none;
@@ -343,8 +357,7 @@ const handleDeleteAccount = async () => {
   font-size: 1rem;
   font-weight: 800;
   cursor: pointer;
-  margin-top: 0.75rem;
-  background: red;
+  background: #d92d20;
   color: white;
 }
 
@@ -439,6 +452,86 @@ const handleDeleteAccount = async () => {
 
   .font-option {
     font-size: 1.35rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .settings-page {
+    max-width: 1180px;
+    padding: 2.5rem 2rem 3rem;
+  }
+
+  .page-title {
+    font-size: 2.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 1.5rem;
+    align-items: start;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-card,
+  .font-card {
+    margin-bottom: 0;
+    padding: 2rem;
+    min-height: 100%;
+    box-shadow: 0 16px 34px rgba(26, 27, 35, 0.08);
+  }
+
+  .profile-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .profile-image {
+    width: 138px;
+    height: 138px;
+    font-size: 2.7rem;
+  }
+
+  .profile-name {
+    font-size: 2.3rem;
+  }
+
+  .profile-phone {
+    font-size: 1.1rem;
+  }
+
+  .profile-btn {
+    max-width: 260px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .font-card-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .font-option {
+    font-size: 1.35rem;
+    padding: 1.4rem 1.3rem;
+  }
+
+  .bottom-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .logout-btn,
+  .delete-btn {
+    width: 220px;
+  }
+
+  .edit-modal {
+    max-width: 560px;
+    padding: 2rem;
   }
 }
 </style>

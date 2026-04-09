@@ -290,16 +290,16 @@
     },
     {
       "name": "심혜근",
-      "phone": "010-1234-1235",
+      "phone": "010-1234-1234",
       "password": "1234",
-      "fontSize": "xlarge",
+      "fontSize": "large",
       "id": "grubLgFK3PE"
     },
     {
       "name": "호날두",
       "phone": "010-7777-7777",
       "password": "1234",
-      "fontSize": "xlarge",
+      "fontSize": "medium",
       "id": "-PQ16duilzM"
     },
     {
