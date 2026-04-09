@@ -33,8 +33,6 @@
 import { ref, computed, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useTransactionStore } from "@/stores/useTransactionStore";
-import FloatingAddBtn from "@/components/common/FloatingAddBtn.vue";
-
 
 import FilterBar from "@/components/history/FilterBar.vue";
 import TransactionList from "@/components/history/TransactionList.vue";
