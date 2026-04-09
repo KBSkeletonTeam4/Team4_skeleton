@@ -1,5 +1,6 @@
 <template>
-  <div class="home-page">
+  <div class="home-page component-wrapper p-3">
+  <!--   component-wrapper p-3 빼야 할 수도 있음   -->
     <section class="top-bar">
       <div></div>
       <button class="login-btn" @click="goToUserPage">
@@ -29,6 +30,10 @@
     />
 
     <RecentList :items="recentTransactions" />
+
+    <FloatingAddBtn @add-click="$router.push({ name: 'transaction/add' })" />
+
+    <RouterView />
   </div>
 </template>
 
@@ -40,6 +45,7 @@ import SummaryCard from '@/components/home/SummaryCard.vue';
 import { useTransactionStore } from '@/stores/useTransactionStore';
 import RecentList from '@/components/home/RecentList.vue';
 import { useSettingStore } from '@/stores/useSettingStore';
+import FloatingAddBtn from '@/components/common/FloatingAddBtn.vue';
 
 const router = useRouter();
 const transactionStore = useTransactionStore();

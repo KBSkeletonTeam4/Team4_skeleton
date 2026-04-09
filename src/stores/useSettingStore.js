@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import * as api from '@/api/axios';
+import api from '@/api/axios';
 
 export const useSettingStore = defineStore('setting', () => {
   const currentUser = ref(null);

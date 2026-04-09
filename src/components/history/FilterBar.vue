@@ -1,68 +1,68 @@
 <template>
-  <div class="component-wrapper p-3">
-    <h2>필터 바</h2>
-    
+  <div class="filter-container shadow-lg">
+    <button
+      class="filter-btn"
+      :class="{ active: currentFilter === 'all' }"
+      @click="$emit('change-filter', 'all')"
+    >
+      전체
+    </button>
+    <button
+      class="filter-btn"
+      :class="{ active: currentFilter === 'income' }"
+      @click="$emit('change-filter', 'income')"
+    >
+      수입
+    </button>
+    <button
+      class="filter-btn"
+      :class="{ active: currentFilter === 'expense' }"
+      @click="$emit('change-filter', 'expense')"
+    >
+      지출
+    </button>
   </div>
 </template>
 
 <script setup>
-/**
- * 1. 외부 모듈 및 컴포넌트 Import
- */
-import { ref, computed, onMounted } from 'vue';
-// import { useRouter, useRoute } from 'vue-router';
-// import { useTransactionStore } from '@/stores/useTransactionStore';
-
-/**
- * 2. Props 및 Emits 정의 (부모-자식 간 데이터 전달이 필요할 때 사용)
- */
-// const props = defineProps({
-//   item: { type: Object, required: true }
-// });
-// const emit = defineEmits(['update', 'delete']);
-
-/**
- * 3. 스토어(Pinia) 및 라우터(Vue Router) 초기화
- */
-// const router = useRouter();
-// const transactionStore = useTransactionStore();
-
-/**
- * 4. 반응형 상태(State) 정의
- */
-const isLoading = ref(false);
-// const localData = ref('');
-
-/**
- * 5. 계산된 속성(Computed) 정의
- */
-// const formattedData = computed(() => { return ... });
-
-/**
- * 6. 주요 함수(Methods) 및 이벤트 핸들러
- */
-const handleAction = () => {
-  // 클릭 등의 이벤트 발생 시 실행될 로직
-  console.log('Action triggered!');
-};
-
-/**
- * 7. 생명주기 훅(Lifecycle Hooks)
- */
-onMounted(() => {
-  // 컴포넌트가 화면에 마운트된 직후 실행 (예: API 데이터 Fetching)
-  // console.log('Component is mounted!');
+defineProps({
+  currentFilter: { type: String, required: true },
 });
+defineEmits(["change-filter"]);
 </script>
 
 <style scoped>
-/**
- * scoped 속성: 이 곳에 작성된 CSS는 해당 컴포넌트에만 적용되어 스타일 충돌을 방지합니다.
- * 시니어 타깃에 맞춘 글씨 크기나 명확한 색상 대비 등을 이곳에 추가하세요.
- */
-.component-wrapper {
-  /* 예: 배경색, 둥근 모서리 등 개별 컴포넌트 스타일 */
-  background-color: #ffffff;
-  border-radius: 8px;
+.filter-container {
+  display: flex;
+  background-color: #e8e7f2; /* 연한 회보라색 배경 */
+  padding: 8px;
+  border-radius: 40px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.filter-btn {
+  flex: 1;
+  padding: 20px 16px;
+  border-radius: 32px;
+  background: transparent;
+  color: #000666; /* 메인 남색 */
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background-color: rgba(202, 198, 219, 0.637);
+  color: #000666;
+  box-shadow: 0 4px 12px rgba(0, 6, 102, 0.2);
+}
+
+.filter-btn.active {
+  background-color: #000666;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 6, 102, 0.2);
 }
 </style>
