@@ -1,68 +1,50 @@
 <template>
-  <div class="component-wrapper p-3">
-    <h2>거래 내역 목록</h2>
-    
+  <div class="transaction-list d-flex flex-column gap-5">
+    <section v-for="(items, date) in groupedTransactions" :key="date">
+      <div
+        class="d-flex align-items-center gap-3 mb-4 sticky-top py-2"
+        style="z-index: 10"
+      >
+        <h2 class="fs-3 fw-bolder m-0" style="color: #000666">
+          {{ date }}
+        </h2>
+        <div
+          class="flex-grow-1 bg-secondary rounded-pill opacity-25"
+          style="height: 4px"
+        ></div>
+      </div>
+
+      <div class="d-flex flex-column gap-3">
+        <TransactionItem v-for="item in items" :key="item.id" :item="item" />
+      </div>
+    </section>
+
+    <div
+      v-if="Object.keys(groupedTransactions).length === 0"
+      class="text-center py-5 text-muted fs-4"
+    >
+      해당하는 거래 내역이 없습니다.
+    </div>
   </div>
 </template>
 
 <script setup>
-/**
- * 1. 외부 모듈 및 컴포넌트 Import
- */
-import { ref, computed, onMounted } from 'vue';
-// import { useRouter, useRoute } from 'vue-router';
-// import { useTransactionStore } from '@/stores/useTransactionStore';
+import { computed } from "vue";
+import TransactionItem from "./TransactionItem.vue";
 
-/**
- * 2. Props 및 Emits 정의 (부모-자식 간 데이터 전달이 필요할 때 사용)
- */
-// const props = defineProps({
-//   item: { type: Object, required: true }
-// });
-// const emit = defineEmits(['update', 'delete']);
+const props = defineProps({
+  transactions: { type: Array, required: true },
+});
 
-/**
- * 3. 스토어(Pinia) 및 라우터(Vue Router) 초기화
- */
-// const router = useRouter();
-// const transactionStore = useTransactionStore();
-
-/**
- * 4. 반응형 상태(State) 정의
- */
-const isLoading = ref(false);
-// const localData = ref('');
-
-/**
- * 5. 계산된 속성(Computed) 정의
- */
-// const formattedData = computed(() => { return ... });
-
-/**
- * 6. 주요 함수(Methods) 및 이벤트 핸들러
- */
-const handleAction = () => {
-  // 클릭 등의 이벤트 발생 시 실행될 로직
-  console.log('Action triggered!');
-};
-
-/**
- * 7. 생명주기 훅(Lifecycle Hooks)
- */
-onMounted(() => {
-  // 컴포넌트가 화면에 마운트된 직후 실행 (예: API 데이터 Fetching)
-  // console.log('Component is mounted!');
+// 전달받은 데이터를 날짜(date) 기준으로 그룹화하는 계산 로직
+const groupedTransactions = computed(() => {
+  return props.transactions.reduce((acc, curr) => {
+    // 날짜 키가 없으면 배열 생성
+    if (!acc[curr.date]) {
+      acc[curr.date] = [];
+    }
+    acc[curr.date].push(curr);
+    return acc;
+  }, {});
 });
 </script>
-
-<style scoped>
-/**
- * scoped 속성: 이 곳에 작성된 CSS는 해당 컴포넌트에만 적용되어 스타일 충돌을 방지합니다.
- * 시니어 타깃에 맞춘 글씨 크기나 명확한 색상 대비 등을 이곳에 추가하세요.
- */
-.component-wrapper {
-  /* 예: 배경색, 둥근 모서리 등 개별 컴포넌트 스타일 */
-  background-color: #ffffff;
-  border-radius: 8px;
-}
-</style>
