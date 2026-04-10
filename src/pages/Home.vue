@@ -18,8 +18,6 @@
     <RecentList :items="recentTransactions" />
 
     <FloatingAddBtn @add-click="$router.push({ name: 'transaction/add' })" />
-
-    <RouterView />
   </div>
 </template>
 
