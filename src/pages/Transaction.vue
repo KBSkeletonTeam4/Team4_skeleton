@@ -533,8 +533,8 @@ const saveTransaction = () => {
   font-weight: 900;
 }
 .modal-footer {
-  padding: 2.5rem 3rem;
-  background: var(--surface-low);
+  padding: 2em 3rem;
+  /* background: var(--surface-low); */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
