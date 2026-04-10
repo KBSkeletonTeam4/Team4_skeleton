@@ -208,7 +208,7 @@ const handleDeleteAccount = async () => {
 
 .page-title {
   margin: 0 0 1rem;
-  font-size: 1.8rem;
+  font-size: 1.8em;
   font-weight: 900;
   color: #4a4a57;
   letter-spacing: -0.03em;
@@ -241,7 +241,7 @@ const handleDeleteAccount = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2em;
   box-shadow: 0 6px 16px rgba(26, 27, 35, 0.08);
 }
 
@@ -252,7 +252,7 @@ const handleDeleteAccount = async () => {
 
 .profile-name {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 900;
   color: #000666;
   letter-spacing: -0.04em;
@@ -260,7 +260,7 @@ const handleDeleteAccount = async () => {
 
 .profile-phone {
   margin: 0.5rem 0 0;
-  font-size: 1rem;
+  font-size: 1em;
   color: #777;
   font-weight: 600;
 }
@@ -277,13 +277,13 @@ const handleDeleteAccount = async () => {
   background: #ece9f7;
   color: #000666;
   font-weight: 900;
-  font-size: 1.05rem;
+  font-size: 1.05em;
   cursor: pointer;
 }
 
 .font-card-title {
   margin: 0 0 1rem;
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: 900;
   color: #2c2c76;
   letter-spacing: -0.03em;
@@ -299,7 +299,7 @@ const handleDeleteAccount = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.55rem;
+  font-size: 1.55em;
   font-weight: 900;
   color: #2f2f45;
   cursor: pointer;
@@ -344,7 +344,7 @@ const handleDeleteAccount = async () => {
   padding: 1rem;
   background: #000666;
   color: #ffffff;
-  font-size: 1.05rem;
+  font-size: 1.05em;
   font-weight: 900;
   cursor: pointer;
 }
@@ -354,7 +354,7 @@ const handleDeleteAccount = async () => {
   border: none;
   border-radius: 14px;
   padding: 0.95rem 1rem;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 800;
   cursor: pointer;
   background: #d92d20;
@@ -389,7 +389,7 @@ const handleDeleteAccount = async () => {
 
 .modal-title {
   margin: 0 0 1rem;
-  font-size: 1.4rem;
+  font-size: 1.4em;
   font-weight: 900;
   color: #000666;
 }
@@ -400,7 +400,7 @@ const handleDeleteAccount = async () => {
   margin-bottom: 0.75rem;
   border: 1px solid #d8d9e8;
   border-radius: 16px;
-  font-size: 1rem;
+  font-size: 1em;
   box-sizing: border-box;
   outline: none;
 }
@@ -422,7 +422,7 @@ const handleDeleteAccount = async () => {
   border: none;
   border-radius: 16px;
   padding: 0.95rem 1rem;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 800;
   cursor: pointer;
 }
@@ -443,15 +443,15 @@ const handleDeleteAccount = async () => {
   }
 
   .page-title {
-    font-size: 1.6rem;
+    font-size: 1.6em;
   }
 
   .profile-name {
-    font-size: 1.8rem;
+    font-size: 1.8em;
   }
 
   .font-option {
-    font-size: 1.35rem;
+    font-size: 1.35em;
   }
 }
 
@@ -462,7 +462,7 @@ const handleDeleteAccount = async () => {
   }
 
   .page-title {
-    font-size: 2.4rem;
+    font-size: 2.4em;
     margin-bottom: 1.5rem;
   }
 
@@ -491,15 +491,15 @@ const handleDeleteAccount = async () => {
   .profile-image {
     width: 138px;
     height: 138px;
-    font-size: 2.7rem;
+    font-size: 2.7em;
   }
 
   .profile-name {
-    font-size: 2.3rem;
+    font-size: 2.3em;
   }
 
   .profile-phone {
-    font-size: 1.1rem;
+    font-size: 1.1em;
   }
 
   .profile-btn {
@@ -509,12 +509,12 @@ const handleDeleteAccount = async () => {
   }
 
   .font-card-title {
-    font-size: 1.8rem;
+    font-size: 1.8em;
     margin-bottom: 1.2rem;
   }
 
   .font-option {
-    font-size: 1.35rem;
+    font-size: 1.35em;
     padding: 1.4rem 1.3rem;
   }
 

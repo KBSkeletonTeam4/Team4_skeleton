@@ -79,7 +79,7 @@ const formatCurrency = (value) => {
 
 .balance-label {
   margin: 0 0 0.9rem;
-  font-size: 1.45rem;
+  font-size: 1.45em;
   color: #5c5f73;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -87,7 +87,7 @@ const formatCurrency = (value) => {
 
 .balance-amount {
   margin: 0;
-  font-size: 3.4rem;
+  font-size: 3.4em;
   line-height: 1.08;
   font-weight: 900;
   color: #000666;
@@ -98,7 +98,7 @@ const formatCurrency = (value) => {
   margin: 1rem auto 0;
   display: inline-block;
   padding: 0.45rem 0.9rem;
-  font-size: 0.95rem;
+  font-size: 0.95em;
   color: #5c5f73;
   background: #e2e1ed;
   border-radius: 999px;
@@ -128,7 +128,7 @@ const formatCurrency = (value) => {
 
 .summary-label {
   margin: 0;
-  font-size: 1.35rem;
+  font-size: 1.35em;
   color: #454652;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -141,7 +141,7 @@ const formatCurrency = (value) => {
 
 .summary-amount {
   display: block;
-  font-size: 2.1rem;
+  font-size: 2.1em;
   font-weight: 900;
   text-align: right;
   letter-spacing: -0.03em;
@@ -160,15 +160,15 @@ const formatCurrency = (value) => {
 
 @media (max-width: 768px) {
   .balance-label {
-    font-size: 1.2rem;
+    font-size: 1.2em;
   }
 
   .balance-amount {
-    font-size: 2.6rem;
+    font-size: 2.6em;
   }
 
   .balance-sub {
-    font-size: 0.85rem;
+    font-size: 0.85em;
   }
 
   .summary-row {
@@ -176,11 +176,11 @@ const formatCurrency = (value) => {
   }
 
   .summary-label {
-    font-size: 1.15rem;
+    font-size: 1.15em;
   }
 
   .summary-amount {
-    font-size: 1.8rem;
+    font-size: 1.8em;
   }
 }
 </style>

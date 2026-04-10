@@ -1,6 +1,6 @@
 <template>
   <div class="home-page component-wrapper p-3">
-  <!--   component-wrapper p-3 빼야 할 수도 있음   -->
+    <!--   component-wrapper p-3 빼야 할 수도 있음   -->
     <section class="top-bar">
       <div></div>
       <button class="login-btn" @click="goToUserPage">
@@ -143,7 +143,7 @@ const handleLogout = () => {
   border: none;
   border-radius: 999px;
   padding: 0.7rem 1.2rem;
-  font-size: 0.95rem;
+  font-size: 0.95em;
   font-weight: 800;
   cursor: pointer;
   transition:
@@ -173,7 +173,7 @@ const handleLogout = () => {
 .month-title {
   margin: 0;
   padding: 0 0.45rem 0.15rem;
-  font-size: 1.85rem;
+  font-size: 1.85em;
   font-weight: 900;
   color: #000666;
   letter-spacing: -0.03em;
@@ -188,7 +188,7 @@ const handleLogout = () => {
   border-radius: 50%;
   background: transparent;
   color: #767683;
-  font-size: 1.55rem;
+  font-size: 1.55em;
   font-weight: 900;
   cursor: pointer;
   transition:
@@ -213,7 +213,7 @@ const handleLogout = () => {
 
 :deep(.recent-title) {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 1.8em;
   font-weight: 900;
   color: #000666;
   letter-spacing: -0.03em;
@@ -252,14 +252,14 @@ const handleLogout = () => {
 
 :deep(.category) {
   margin: 0 0 0.3rem;
-  font-size: 1.05rem;
+  font-size: 1.05em;
   font-weight: 700;
   color: #1a1b23;
 }
 
 :deep(.date) {
   margin: 0;
-  font-size: 0.88rem;
+  font-size: 0.88em;
   color: #6f7080;
 }
 
@@ -268,7 +268,7 @@ const handleLogout = () => {
 }
 
 :deep(.amount) {
-  font-size: 1.05rem;
+  font-size: 1.05em;
   font-weight: 900;
   letter-spacing: -0.02em;
 }
@@ -287,11 +287,11 @@ const handleLogout = () => {
   }
 
   .month-title {
-    font-size: 1.55rem;
+    font-size: 1.55em;
   }
 
   :deep(.recent-title) {
-    font-size: 1.5rem;
+    font-size: 1.5em;
   }
 
   :deep(.recent-item) {
@@ -299,11 +299,11 @@ const handleLogout = () => {
   }
 
   :deep(.category) {
-    font-size: 0.98rem;
+    font-size: 0.98em;
   }
 
   :deep(.amount) {
-    font-size: 1rem;
+    font-size: 1em;
   }
   .logout-btn {
     width: 100%;
@@ -312,7 +312,7 @@ const handleLogout = () => {
     padding: 1rem;
     background: #000666;
     color: #ffffff;
-    font-size: 1.05rem;
+    font-size: 1.05em;
     font-weight: 900;
     cursor: pointer;
   }

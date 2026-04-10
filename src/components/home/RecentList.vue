@@ -6,11 +6,7 @@
     </div>
 
     <div class="recent-list">
-      <div
-        class="recent-item"
-        v-for="item in items"
-        :key="item.id"
-      >
+      <div class="recent-item" v-for="item in items" :key="item.id">
         <div class="left">
           <div class="icon-box">
             <i :class="['fas', getIcon(item.type, item.category)]"></i>
@@ -57,8 +53,11 @@ const transactionStore = useTransactionStore();
 // 아이콘 가져오기 (스토어의 카테고리 데이터 활용)
 const getIcon = (type, category) => {
   // 스토어에서 불러온 카테고리 배열을 사용합니다.
-  const categories = type === 'expense' ? transactionStore.expenseCategories : transactionStore.incomeCategories;
-  
+  const categories =
+    type === 'expense'
+      ? transactionStore.expenseCategories
+      : transactionStore.incomeCategories;
+
   const cat = categories.find((c) => c.name === category);
 
   if (cat && cat.icon) {
@@ -93,18 +92,78 @@ const goToHistory = () => {
 
 <style scoped>
 /* (기존의 CSS 스타일 코드는 충돌이 없으므로 그대로 두시면 됩니다!) */
-.recent-wrapper { margin-top: 20px; }
-.recent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.recent-header h3 { font-size: 20px; font-weight: bold; color: #1a237e; }
-.more-btn { padding: 6px 12px; border-radius: 20px; border: none; background-color: #e0e7ff; color: #1a237e; font-weight: bold; cursor: pointer; }
-.recent-list { display: flex; flex-direction: column; gap: 12px; }
-.recent-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-radius: 12px; background-color: #ffffff; border: 1px solid #eee; }
-.left { display: flex; align-items: center; gap: 12px; }
-.icon-box { width: 48px; height: 48px; border-radius: 10px; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; }
-.icon-box i { font-size: 18px; color: #4c56af; }
-.info .title { font-weight: bold; font-size: 16px; }
-.info .date { font-size: 13px; color: #666; }
-.amount { font-weight: bold; font-size: 16px; }
-.amount.income { color: #1b6d24; }
-.amount.expense { color: #ba1a1a; }
+.recent-wrapper {
+  margin-top: 20px;
+}
+.recent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.recent-header h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #1a237e;
+}
+.more-btn {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  background-color: #e0e7ff;
+  color: #1a237e;
+  font-weight: bold;
+  cursor: pointer;
+}
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.recent-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #eee;
+}
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-box i {
+  font-size: 1.5em;
+  color: #4c56af;
+}
+.info .title {
+  font-weight: bold;
+  font-size: 1.25em;
+}
+.info .date {
+  font-size: 1.25em;
+  color: #666;
+}
+.amount {
+  font-weight: bold;
+}
+.amount.income {
+  color: #1b6d24;
+  font-size: 1.5em;
+}
+.amount.expense {
+  color: #ba1a1a;
+  font-size: 1.5em;
+}
 </style>
