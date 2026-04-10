@@ -46,10 +46,10 @@ onMounted(() => {
 
 .container {
   min-width: 100vw;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
-  background-color: #fbf8ff;
+  background: linear-gradient(180deg, #fbf8ff 0%, #f4f6ff 100%);
   color: #000666;
 }
 

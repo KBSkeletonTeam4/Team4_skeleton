@@ -1,19 +1,6 @@
 <template>
   <div class="home-page component-wrapper p-3">
     <!--   component-wrapper p-3 빼야 할 수도 있음   -->
-    <section class="top-bar">
-      <div></div>
-      <button class="login-btn" @click="goToUserPage">
-        {{ settingStore.isLoggedIn ? '설정' : '로그인' }}
-      </button>
-      <button
-        v-if="settingStore.isLoggedIn"
-        class="logout-btn"
-        @click="handleLogout"
-      >
-        로그아웃
-      </button>
-    </section>
 
     <section class="month-selector">
       <button class="month-btn" @click="moveMonth(-1)">‹</button>
@@ -38,14 +25,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
-import SummaryCard from '@/components/home/SummaryCard.vue';
-import { useTransactionStore } from '@/stores/useTransactionStore';
-import RecentList from '@/components/home/RecentList.vue';
-import { useSettingStore } from '@/stores/useSettingStore';
-import FloatingAddBtn from '@/components/common/FloatingAddBtn.vue';
+import { ref, computed, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+import SummaryCard from "@/components/home/SummaryCard.vue";
+import { useTransactionStore } from "@/stores/useTransactionStore";
+import RecentList from "@/components/home/RecentList.vue";
+import { useSettingStore } from "@/stores/useSettingStore";
+import FloatingAddBtn from "@/components/common/FloatingAddBtn.vue";
 
 const router = useRouter();
 const transactionStore = useTransactionStore();
@@ -61,7 +48,7 @@ const monthLabel = computed(() => {
 
 const currentMonthKey = computed(() => {
   const year = selectedDate.value.getFullYear();
-  const month = String(selectedDate.value.getMonth() + 1).padStart(2, '0');
+  const month = String(selectedDate.value.getMonth() + 1).padStart(2, "0");
   return `${year}-${month}`;
 });
 
@@ -73,13 +60,13 @@ const currentMonthTransactions = computed(() => {
 
 const monthlyIncome = computed(() => {
   return currentMonthTransactions.value
-    .filter((item) => item.type === 'income')
+    .filter((item) => item.type === "income")
     .reduce((sum, item) => sum + Number(item.amount || 0), 0);
 });
 
 const monthlyExpense = computed(() => {
   return currentMonthTransactions.value
-    .filter((item) => item.type === 'expense')
+    .filter((item) => item.type === "expense")
     .reduce((sum, item) => sum + Number(item.amount || 0), 0);
 });
 
@@ -90,8 +77,8 @@ const monthlyBalance = computed(() => {
 const recentTransactions = computed(() => {
   return [...currentMonthTransactions.value]
     .sort((a, b) => {
-      const aDateTime = `${a.date} ${a.time || '00:00'}`;
-      const bDateTime = `${b.date} ${b.time || '00:00'}`;
+      const aDateTime = `${a.date} ${a.time || "00:00"}`;
+      const bDateTime = `${b.date} ${b.time || "00:00"}`;
       return new Date(bDateTime) - new Date(aDateTime);
     })
     .slice(0, 5);
@@ -103,62 +90,17 @@ const moveMonth = (direction) => {
   selectedDate.value = newDate;
 };
 
-const goToUserPage = () => {
-  if (settingStore.isLoggedIn) {
-    router.push('/settings');
-  } else {
-    router.push('/login');
-  }
-};
-
 onMounted(() => {
   transactionStore.fetchTransactions();
 });
-
-const handleLogout = () => {
-  settingStore.logout();
-  router.push('/login');
-};
 </script>
 
 <style scoped>
 .home-page {
   padding: 1rem;
-  background: #fbf8ff;
   min-height: 100vh;
   max-width: 880px;
   margin: 0 auto;
-}
-
-.top-bar {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.8rem;
-}
-
-.login-btn,
-.logout-btn {
-  border: none;
-  border-radius: 999px;
-  padding: 0.7rem 1.2rem;
-  font-size: 0.95em;
-  font-weight: 800;
-  cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease,
-    background-color 0.2s ease;
-}
-
-.login-btn:hover {
-  opacity: 0.92;
-}
-
-.login-btn:active,
-.logout-btn:active {
-  transform: scale(0.98);
 }
 
 .month-selector {
@@ -166,7 +108,7 @@ const handleLogout = () => {
   justify-content: center;
   align-items: center;
   gap: 0.4rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   padding-top: 0.2rem;
 }
 

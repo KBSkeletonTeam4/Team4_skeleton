@@ -36,7 +36,7 @@
 defineProps({
   monthLabel: {
     type: String,
-    default: '이번 달',
+    default: "이번 달",
   },
   totalIncome: {
     type: Number,
@@ -57,7 +57,7 @@ defineProps({
 });
 const today = new Date();
 const formatCurrency = (value) => {
-  return `${new Intl.NumberFormat('ko-KR').format(value)}원`;
+  return `${new Intl.NumberFormat("ko-KR").format(value)}원`;
 };
 </script>
 

@@ -1,6 +1,10 @@
 <template>
   <div class="settings-page">
-    <h1 class="page-title">프로필 설정</h1>
+    <div class="mb-5">
+      <h1 class="fw-black" style="font-weight: 900; color: #000666">
+        프로필 설정
+      </h1>
+    </div>
 
     <div class="settings-grid">
       <section class="profile-card">
@@ -103,20 +107,20 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
-import { useSettingStore } from '@/stores/useSettingStore';
+import { ref, watchEffect } from "vue";
+import { useRouter } from "vue-router";
+import { useSettingStore } from "@/stores/useSettingStore";
 
 const router = useRouter();
 const settingStore = useSettingStore();
 
-const editName = ref('');
-const editPhone = ref('');
+const editName = ref("");
+const editPhone = ref("");
 const isEditModalOpen = ref(false);
 
 const onlyNumbers = (value) => {
   return String(value)
-    .replace(/[^0-9]/g, '')
+    .replace(/[^0-9]/g, "")
     .slice(0, 11);
 };
 
@@ -136,15 +140,15 @@ const onEditPhoneInput = (event) => {
 
 watchEffect(() => {
   if (settingStore.currentUser) {
-    editName.value = settingStore.currentUser.name || '';
-    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || '');
+    editName.value = settingStore.currentUser.name || "";
+    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || "");
   }
 });
 
 const openEditModal = () => {
   if (settingStore.currentUser) {
-    editName.value = settingStore.currentUser.name || '';
-    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || '');
+    editName.value = settingStore.currentUser.name || "";
+    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || "");
   }
   isEditModalOpen.value = true;
 };
@@ -160,10 +164,10 @@ const saveProfile = async () => {
       phone: editPhone.value,
     });
 
-    alert('내 정보가 수정되었습니다.');
+    alert("내 정보가 수정되었습니다.");
     closeEditModal();
   } catch (error) {
-    alert(error.message || '수정에 실패했습니다.');
+    alert(error.message || "수정에 실패했습니다.");
   }
 };
 
@@ -171,35 +175,36 @@ const changeFontSize = async (size) => {
   try {
     settingStore.setFontSize(size);
     await settingStore.saveFontSizeToProfile(size);
-    alert('글자 크기가 저장되었습니다.');
+    alert("글자 크기가 저장되었습니다.");
   } catch (error) {
-    alert(error.message || '글자 크기 저장에 실패했습니다.');
+    alert(error.message || "글자 크기 저장에 실패했습니다.");
   }
 };
 
 const handleLogout = () => {
   settingStore.logout();
-  router.push('/login');
+  router.push("/login");
 };
 
 const handleDeleteAccount = async () => {
-  const confirmed = window.confirm('정말 회원탈퇴 하시겠습니까?');
+  const confirmed = window.confirm("정말 회원탈퇴 하시겠습니까?");
 
   if (!confirmed) return;
 
   try {
     await settingStore.deleteAccount();
-    alert('회원탈퇴가 완료되었습니다.');
-    router.push('/login');
+    alert("회원탈퇴가 완료되었습니다.");
+    router.push("/login");
   } catch (error) {
-    alert(error.message || '회원탈퇴에 실패했습니다.');
+    alert(error.message || "회원탈퇴에 실패했습니다.");
   }
 };
 </script>
 
 <style scoped>
 .settings-page {
-  min-height: 100vh;
+  /* min-width: 100vw; */
+  flex: 1;
   background: linear-gradient(180deg, #fbf8ff 0%, #f4f6ff 100%);
   padding: 1rem;
   max-width: 520px;
@@ -458,7 +463,7 @@ const handleDeleteAccount = async () => {
 @media (min-width: 1024px) {
   .settings-page {
     max-width: 1180px;
-    padding: 2.5rem 2rem 3rem;
+    padding: 2rem 2rem 3rem;
   }
 
   .page-title {

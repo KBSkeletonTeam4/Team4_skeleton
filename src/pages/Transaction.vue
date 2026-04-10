@@ -4,7 +4,7 @@
       <div class="modal-card">
         <div class="modal-header">
           <h2 class="modal-title">
-            {{ isEditMode ? '거래 수정' : '거래 등록' }}
+            {{ isEditMode ? "거래 수정" : "거래 등록" }}
           </h2>
           <button @click="handleClose" class="btn-close" type="button">
             <i class="fa-solid fa-xmark"></i>
@@ -39,7 +39,7 @@
                 </button>
               </div>
 
-              <div class="input-group">
+              <div class="input-container">
                 <label class="input-label">날짜</label>
                 <div class="date-selector" @click="openDatePicker">
                   <i class="fa-solid fa-calendar-day icon-primary"></i>
@@ -55,7 +55,7 @@
                 </div>
               </div>
 
-              <div class="input-group">
+              <div class="input-container">
                 <label class="input-label">금액</label>
                 <input
                   v-model="amount"
@@ -65,7 +65,7 @@
                 />
               </div>
 
-              <div class="input-group">
+              <div class="input-container">
                 <label class="input-label">메모</label>
                 <textarea
                   v-model="memo"
@@ -102,7 +102,7 @@
             취소
           </button>
           <button @click="saveTransaction" class="btn-save" type="button">
-            {{ isEditMode ? '수정하기' : '저장하기' }}
+            {{ isEditMode ? "수정하기" : "저장하기" }}
           </button>
         </div>
       </div>
@@ -111,12 +111,12 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch } from "vue";
 
 const props = defineProps({
   mode: {
     type: String,
-    default: 'create',
+    default: "create",
   },
   initialData: {
     type: Object,
@@ -124,42 +124,42 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'save']);
+const emit = defineEmits(["close", "save"]);
 
-const isEditMode = computed(() => props.mode === 'edit');
+const isEditMode = computed(() => props.mode === "edit");
 
-const transactionType = ref('expense');
-const amount = ref('');
-const memo = ref('');
-const selectedCategoryId = ref('1');
+const transactionType = ref("expense");
+const amount = ref("");
+const memo = ref("");
+const selectedCategoryId = ref("1");
 const selectedDate = ref(new Date().toISOString().slice(0, 10));
 const dateInputRef = ref(null);
 
 const incomeCategory = [
-  { id: '1', name: '월급', icon: 'fa-solid fa-money-bill-wave' },
-  { id: '2', name: '용돈', icon: 'fa-solid fa-envelope-open-text' },
-  { id: '3', name: '이자', icon: 'fa-solid fa-piggy-bank' },
-  { id: '4', name: '기타', icon: 'fa-solid fa-coins' },
+  { id: "1", name: "월급", icon: "fa-solid fa-money-bill-wave" },
+  { id: "2", name: "용돈", icon: "fa-solid fa-envelope-open-text" },
+  { id: "3", name: "이자", icon: "fa-solid fa-piggy-bank" },
+  { id: "4", name: "기타", icon: "fa-solid fa-coins" },
 ];
 
 const expenseCategory = [
-  { id: '1', name: '식비', icon: 'fa-solid fa-utensils' },
-  { id: '2', name: '마트', icon: 'fa-solid fa-cart-shopping' },
-  { id: '3', name: '교통', icon: 'fa-solid fa-bus' },
-  { id: '4', name: '공과금/통신', icon: 'fa-solid fa-file-invoice-dollar' },
-  { id: '5', name: '병원/약국', icon: 'fa-solid fa-notes-medical' },
-  { id: '6', name: '손주/경조사', icon: 'fa-solid fa-gift' },
+  { id: "1", name: "식비", icon: "fa-solid fa-utensils" },
+  { id: "2", name: "마트", icon: "fa-solid fa-cart-shopping" },
+  { id: "3", name: "교통", icon: "fa-solid fa-bus" },
+  { id: "4", name: "공과금/통신", icon: "fa-solid fa-file-invoice-dollar" },
+  { id: "5", name: "병원/약국", icon: "fa-solid fa-notes-medical" },
+  { id: "6", name: "손주/경조사", icon: "fa-solid fa-gift" },
 ];
 
 const currentCategories = computed(() => {
-  return transactionType.value === 'income' ? incomeCategory : expenseCategory;
+  return transactionType.value === "income" ? incomeCategory : expenseCategory;
 });
 
 const formattedDate = computed(() => {
-  if (!selectedDate.value) return '';
+  if (!selectedDate.value) return "";
 
   const date = new Date(selectedDate.value);
-  if (Number.isNaN(date.getTime())) return '';
+  if (Number.isNaN(date.getTime())) return "";
 
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 });
@@ -168,7 +168,7 @@ const openDatePicker = () => {
   const input = dateInputRef.value;
   if (!input) return;
 
-  if (typeof input.showPicker === 'function') {
+  if (typeof input.showPicker === "function") {
     input.showPicker();
   } else {
     input.click();
@@ -177,18 +177,18 @@ const openDatePicker = () => {
 
 const changeType = (type) => {
   transactionType.value = type;
-  selectedCategoryId.value = '1';
+  selectedCategoryId.value = "1";
 };
 
 const handleClose = () => {
-  emit('close');
+  emit("close");
 };
 
 const resetForm = () => {
-  transactionType.value = 'expense';
-  amount.value = '';
-  memo.value = '';
-  selectedCategoryId.value = '1';
+  transactionType.value = "expense";
+  amount.value = "";
+  memo.value = "";
+  selectedCategoryId.value = "1";
   selectedDate.value = new Date().toISOString().slice(0, 10);
 };
 
@@ -198,16 +198,16 @@ const applyInitialData = (data) => {
     return;
   }
 
-  transactionType.value = data.type ?? 'expense';
-  amount.value = data.amount != null ? String(data.amount) : '';
-  memo.value = data.memo ?? '';
+  transactionType.value = data.type ?? "expense";
+  amount.value = data.amount != null ? String(data.amount) : "";
+  memo.value = data.memo ?? "";
   selectedDate.value = data.date ?? new Date().toISOString().slice(0, 10);
 
   const categories =
-    transactionType.value === 'income' ? incomeCategory : expenseCategory;
+    transactionType.value === "income" ? incomeCategory : expenseCategory;
 
   const matchedCategory = categories.find((cat) => cat.name === data.category);
-  selectedCategoryId.value = matchedCategory ? matchedCategory.id : '1';
+  selectedCategoryId.value = matchedCategory ? matchedCategory.id : "1";
 };
 
 watch(
@@ -232,14 +232,14 @@ const saveTransaction = () => {
       ? { id: props.initialData.id }
       : {}),
     type: transactionType.value,
-    amount: Number(String(amount.value).replace(/[^0-9]/g, '')) || 0,
-    category: category?.name ?? '',
+    amount: Number(String(amount.value).replace(/[^0-9]/g, "")) || 0,
+    category: category?.name ?? "",
     memo: memo.value,
     date: selectedDate.value,
   };
 
-  console.log('transaction save payload:', payload);
-  emit('save', payload);
+  console.log("transaction save payload:", payload);
+  emit("save", payload);
 };
 </script>
 
@@ -251,7 +251,7 @@ const saveTransaction = () => {
   --surface: #ffffff;
   --surface-low: #f3f2fe;
   --outline: #767683;
-/*   min-height: 100vh;
+  /*   min-height: 100vh;
   background-color: var(--surface); */
 }
 
@@ -367,7 +367,7 @@ const saveTransaction = () => {
   align-items: center;
 }
 .modal-title {
-  font-family: 'Lexend';
+  font-family: "Lexend";
   font-size: 2.5em;
   font-weight: 800;
   color: var(--primary);
@@ -412,7 +412,7 @@ const saveTransaction = () => {
   padding: 1.5rem;
   border-radius: 1.5rem;
   border: none;
-  font-family: 'Lexend';
+  font-family: "Lexend";
   font-size: 1.6em;
   font-weight: 700;
   cursor: pointer;
@@ -430,7 +430,7 @@ const saveTransaction = () => {
   color: white;
   box-shadow: 0 10px 20px rgba(186, 26, 26, 0.3);
 }
-.input-group {
+.input-container {
   margin-bottom: 2rem;
 }
 .input-label {
@@ -451,7 +451,7 @@ const saveTransaction = () => {
   cursor: pointer;
 }
 .date-text {
-  font-family: 'Lexend';
+  font-family: "Lexend";
   font-size: 1.6em;
   font-weight: 700;
 }
@@ -471,7 +471,7 @@ const saveTransaction = () => {
 }
 .amount-input {
   width: 100%;
-  font-family: 'Lexend';
+  font-family: "Lexend";
   font-size: 4em;
   font-weight: 900;
   padding: 2rem;
@@ -511,7 +511,7 @@ const saveTransaction = () => {
 }
 .category-item.selected {
   border-color: var(--primary);
-  background: rgba(226, 225, 237, 0.5);
+  background: rgba(212, 210, 240, 0.5);
 }
 .category-icon-wrapper {
   width: 4.5rem;
@@ -543,7 +543,7 @@ const saveTransaction = () => {
 .btn-save {
   padding: 1.8rem;
   border-radius: 5rem;
-  font-family: 'Lexend';
+  font-family: "Lexend";
   font-size: 2em;
   font-weight: 900;
   cursor: pointer;

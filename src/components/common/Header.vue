@@ -4,27 +4,51 @@
       <div :class="$style.titleText">내 인생 마지막 가계부</div>
     </div>
 
-    <i
-      class="fa-solid fa-gear"
-      :class="$style.gearIcon"
-      @click="goToSettings"
-    ></i>
+    <div :class="$style.buttonContainer">
+      <button :class="$style.loginBtn" @click="handleLog">
+        {{ settingStore.isLoggedIn ? "로그아웃" : "로그인" }}
+      </button>
+
+      <i
+        class="fa-solid fa-gear"
+        :class="$style.gearIcon"
+        @click="goToSettings"
+      ></i>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useTransactionStore } from "@/stores/useTransactionStore";
+import { useSettingStore } from "@/stores/useSettingStore";
 
 const router = useRouter();
+const transactionStore = useTransactionStore();
+const settingStore = useSettingStore();
 
 // 라우터 이동 함수
 const goToHome = () => {
-  router.push('/');
+  router.push("/");
 };
 
 const goToSettings = () => {
-  router.push('/settings');
+  router.push("/settings");
 };
+
+const handleLog = () => {
+  if (settingStore.isLoggedIn) {
+    settingStore.logout();
+    router.push("/login");
+  } else {
+    router.push("/login");
+  }
+};
+
+onMounted(() => {
+  transactionStore.fetchTransactions();
+});
 </script>
 
 <style module>
@@ -54,6 +78,35 @@ const goToSettings = () => {
   font-size: 2em;
   font-weight: 900;
   margin: 0;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.loginBtn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.95em;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.loginBtn:hover {
+  opacity: 0.92;
+}
+
+.loginBtn:active {
+  transform: scale(0.98);
 }
 
 .gearIcon {
