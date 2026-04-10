@@ -85,7 +85,6 @@ onMounted(() => {
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 0.8rem;
 }
 
 .loginBtn {

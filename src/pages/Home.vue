@@ -1,7 +1,6 @@
 <template>
   <div class="home-page component-wrapper p-3">
     <!--   component-wrapper p-3 빼야 할 수도 있음   -->
-
     <section class="month-selector">
       <button class="month-btn" @click="moveMonth(-1)">‹</button>
       <h2 class="month-title">{{ monthLabel }}</h2>
