@@ -61,7 +61,7 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   const updateTransaction = async (updatedTransaction) => {
     if (!updatedTransaction?.id) {
-      throw new Error('수정할 거래 id가 없습니다.');
+      throw new Error('수정할 거래가 없습니다.');
     }
 
     const updated = await api.put(
