@@ -41,19 +41,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useSettingStore } from '@/stores/useSettingStore';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useSettingStore } from "@/stores/useSettingStore";
 
 const router = useRouter();
 const settingStore = useSettingStore();
 
-const phone = ref('');
-const password = ref('');
+const phone = ref("");
+const password = ref("");
 
 const onlyNumbers = (value) => {
   return String(value)
-    .replace(/[^0-9]/g, '')
+    .replace(/[^0-9]/g, "")
     .slice(0, 11);
 };
 
@@ -78,21 +78,21 @@ const handleLogin = async () => {
       password: password.value,
     });
 
-    alert('로그인 성공');
-    router.push('/');
+    alert("로그인 성공");
+    router.push("/");
   } catch (error) {
-    alert(error.message || '로그인 실패');
+    alert(error.message || "로그인 실패");
   }
 };
 
 const goToSignup = () => {
-  router.push('/signup');
+  router.push("/signup");
 };
 </script>
 
 <style scoped>
 .auth-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   background: #fbf8ff;
   display: flex;
   justify-content: center;
