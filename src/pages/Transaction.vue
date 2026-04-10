@@ -251,8 +251,93 @@ const saveTransaction = () => {
   --surface: #ffffff;
   --surface-low: #f3f2fe;
   --outline: #767683;
-  font-family: 'Public Sans', sans-serif;
+/*   min-height: 100vh;
+  background-color: var(--surface); */
 }
+
+/* Header */
+/* .header {
+  background: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-family: 'Lexend';
+  font-size: 1.5em;
+  font-weight: 900;
+  color: var(--primary);
+  letter-spacing: 0.05em;
+}
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+.nav-link {
+  text-decoration: none;
+  color: #475569;
+  font-weight: 600;
+  font-family: 'Lexend';
+}
+.nav-link.active {
+  color: var(--primary);
+  border-bottom: 4px solid var(--primary);
+  padding-bottom: 0.25rem;
+}
+.profile-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #bdc2ff;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} */
+
+/* Main Content Area */
+/* .main-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  transition: opacity 0.3s;
+}
+.content-blurred {
+  opacity: 0.3;
+  pointer-events: none;
+}
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.btn-open-modal {
+  padding: 1rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 0.75rem;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.1em;
+} */
+
+/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -283,7 +368,7 @@ const saveTransaction = () => {
 }
 .modal-title {
   font-family: 'Lexend';
-  font-size: 2.5rem;
+  font-size: 2.5em;
   font-weight: 800;
   color: var(--primary);
 }
@@ -291,7 +376,7 @@ const saveTransaction = () => {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 2.5rem;
+  font-size: 2.5em;
   color: var(--outline);
 }
 .modal-body {
@@ -328,7 +413,7 @@ const saveTransaction = () => {
   border-radius: 1.5rem;
   border: none;
   font-family: 'Lexend';
-  font-size: 1.6rem;
+  font-size: 1.6em;
   font-weight: 700;
   cursor: pointer;
   background: transparent;
@@ -350,7 +435,7 @@ const saveTransaction = () => {
 }
 .input-label {
   display: block;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   font-weight: 700;
   color: #454652;
   margin-bottom: 0.8rem;
@@ -367,7 +452,7 @@ const saveTransaction = () => {
 }
 .date-text {
   font-family: 'Lexend';
-  font-size: 1.6rem;
+  font-size: 1.6em;
   font-weight: 700;
 }
 .hidden-date-input {
@@ -377,7 +462,7 @@ const saveTransaction = () => {
 }
 .icon-primary {
   color: var(--primary);
-  font-size: 1.8rem;
+  font-size: 1.8em;
 }
 .icon-expand {
   color: var(--primary);
@@ -387,7 +472,7 @@ const saveTransaction = () => {
 .amount-input {
   width: 100%;
   font-family: 'Lexend';
-  font-size: 4rem;
+  font-size: 4em;
   font-weight: 900;
   padding: 2rem;
   background: var(--surface-low);
@@ -403,7 +488,7 @@ const saveTransaction = () => {
   background: var(--surface-low);
   border: none;
   border-radius: 1.5rem;
-  font-size: 1.4rem;
+  font-size: 1.4em;
   resize: none;
   box-sizing: border-box;
 }
@@ -436,7 +521,7 @@ const saveTransaction = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2em;
   color: #454652;
 }
 .selected .category-icon-wrapper {
@@ -444,7 +529,7 @@ const saveTransaction = () => {
   color: white;
 }
 .category-name {
-  font-size: 1.4rem;
+  font-size: 1.4em;
   font-weight: 900;
 }
 .modal-footer {
@@ -459,7 +544,7 @@ const saveTransaction = () => {
   padding: 1.8rem;
   border-radius: 5rem;
   font-family: 'Lexend';
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 900;
   cursor: pointer;
   border: none;

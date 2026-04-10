@@ -16,7 +16,7 @@
 
 <script setup>
 // 클릭 이벤트를 부모에게 전달하기 위한 설정
-defineEmits(["add-click"]);
+defineEmits(['add-click']);
 </script>
 
 <style scoped>
@@ -44,10 +44,10 @@ defineEmits(["add-click"]);
   box-shadow: 0 16px 40px rgba(0, 6, 102, 0.4);
 }
 .fab-icon {
-  font-size: 2.5rem;
+  font-size: 2.5em;
 }
 .fab-text {
-  font-size: 1.75rem;
+  font-size: 1.75em;
   font-weight: 900;
 }
 </style>

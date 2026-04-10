@@ -1,8 +1,10 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/pages/Home.vue";
-import History from "@/pages/History.vue";
-import Transaction from "@/pages/Transaction.vue";
-import Settings from "@/pages/Settings.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '@/pages/Home.vue';
+import History from '@/pages/History.vue';
+import Transaction from '@/pages/Transaction.vue';
+import Settings from '@/pages/Settings.vue';
+import Login from '@/pages/Login.vue';
+import Signup from '@/pages/Signup.vue';
 
 const router = createRouter({
   // Vite 환경에서의 기본 History 모드 설정
@@ -52,6 +54,16 @@ const router = createRouter({
       name: "settings",
       // 설정 및 프로필 (혜근님)
       component: Settings,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: Signup,
     },
   ],
 });

@@ -40,6 +40,7 @@ import Transaction from '@/pages/Transaction.vue';
 const transactionStore = useTransactionStore();
 const { transactions } = storeToRefs(transactionStore);
 
+// 필터 상태 관리 ('all', 'income', 'expense')
 const filterType = ref('all');
 const isTransactionModalOpen = ref(false);
 const modalMode = ref('create');
@@ -110,7 +111,7 @@ h1 {
   justify-content: center;
   margin-top: 64px;
 }
-.btn-load-more {
+/* .btn-load-more {
   background-color: #ffffff;
   color: #000666;
   font-size: 1.5rem;
@@ -121,10 +122,11 @@ h1 {
   box-shadow: 0 8px 24px rgba(26, 27, 35, 0.08);
   cursor: pointer;
   transition: background-color 0.2s ease;
-}
-.btn-load-more:hover {
+} */
+/* .btn-load-more:hover {
   background-color: #f3f2fe;
-}
+} */
+/* 하단 플로팅 액션 버튼 (FAB) */
 .btn-fab {
   position: fixed;
   bottom: 40px;
@@ -149,10 +151,10 @@ h1 {
   box-shadow: 0 16px 40px rgba(0, 6, 102, 0.4);
 }
 .fab-icon {
-  font-size: 2.5rem;
+  font-size: 2.5em;
 }
 .fab-text {
-  font-size: 1.75rem;
+  font-size: 1.75em;
   font-weight: 900;
 }
 </style>

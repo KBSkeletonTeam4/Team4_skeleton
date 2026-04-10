@@ -28,7 +28,7 @@
 defineProps({
   currentFilter: { type: String, required: true },
 });
-defineEmits(["change-filter"]);
+defineEmits(['change-filter']);
 </script>
 
 <style scoped>
@@ -47,7 +47,7 @@ defineEmits(["change-filter"]);
   border-radius: 32px;
   background: transparent;
   color: #000666; /* 메인 남색 */
-  font-size: 1.25rem;
+  font-size: 1.25em;
   font-weight: 700;
   border: none;
   cursor: pointer;

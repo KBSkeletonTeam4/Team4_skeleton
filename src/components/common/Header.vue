@@ -3,10 +3,10 @@
     <div :class="$style.titleContainer" @click="goToHome">
       <div :class="$style.titleText">내 인생 마지막 가계부</div>
     </div>
-    
-    <i 
-      class="fa-solid fa-gear" 
-      :class="$style.gearIcon" 
+
+    <i
+      class="fa-solid fa-gear"
+      :class="$style.gearIcon"
       @click="goToSettings"
     ></i>
   </div>
@@ -51,14 +51,14 @@ const goToSettings = () => {
 
 .titleText {
   /* 불필요한 고정 width, height를 제거하여 텍스트가 자연스럽게 위치하도록 수정 */
-  font-size: 32px;
+  font-size: 2em;
   font-weight: 900;
   margin: 0;
 }
 
 .gearIcon {
   /* 3. 아이콘 세로 정중앙 정렬: 고정 width/height를 지우고 font-size로 크기 제어 */
-  font-size: 36px; 
+  font-size: 2.25em;
   color: #000666;
   cursor: pointer; /* 마우스 오버 시 손가락 모양으로 변경 */
 }
