@@ -1,53 +1,88 @@
-import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
-import api from '@/api/axios';
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
+import api from "@/api/axios";
 
-export const useTransactionStore = defineStore('transaction', () => {
+export const useTransactionStore = defineStore("transaction", () => {
   // State
   const transactions = ref([]);
+  const incomeCategories = ref([]); // 수입 카테고리
+  const expenseCategories = ref([]); // 지출 카테고리
   const isLoading = ref(false);
 
   // Getters
   const totalIncome = computed(() => {
     return transactions.value
-      .filter(t => t.type === 'income')
+      .filter((t) => t.type === "income")
       .reduce((sum, t) => sum + t.amount, 0);
   });
 
   const totalExpense = computed(() => {
     return transactions.value
-      .filter(t => t.type === 'expense')
+      .filter((t) => t.type === "expense")
       .reduce((sum, t) => sum + t.amount, 0);
   });
-  
+
   const balance = computed(() => totalIncome.value - totalExpense.value);
 
   // Actions
-// Actions: 1. 데이터 불러오기 (GET)
+  // 전체 거래 내역 불러오기 (GET)
   const fetchTransactions = async () => {
     isLoading.value = true;
     try {
-      // json-server의 _sort 파라미터를 활용해 날짜, 시간 내림차순(최신순) 정렬 [cite: 169-173]
-      const response = await api.get('/budget?_sort=-date,-time');
-      transactions.value = response.data;
+    // 🌟 수정 포인트 2: api.get 자체가 이미 data를 반환하므로 response.data를 안 해도 됩니다!
+    // 파라미터는 두 번째 인자로 넘겨줍니다.
+    const data = await api.get("/budget", {
+      _sort: "-date,-time",
+    });
+    transactions.value = data;
     } catch (error) {
-      console.error('거래 내역을 불러오지 못했습니다.', error);
+      console.error('거래 내역 조회 실패:', error);
     } finally {
       isLoading.value = false;
     }
+
   };
 
-  // Actions: 2. 새로운 거래 추가 (POST)
+  // 카테고리 데이터 불러오기 (GET)
+  const fetchCategories = async () => {
+    const [incomeData, expenseData] = await Promise.all([
+      api.get("/incomeCategory"),
+      api.get("/expenseCategory"),
+    ]);
+    incomeCategories.value = incomeData;
+    expenseCategories.value = expenseData;
+  };
+
+  // 새로운 거래 내역 추가 (POST)
   const addTransaction = async (newTransaction) => {
-    try {
-      const response = await api.post('/budget', newTransaction);
-      // 서버 저장 성공 후, 로컬 상태 배열에도 즉시 추가하여 화면 갱신
-      transactions.value.unshift(response.data); 
-    } catch (error) {
-      console.error('거래 내역 저장에 실패했습니다.', error);
-      throw error; // 컴포넌트 단에서 에러 처리를 할 수 있도록 던짐
-    }
+    await api.post("/budget", newTransaction);
+    await fetchTransactions(); // 새로고침
   };
 
-  return { transactions, totalIncome, totalExpense, balance, fetchTransactions, addTransaction };
+  // 거래 내역 수정 (PUT)
+  const updateTransaction = async (id, updatedData) => {
+    await api.put(`/budget/${id}`, updatedData);
+    await fetchTransactions(); // 새로고침
+  };
+
+  // 거래 내역 삭제 (DELETE)
+  const deleteTransaction = async (id) => {
+    // 윤정님의 remove 함수는 두 번째 인자로 params를 받습니다. (id 자체를 URL에 붙여도 무방합니다)
+    await api.remove(`/budget/${id}`);
+    transactions.value = transactions.value.filter((t) => t.id !== id);
+  };
+
+  return {
+    transactions,
+    totalIncome,
+    totalExpense,
+    balance,
+    incomeCategories,
+    expenseCategories,
+    fetchTransactions,
+    fetchCategories,
+    addTransaction,
+    updateTransaction,
+    deleteTransaction,
+  };
 });
