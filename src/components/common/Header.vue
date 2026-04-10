@@ -6,7 +6,7 @@
 
     <div :class="$style.buttonContainer">
       <button :class="$style.loginBtn" @click="handleLog">
-        {{ settingStore.isLoggedIn ? "로그아웃" : "로그인" }}
+        {{ settingStore.isLoggedIn ? '로그아웃' : '로그인' }}
       </button>
 
       <i
@@ -19,10 +19,10 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useTransactionStore } from "@/stores/useTransactionStore";
-import { useSettingStore } from "@/stores/useSettingStore";
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useTransactionStore } from '@/stores/useTransactionStore';
+import { useSettingStore } from '@/stores/useSettingStore';
 
 const router = useRouter();
 const transactionStore = useTransactionStore();
@@ -30,19 +30,19 @@ const settingStore = useSettingStore();
 
 // 라우터 이동 함수
 const goToHome = () => {
-  router.push("/");
+  router.push('/');
 };
 
 const goToSettings = () => {
-  router.push("/settings");
+  router.push('/settings');
 };
 
 const handleLog = () => {
   if (settingStore.isLoggedIn) {
     settingStore.logout();
-    router.push("/login");
+    router.push('/login');
   } else {
-    router.push("/login");
+    router.push('/login');
   }
 };
 
@@ -75,9 +75,18 @@ onMounted(() => {
 
 .titleText {
   /* 불필요한 고정 width, height를 제거하여 텍스트가 자연스럽게 위치하도록 수정 */
-  font-size: 2em;
+  font-size: 4em;
   font-weight: 900;
   margin: 0;
+  font-family: 'OngleipReconstruction';
+}
+
+@font-face {
+  font-family: 'OngleipReconstruction';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_JAEGEONSA-Rg.woff2')
+    format('woff2');
+  /* font-weight: normal; */
+  font-display: swap;
 }
 
 .buttonContainer {
@@ -113,5 +122,11 @@ onMounted(() => {
   font-size: 2.25em;
   color: #000666;
   cursor: pointer; /* 마우스 오버 시 손가락 모양으로 변경 */
+}
+
+@media screen and (max-width: 1100px) {
+  .titleText {
+    font-size: 2.5em;
+  }
 }
 </style>
