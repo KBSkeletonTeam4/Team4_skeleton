@@ -35,7 +35,7 @@
           type="button"
           @click="changeFontSize('medium')"
         >
-          <span>표준</span>
+          <span class="font-m">표준</span>
           <span class="radio-circle"></span>
         </button>
 
@@ -45,7 +45,7 @@
           type="button"
           @click="changeFontSize('large')"
         >
-          <span>크게</span>
+          <span class="font-l">크게</span>
           <span class="radio-circle"></span>
         </button>
 
@@ -55,7 +55,7 @@
           type="button"
           @click="changeFontSize('xlarge')"
         >
-          <span>매우 크게</span>
+          <span class="font-xl">매우 크게</span>
           <span class="radio-circle"></span>
         </button>
       </section>
@@ -294,6 +294,16 @@ const handleDeleteAccount = async () => {
   letter-spacing: -0.03em;
 }
 
+.font-m {
+  font-size: 24px;
+}
+.font-l {
+  font-size: 28px;
+}
+.font-xl {
+  font-size: 32px;
+}
+
 .font-option {
   width: 100%;
   background: #f3f2fe;
@@ -304,7 +314,7 @@ const handleDeleteAccount = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.55em;
+  /* font-size: 1.55em; */
   font-weight: 900;
   color: #2f2f45;
   cursor: pointer;
