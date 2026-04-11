@@ -58,9 +58,6 @@ const groupedTransactions = computed(() => {
 </script>
 
 <style>
-/* .bg-gradient-to-bottom:first-child {
-  background: linear-gradient(to bottom, #fbf8ff 80%, rgba(255, 255, 255, 0));
-} */
 .bg-gradient-to-bottom {
   background: linear-gradient(to bottom, #fbf8ff 80%, rgba(255, 255, 255, 0));
 }

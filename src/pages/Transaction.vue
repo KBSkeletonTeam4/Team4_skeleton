@@ -552,6 +552,7 @@ const saveTransaction = () => {
 .btn-cancel {
   background: #e2e1ed;
   color: #454652;
+  box-shadow: 0 15px 30px #d2d1dd;
 }
 .btn-save {
   background: linear-gradient(to right, #000666, #1a237e);
