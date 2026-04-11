@@ -3,7 +3,7 @@
     <div class="balance-card">
       <p class="balance-label">이번 달 남은 생활비</p>
       <h1 class="balance-amount">{{ formatCurrency(balance) }}</h1>
-      <p class="today-text">
+      <p class="today-text shadow-sm">
         오늘 {{ today.getMonth() + 1 }}월 {{ today.getDate() }}일
       </p>
     </div>
@@ -95,13 +95,14 @@ const formatCurrency = (value) => {
   letter-spacing: -0.05em;
 }
 
-.balance-sub {
+.today-text {
   margin: 1rem auto 0;
   display: inline-block;
   padding: 0.45rem 0.9rem;
   font-size: 0.95em;
   color: #5c5f73;
   background: #e2e1ed;
+  border: 0.5px solid #45465224;
   border-radius: 999px;
   font-weight: 600;
 }
