@@ -119,6 +119,9 @@ const goToHistory = () => {
   font-weight: bold;
   cursor: pointer;
 }
+.more-btn:hover {
+  opacity: 0.75;
+}
 .recent-list {
   display: flex;
   flex-direction: column;
