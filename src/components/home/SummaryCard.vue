@@ -66,6 +66,7 @@ const formatCurrency = (value) => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-bottom: 30px;
 }
 
 .balance-card {

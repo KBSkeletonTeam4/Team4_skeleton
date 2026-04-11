@@ -147,7 +147,7 @@ onMounted(() => {
 }
 
 :deep(.recent-header) {
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 :deep(.recent-title) {

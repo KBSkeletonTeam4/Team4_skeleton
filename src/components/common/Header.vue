@@ -75,7 +75,7 @@ onMounted(() => {
 
 .titleText {
   font-size: 3.5em;
-  font-weight: 900;
+  font-weight: 600;
   margin: 0;
   font-family: "OngleipReconstruction";
 }
@@ -102,6 +102,8 @@ onMounted(() => {
   font-size: 0.95em;
   font-weight: 800;
   cursor: pointer;
+  color: #ffffff;
+  background-color: #000666;
   transition:
     transform 0.15s ease,
     opacity 0.2s ease,
@@ -109,7 +111,7 @@ onMounted(() => {
 }
 
 .loginBtn:hover {
-  opacity: 0.92;
+  opacity: 0.75;
 }
 
 .loginBtn:active {
@@ -121,6 +123,10 @@ onMounted(() => {
   font-size: 2.25em;
   color: #000666;
   cursor: pointer; /* 마우스 오버 시 손가락 모양으로 변경 */
+}
+
+.gearIcon:hover {
+  opacity: 0.75;
 }
 
 @media screen and (max-width: 1000px) {

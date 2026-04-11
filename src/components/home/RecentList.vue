@@ -103,12 +103,12 @@ const goToHistory = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
 }
 .recent-header h3 {
   font-size: 1.5em;
   font-weight: bold;
   color: #1a237e;
+  margin-bottom: 0 !important;
 }
 .more-btn {
   padding: 6px 12px;
