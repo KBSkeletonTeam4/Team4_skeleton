@@ -15,7 +15,8 @@
           <div class="info">
             <div class="title">{{ item.memo }}</div>
             <div class="date">
-              {{ formatDateTime(item.date, item.time) }}
+              <!-- {{ formatDateTime(item.date, item.time) }} -->
+              {{ formatDateTime(item.date) }}
             </div>
           </div>
         </div>
@@ -27,7 +28,7 @@
             expense: item.type === 'expense',
           }"
         >
-          {{ item.type === 'expense' ? '-' : '+' }}
+          {{ item.type === "expense" ? "-" : "+" }}
           {{ Number(item.amount).toLocaleString() }}원
         </div>
       </div>
@@ -36,8 +37,8 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { useTransactionStore } from '@/stores/useTransactionStore'; // 🌟 db.json 대신 스토어 임포트!
+import { useRouter } from "vue-router";
+import { useTransactionStore } from "@/stores/useTransactionStore"; // 🌟 db.json 대신 스토어 임포트!
 
 // 부모 컴포넌트(Home.vue)에서 데이터를 넘겨받습니다.
 const props = defineProps({
@@ -54,39 +55,42 @@ const transactionStore = useTransactionStore();
 const getIcon = (type, category) => {
   // 스토어에서 불러온 카테고리 배열을 사용합니다.
   const categories =
-    type === 'expense'
+    type === "expense"
       ? transactionStore.expenseCategories
       : transactionStore.incomeCategories;
 
   const cat = categories.find((c) => c.name === category);
 
   if (cat && cat.icon) {
-    return cat.icon.split(' ')[1]; // 예: 'fa-cart-shopping'
+    return cat.icon.split(" ")[1]; // 예: 'fa-cart-shopping'
   }
 
-  return 'fa-coins'; // 기본 아이콘
+  return "fa-coins"; // 기본 아이콘
 };
 
 // 날짜 포맷팅 함수 (기존 코드 유지)
-const formatDateTime = (date, time) => {
-  const d = new Date(`${date} ${time}`);
+// const formatDateTime = (date, time) => {
+//   const d = new Date(`${date} ${time}`);
+const formatDateTime = (date) => {
+  const d = new Date(`${date}`);
 
   const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
 
-  let hours = d.getHours();
-  const minutes = String(d.getMinutes()).padStart(2, '0');
+  // let hours = d.getHours();
+  // const minutes = String(d.getMinutes()).padStart(2, '0');
 
-  const period = hours < 12 ? '오전' : '오후';
-  hours = hours % 12 || 12;
+  // const period = hours < 12 ? '오전' : '오후';
+  // hours = hours % 12 || 12;
 
-  return `${year}년 ${month}월 ${day}일 ${period} ${hours}시 ${minutes}분`;
+  // return `${year}년 ${month}월 ${day}일 ${period} ${hours}시 ${minutes}분`;
+  return `${year}년 ${month}월 ${day}일`;
 };
 
 // 전체보기 이동
 const goToHistory = () => {
-  router.push('/history');
+  router.push("/history");
 };
 </script>
 

@@ -2,7 +2,7 @@
   <div class="transaction-list d-flex flex-column gap-5">
     <section v-for="(items, date) in groupedTransactions" :key="date">
       <div
-        class="d-flex align-items-center gap-3 mb-4 sticky-top py-2"
+        class="d-flex align-items-center gap-3 mb-4 sticky-top py-2 bg-gradient-to-bottom"
         style="z-index: 10"
       >
         <h2 class="fs-3 fw-bolder m-0" style="color: #000666">
@@ -34,10 +34,10 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import TransactionItem from './TransactionItem.vue';
+import { computed } from "vue";
+import TransactionItem from "./TransactionItem.vue";
 
-defineEmits(['edit-transaction']);
+defineEmits(["edit-transaction"]);
 
 const props = defineProps({
   transactions: { type: Array, required: true },
@@ -45,7 +45,7 @@ const props = defineProps({
 
 const groupedTransactions = computed(() => {
   return props.transactions.reduce((acc, curr) => {
-    const dateKey = curr.date || '날짜 없음';
+    const dateKey = curr.date || "날짜 없음";
 
     if (!acc[dateKey]) {
       acc[dateKey] = [];
@@ -56,3 +56,12 @@ const groupedTransactions = computed(() => {
   }, {});
 });
 </script>
+
+<style>
+/* .bg-gradient-to-bottom:first-child {
+  background: linear-gradient(to bottom, #fbf8ff 80%, rgba(255, 255, 255, 0));
+} */
+.bg-gradient-to-bottom {
+  background: linear-gradient(to bottom, #fbf8ff 80%, rgba(255, 255, 255, 0));
+}
+</style>

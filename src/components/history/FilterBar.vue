@@ -28,7 +28,7 @@
 defineProps({
   currentFilter: { type: String, required: true },
 });
-defineEmits(['change-filter']);
+defineEmits(["change-filter"]);
 </script>
 
 <style scoped>
@@ -37,7 +37,7 @@ defineEmits(['change-filter']);
   background-color: #e8e7f2; /* 연한 회보라색 배경 */
   padding: 8px;
   border-radius: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 60px; /* 기존 40px에서 수정 */
   width: 100%;
 }
 
