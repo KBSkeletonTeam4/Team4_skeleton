@@ -145,10 +145,10 @@ const incomeCategory = [
 const expenseCategory = [
   { id: "1", name: "식비", icon: "fa-solid fa-utensils" },
   { id: "2", name: "마트", icon: "fa-solid fa-cart-shopping" },
-  { id: "3", name: "교통", icon: "fa-solid fa-bus" },
-  { id: "4", name: "공과금/통신", icon: "fa-solid fa-file-invoice-dollar" },
-  { id: "5", name: "병원/약국", icon: "fa-solid fa-notes-medical" },
-  { id: "6", name: "손주/경조사", icon: "fa-solid fa-gift" },
+  { id: "3", name: "병원/약국", icon: "fa-solid fa-notes-medical" },
+  { id: "4", name: "용돈/경조사", icon: "fa-solid fa-gift" },
+  { id: "5", name: "교통", icon: "fa-solid fa-bus" },
+  { id: "6", name: "공과금/통신", icon: "fa-solid fa-file-invoice-dollar" },
 ];
 
 const currentCategories = computed(() => {

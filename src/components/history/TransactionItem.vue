@@ -13,15 +13,18 @@
           "
           style="width: 80px; height: 80px"
         >
-          <i class="fa-solid fs-1" :class="categoryIcon"></i>
+          <i
+            class="fa-solid fs-1"
+            :class="['fas', getIcon(item.type, item.category)]"
+          ></i>
         </div>
 
         <div class="d-flex flex-column">
           <span class="text-muted fw-bold fs-5">
-            {{ isIncome ? '수입' : '지출' }} · {{ item.category }}
+            {{ isIncome ? "수입" : "지출" }} · {{ item.category }}
           </span>
           <span class="fs-2 fw-bold text-dark">
-            {{ item.memo || '내역 없음' }}
+            {{ item.memo || "내역 없음" }}
           </span>
         </div>
       </div>
@@ -33,7 +36,7 @@
           class="fs-1 fw-black text-nowrap"
           :class="isIncome ? 'text-success' : 'text-danger'"
         >
-          {{ isIncome ? '+' : '-' }}
+          {{ isIncome ? "+" : "-" }}
           {{ Number(item.amount).toLocaleString() }}원
         </span>
 
@@ -60,52 +63,44 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useTransactionStore } from '@/stores/useTransactionStore';
+import { computed } from "vue";
+import { useTransactionStore } from "@/stores/useTransactionStore";
 
-defineEmits(['edit']);
+defineEmits(["edit"]);
 
 const props = defineProps({
   item: { type: Object, required: true },
 });
 
 const transactionStore = useTransactionStore();
-const isIncome = computed(() => props.item.type === 'income');
+const isIncome = computed(() => props.item.type === "income");
 
-const categoryIcon = computed(() => {
-  const category = String(props.item.category || '');
+// 아이콘 가져오기 (스토어의 카테고리 데이터 활용)
+const getIcon = (type, category) => {
+  // 스토어에서 불러온 카테고리 배열을 사용합니다.
+  const categories =
+    type === "expense"
+      ? transactionStore.expenseCategories
+      : transactionStore.incomeCategories;
 
-  if (category.includes('식비') || category.includes('마트')) {
-    return 'fa-cart-shopping';
-  }
-  if (category.includes('교통')) return 'fa-bus';
-  if (category.includes('병원') || category.includes('의료')) {
-    return 'fa-notes-medical';
-  }
-  if (category.includes('공과금') || category.includes('통신')) {
-    return 'fa-file-invoice-dollar';
-  }
-  if (category.includes('손주') || category.includes('경조사')) {
-    return 'fa-gift';
-  }
-  if (category.includes('연금') || category.includes('이자')) {
-    return 'fa-piggy-bank';
-  }
-  if (category.includes('용돈')) return 'fa-envelope-open-text';
-  if (category.includes('월급')) return 'fa-money-bill-wave';
+  const cat = categories.find((c) => c.name === category);
 
-  return 'fa-wallet';
-});
+  if (cat && cat.icon) {
+    return cat.icon.split(" ")[1]; // 예: 'fa-cart-shopping'
+  }
+
+  return "fa-coins"; // 기본 아이콘
+};
 
 const handleDelete = async () => {
-  if (!confirm('이 내역을 정말 삭제하시겠습니까?')) return;
+  if (!confirm("이 내역을 정말 삭제하시겠습니까?")) return;
 
   try {
     await transactionStore.deleteTransaction(props.item.id);
-    alert('성공적으로 삭제되었습니다.');
+    alert("성공적으로 삭제되었습니다.");
   } catch (err) {
     console.error(err);
-    alert('삭제에 실패했습니다. 다시 시도해주세요.');
+    alert("삭제에 실패했습니다. 다시 시도해주세요.");
   }
 };
 </script>

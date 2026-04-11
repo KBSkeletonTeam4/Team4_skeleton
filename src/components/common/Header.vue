@@ -58,7 +58,7 @@ onMounted(() => {
   position: relative;
   background-color: #fbf8ff;
   display: flex;
-  align-items: center;
+  align-items: center; /* 세로 중앙 정렬 */
   justify-content: space-between;
   padding: 20px 32px;
   box-sizing: border-box;
@@ -69,13 +69,12 @@ onMounted(() => {
 
 .titleContainer {
   display: flex;
-  align-items: center;
+  align-items: center; /* 세로 중앙 정렬 */
   cursor: pointer; /* 마우스 오버 시 손가락 모양으로 변경 */
 }
 
 .titleText {
-  /* 불필요한 고정 width, height를 제거하여 텍스트가 자연스럽게 위치하도록 수정 */
-  font-size: 4em;
+  font-size: 3.5em;
   font-weight: 900;
   margin: 0;
   font-family: "OngleipReconstruction";
@@ -85,7 +84,7 @@ onMounted(() => {
   font-family: "OngleipReconstruction";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_JAEGEONSA-Rg.woff2")
     format("woff2");
-  /* font-weight: normal; */
+  font-weight: medium;
   font-display: swap;
 }
 
