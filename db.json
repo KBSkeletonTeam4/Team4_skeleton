@@ -242,12 +242,12 @@
       "id": "-3b-0uBm3QM"
     },
     {
+      "id": "0hLh2iFQSNw",
       "type": "expense",
-      "amount": 100000,
-      "category": "마트",
-      "memo": "식재료 구매",
-      "date": "2026-04-12",
-      "id": "0hLh2iFQSNw"
+      "amount": 50000,
+      "category": "병원/약국",
+      "memo": "스케일링",
+      "date": "2026-04-12"
     },
     {
       "id": "uSXEm8ezNGk",
@@ -258,20 +258,20 @@
       "date": "2026-04-09"
     },
     {
+      "id": "BVohaIgfvCQ",
       "type": "income",
-      "amount": 1000000,
+      "amount": 1200000,
       "category": "이자",
       "memo": "주식 배당금",
-      "date": "2026-04-13",
-      "id": "BVohaIgfvCQ"
+      "date": "2026-04-13"
     },
     {
+      "id": "leOV2GmEUos",
       "type": "expense",
-      "amount": 600000,
-      "category": "공과금/통신",
-      "memo": "신용카드",
-      "date": "2026-04-13",
-      "id": "ZBdkPAv0ga0"
+      "amount": 100000,
+      "category": "식비",
+      "memo": "와이프와 외식",
+      "date": "2026-04-13"
     }
   ],
   "incomeCategory": [
