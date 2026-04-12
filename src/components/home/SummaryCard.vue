@@ -1,10 +1,10 @@
 <template>
   <section class="summary-wrap">
     <div class="balance-card">
-      <p class="balance-label">이번 달 남은 생활비</p>
+      <p class="balance-label">{{ smartMonthLabel }} 남은 생활비</p>
       <h1 class="balance-amount">{{ formatCurrency(balance) }}</h1>
       <button class="today-button shadow-sm" @click="goToToday">
-        오늘은 {{ today.getMonth() + 1 }}월 {{ today.getDate() }}일
+        오늘 {{ today.getMonth() + 1 }}월 {{ today.getDate() }}일
       </button>
     </div>
 
@@ -33,15 +33,13 @@
 </template>
 
 <script setup>
+import { storeToRefs } from "pinia";
 import { useDateStore } from "@/stores/useDateStore";
 const dateStore = useDateStore();
+const { smartMonthLabel } = storeToRefs(dateStore);
 const { goToToday } = dateStore;
 
 defineProps({
-  monthLabel: {
-    type: String,
-    default: "이번 달",
-  },
   totalIncome: {
     type: Number,
     default: 0,
@@ -53,10 +51,6 @@ defineProps({
   balance: {
     type: Number,
     default: 0,
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
   },
 });
 const today = new Date();
@@ -164,12 +158,12 @@ const formatCurrency = (value) => {
 
 .income .summary-icon,
 .income .summary-amount {
-  color: green;
+  color: #1b6d24;
 }
 
 .expense .summary-icon,
 .expense .summary-amount {
-  color: red;
+  color: #ba1a1a;
 }
 
 @media (max-width: 768px) {

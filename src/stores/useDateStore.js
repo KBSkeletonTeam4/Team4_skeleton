@@ -13,6 +13,19 @@ export const useDateStore = defineStore("date", () => {
     return `${year}년 ${month}월`;
   });
 
+  const smartMonthLabel = computed(() => {
+    const now = new Date();
+    const isSameYear = selectedDate.value.getFullYear() === now.getFullYear();
+    const isSameMonth = selectedDate.value.getMonth() === now.getMonth();
+
+    // 오늘과 연도/월이 모두 같다면 '이번 달', 아니면 'n월' 반환
+    if (isSameYear && isSameMonth) {
+      return "이번 달";
+    } else {
+      return `${selectedDate.value.getMonth() + 1}월`;
+    }
+  });
+
   const currentMonthKey = computed(() => {
     const year = selectedDate.value.getFullYear();
     const month = String(selectedDate.value.getMonth() + 1).padStart(2, "0");
@@ -32,5 +45,12 @@ export const useDateStore = defineStore("date", () => {
     selectedDate.value = newDate;
   };
 
-  return { selectedDate, monthLabel, currentMonthKey, moveMonth, goToToday };
+  return {
+    selectedDate,
+    monthLabel,
+    smartMonthLabel,
+    currentMonthKey,
+    moveMonth,
+    goToToday,
+  };
 });
