@@ -75,22 +75,7 @@ const props = defineProps({
 const transactionStore = useTransactionStore();
 const isIncome = computed(() => props.item.type === "income");
 
-// 아이콘 가져오기 (스토어의 카테고리 데이터 활용)
-const getIcon = (type, category) => {
-  // 스토어에서 불러온 카테고리 배열을 사용합니다.
-  const categories =
-    type === "expense"
-      ? transactionStore.expenseCategories
-      : transactionStore.incomeCategories;
-
-  const cat = categories.find((c) => c.name === category);
-
-  if (cat && cat.icon) {
-    return cat.icon.split(" ")[1]; // 예: 'fa-cart-shopping'
-  }
-
-  return "fa-coins"; // 기본 아이콘
-};
+const { getIcon } = transactionStore;
 
 const handleDelete = async () => {
   if (!confirm("이 내역을 정말 삭제하시겠습니까?")) return;

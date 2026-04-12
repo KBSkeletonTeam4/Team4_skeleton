@@ -13,6 +13,13 @@ export const useDateStore = defineStore("date", () => {
     return `${year}년 ${month}월`;
   });
 
+  // 날짜 포맷팅 함수
+  const formatDate = (date) => {
+    if (!date) return ""; // 데이터가 없을 때를 대비한 안전장치
+    const [year, month, day] = date.split("-");
+    return `${year}년 ${Number(month)}월 ${Number(day)}일`;
+  };
+
   const smartMonthLabel = computed(() => {
     const now = new Date();
     const isSameYear = selectedDate.value.getFullYear() === now.getFullYear();
@@ -48,6 +55,7 @@ export const useDateStore = defineStore("date", () => {
   return {
     selectedDate,
     monthLabel,
+    formatDate,
     smartMonthLabel,
     currentMonthKey,
     moveMonth,

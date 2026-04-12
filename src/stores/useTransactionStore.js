@@ -1,7 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import { useDateStore } from "./useDateStore";
-import api from "@/api/axios";
+import api, { get } from "@/api/axios";
 
 export const useTransactionStore = defineStore("transaction", () => {
   const transactions = ref([]);
@@ -48,6 +48,21 @@ export const useTransactionStore = defineStore("transaction", () => {
     } catch (e) {
       console.error("fetchCategories error:", e);
     }
+  };
+
+  // 아이콘 가져오기 (스토어의 카테고리 데이터 활용)
+  const getIcon = (type, category) => {
+    // 스토어에서 불러온 카테고리 배열을 사용합니다.
+    const categories =
+      type === "expense" ? expenseCategories.value : incomeCategories.value;
+
+    const cat = categories?.find((c) => c.name === category);
+
+    if (cat && cat.icon) {
+      return cat.icon.split(" ")[1]; // 예: 'fa-cart-shopping'
+    }
+
+    return "fa-coins"; // 기본 아이콘
   };
 
   const addTransaction = async (newTransaction) => {
@@ -135,6 +150,7 @@ export const useTransactionStore = defineStore("transaction", () => {
     balance,
     fetchTransactions,
     fetchCategories,
+    getIcon,
     addTransaction,
     updateTransaction,
     deleteTransaction,

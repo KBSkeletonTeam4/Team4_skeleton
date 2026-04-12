@@ -248,6 +248,30 @@
       "memo": "식재료 구매",
       "date": "2026-04-12",
       "id": "0hLh2iFQSNw"
+    },
+    {
+      "id": "uSXEm8ezNGk",
+      "type": "expense",
+      "amount": 15000,
+      "category": "식비",
+      "memo": "한식뷔페",
+      "date": "2026-04-09"
+    },
+    {
+      "type": "income",
+      "amount": 1000000,
+      "category": "이자",
+      "memo": "주식 배당금",
+      "date": "2026-04-13",
+      "id": "BVohaIgfvCQ"
+    },
+    {
+      "type": "expense",
+      "amount": 600000,
+      "category": "공과금/통신",
+      "memo": "신용카드",
+      "date": "2026-04-13",
+      "id": "ZBdkPAv0ga0"
     }
   ],
   "incomeCategory": [

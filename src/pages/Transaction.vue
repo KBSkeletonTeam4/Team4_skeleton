@@ -58,10 +58,12 @@
               <div class="input-container">
                 <label class="input-label">금액</label>
                 <input
-                  v-model="amount"
+                  v-model="displayAmount"
                   class="amount-input"
                   placeholder="₩ 0"
                   type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
                 />
               </div>
 
@@ -112,6 +114,10 @@
 
 <script setup>
 import { ref, computed, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { useTransactionStore } from "@/stores/useTransactionStore";
+
+const transactionStore = useTransactionStore();
 
 const props = defineProps({
   mode: {
@@ -130,30 +136,43 @@ const isEditMode = computed(() => props.mode === "edit");
 
 const transactionType = ref("expense");
 const amount = ref("");
+// ✨ 새로 추가할 코드: 화면에 콤마를 찍어주고, 문자 입력을 차단하는 마법의 변수
+const displayAmount = computed({
+  // 화면에 보여줄 때 (Get)
+  get() {
+    if (!amount.value) return "";
+    // 원본 숫자에 한국식 콤마(,)를 찍어서 보여줌
+    return Number(amount.value).toLocaleString("ko-KR");
+  },
+  // 사용자가 키보드로 입력할 때 (Set)
+  set(newValue) {
+    // 사용자가 '100,000'이나 '100원'을 쳐도, 숫자(0~9)가 아닌 모든 글자를 강제로 지워버림!
+    const numericValue = newValue.replace(/[^0-9]/g, "");
+    amount.value = numericValue; // 콤마가 다 빠진 순수 숫자만 amount에 저장
+  },
+});
+
 const memo = ref("");
 const selectedCategoryId = ref("1");
-const selectedDate = ref(new Date().toISOString().slice(0, 10));
-const dateInputRef = ref(null);
 
-const incomeCategory = [
-  { id: "1", name: "월급", icon: "fa-solid fa-money-bill-wave" },
-  { id: "2", name: "용돈", icon: "fa-solid fa-envelope-open-text" },
-  { id: "3", name: "이자", icon: "fa-solid fa-piggy-bank" },
-  { id: "4", name: "기타", icon: "fa-solid fa-coins" },
-];
-
-const expenseCategory = [
-  { id: "1", name: "식비", icon: "fa-solid fa-utensils" },
-  { id: "2", name: "마트", icon: "fa-solid fa-cart-shopping" },
-  { id: "3", name: "병원/약국", icon: "fa-solid fa-notes-medical" },
-  { id: "4", name: "용돈/경조사", icon: "fa-solid fa-gift" },
-  { id: "5", name: "교통", icon: "fa-solid fa-bus" },
-  { id: "6", name: "공과금/통신", icon: "fa-solid fa-file-invoice-dollar" },
-];
+const { incomeCategories, expenseCategories } = storeToRefs(transactionStore);
 
 const currentCategories = computed(() => {
-  return transactionType.value === "income" ? incomeCategory : expenseCategory;
+  return transactionType.value === "income"
+    ? incomeCategories.value
+    : expenseCategories.value;
 });
+
+const getLocalToday = () => {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const date = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${date}`;
+};
+
+const selectedDate = ref(getLocalToday());
+const dateInputRef = ref(null);
 
 const formattedDate = computed(() => {
   if (!selectedDate.value) return "";
@@ -189,7 +208,7 @@ const resetForm = () => {
   amount.value = "";
   memo.value = "";
   selectedCategoryId.value = "1";
-  selectedDate.value = new Date().toISOString().slice(0, 10);
+  selectedDate.value = getLocalToday();
 };
 
 const applyInitialData = (data) => {
@@ -201,10 +220,12 @@ const applyInitialData = (data) => {
   transactionType.value = data.type ?? "expense";
   amount.value = data.amount != null ? String(data.amount) : "";
   memo.value = data.memo ?? "";
-  selectedDate.value = data.date ?? new Date().toISOString().slice(0, 10);
+  selectedDate.value = data.date ?? getLocalToday();
 
   const categories =
-    transactionType.value === "income" ? incomeCategory : expenseCategory;
+    transactionType.value === "income"
+      ? incomeCategories.value
+      : expenseCategories.value;
 
   const matchedCategory = categories.find((cat) => cat.name === data.category);
   selectedCategoryId.value = matchedCategory ? matchedCategory.id : "1";
@@ -251,63 +272,8 @@ const saveTransaction = () => {
   --surface: #ffffff;
   --surface-low: #f3f2fe;
   --outline: #767683;
-  /*   min-height: 100vh;
-  background-color: var(--surface); */
+  /*   min-height: 100vh; */
 }
-
-/* Header */
-/* .header {
-  background: white;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-.header-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.logo {
-  font-family: 'Lexend';
-  font-size: 1.5em;
-  font-weight: 900;
-  color: var(--primary);
-  letter-spacing: 0.05em;
-}
-.nav {
-  display: flex;
-  gap: 2rem;
-}
-.nav-link {
-  text-decoration: none;
-  color: #475569;
-  font-weight: 600;
-  font-family: 'Lexend';
-}
-.nav-link.active {
-  color: var(--primary);
-  border-bottom: 4px solid var(--primary);
-  padding-bottom: 0.25rem;
-}
-.profile-area {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.avatar {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid #bdc2ff;
-}
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-} */
-
 /* Main Content Area */
 /* .main-content {
   max-width: 1440px;
@@ -367,7 +333,6 @@ const saveTransaction = () => {
   align-items: center;
 }
 .modal-title {
-  font-family: "Lexend";
   font-size: 2.5em;
   font-weight: 800;
   color: var(--primary);
@@ -412,7 +377,6 @@ const saveTransaction = () => {
   padding: 1.5rem;
   border-radius: 1.5rem;
   border: none;
-  font-family: "Lexend";
   font-size: 1.6em;
   font-weight: 700;
   cursor: pointer;
@@ -451,7 +415,6 @@ const saveTransaction = () => {
   cursor: pointer;
 }
 .date-text {
-  font-family: "Lexend";
   font-size: 1.6em;
   font-weight: 700;
 }
@@ -471,8 +434,7 @@ const saveTransaction = () => {
 }
 .amount-input {
   width: 100%;
-  font-family: "Lexend";
-  font-size: 4em;
+  font-size: 4rem;
   font-weight: 900;
   padding: 2rem;
   background: var(--surface-low);
@@ -543,7 +505,6 @@ const saveTransaction = () => {
 .btn-save {
   padding: 1.8rem;
   border-radius: 5rem;
-  font-family: "Lexend";
   font-size: 2em;
   font-weight: 900;
   cursor: pointer;

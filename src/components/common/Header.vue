@@ -62,7 +62,6 @@ onMounted(() => {
   justify-content: space-between;
   padding: 20px 32px;
   box-sizing: border-box;
-  font-family: Lexend;
   color: #000666;
   margin: 0;
 }

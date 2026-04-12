@@ -42,6 +42,7 @@ onMounted(() => {
 * {
   margin: 0;
   padding: 0;
+  font-family: "Lexend", sans-serif;
 }
 
 .container {
@@ -70,7 +71,6 @@ body,
 } */
 
 body {
-  font-family: Lexend;
   background-color: #fbf8ff;
   color: #000666;
   margin: 0;

@@ -3,10 +3,9 @@
     <section v-for="(items, date) in groupedTransactions" :key="date">
       <div
         class="d-flex align-items-center gap-3 mb-4 sticky-top py-2 bg-gradient-to-bottom"
-        style="z-index: 10"
       >
-        <h2 class="fs-3 fw-bolder m-0" style="color: #000666">
-          {{ date }}
+        <h2 class="fs-3 fw-bolder m-0 date-tag">
+          {{ formatDate(date) }}
         </h2>
         <div
           class="flex-grow-1 bg-secondary rounded-pill opacity-25"
@@ -36,12 +35,16 @@
 <script setup>
 import { computed } from "vue";
 import TransactionItem from "./TransactionItem.vue";
+import { useDateStore } from "@/stores/useDateStore";
 
 defineEmits(["edit-transaction"]);
 
 const props = defineProps({
   transactions: { type: Array, required: true },
 });
+
+const dateStore = useDateStore();
+const { formatDate } = dateStore;
 
 const groupedTransactions = computed(() => {
   return props.transactions.reduce((acc, curr) => {
@@ -57,8 +60,12 @@ const groupedTransactions = computed(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .bg-gradient-to-bottom {
   background: linear-gradient(to bottom, #fbf8ff 80%, rgba(255, 255, 255, 0));
+  z-index: 10;
+}
+.date-tag {
+  color: #000666;
 }
 </style>
