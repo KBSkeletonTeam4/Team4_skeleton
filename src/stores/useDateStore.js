@@ -20,6 +20,11 @@ export const useDateStore = defineStore("date", () => {
   });
 
   // Actions
+  // 선택된 날짜를 오늘로 설정하는 함수
+  const goToToday = () => {
+    selectedDate.value = new Date();
+  };
+
   // 달 이동 함수
   const moveMonth = (direction) => {
     const newDate = new Date(selectedDate.value);
@@ -27,5 +32,5 @@ export const useDateStore = defineStore("date", () => {
     selectedDate.value = newDate;
   };
 
-  return { selectedDate, monthLabel, currentMonthKey, moveMonth };
+  return { selectedDate, monthLabel, currentMonthKey, moveMonth, goToToday };
 });

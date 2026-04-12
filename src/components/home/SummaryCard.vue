@@ -3,9 +3,9 @@
     <div class="balance-card">
       <p class="balance-label">이번 달 남은 생활비</p>
       <h1 class="balance-amount">{{ formatCurrency(balance) }}</h1>
-      <p class="today-text shadow-sm">
-        오늘 {{ today.getMonth() + 1 }}월 {{ today.getDate() }}일
-      </p>
+      <button class="today-button shadow-sm" @click="goToToday">
+        오늘은 {{ today.getMonth() + 1 }}월 {{ today.getDate() }}일
+      </button>
     </div>
 
     <div class="summary-row">
@@ -33,6 +33,10 @@
 </template>
 
 <script setup>
+import { useDateStore } from "@/stores/useDateStore";
+const dateStore = useDateStore();
+const { goToToday } = dateStore;
+
 defineProps({
   monthLabel: {
     type: String,
@@ -95,7 +99,7 @@ const formatCurrency = (value) => {
   letter-spacing: -0.05em;
 }
 
-.today-text {
+.today-button {
   margin: 1rem auto 0;
   display: inline-block;
   padding: 0.45rem 0.9rem;
@@ -105,6 +109,14 @@ const formatCurrency = (value) => {
   border: 0.5px solid #45465224;
   border-radius: 999px;
   font-weight: 600;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.today-button:hover {
+  transform: translateY(1px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(0, 6, 102, 0.4);
 }
 
 .summary-row {
