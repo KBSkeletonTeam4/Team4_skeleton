@@ -252,7 +252,7 @@ const handleDeleteAccount = async () => {
 
 .profile-info {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .profile-name {

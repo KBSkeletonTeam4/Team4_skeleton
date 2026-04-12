@@ -137,7 +137,7 @@ onMounted(() => {
 
 @media screen and (max-width: 768px) {
   .titleText {
-    font-size: 1.6em;
+    font-size: 1.6rem;
   }
 }
 </style>
