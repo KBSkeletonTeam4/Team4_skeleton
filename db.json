@@ -240,6 +240,14 @@
       "memo": "손주 용돈",
       "date": "2026-04-11",
       "id": "-3b-0uBm3QM"
+    },
+    {
+      "type": "expense",
+      "amount": 100000,
+      "category": "마트",
+      "memo": "식재료 구매",
+      "date": "2026-04-12",
+      "id": "0hLh2iFQSNw"
     }
   ],
   "incomeCategory": [

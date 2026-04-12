@@ -1,24 +1,31 @@
-import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
-import api from '@/api/axios';
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
 
-export const useDateStore = defineStore('date', () => {
+export const useDateStore = defineStore("date", () => {
   // State
-  const currentDate = ref(new Date());
+  // 선택된 날짜 상태
+  const selectedDate = ref(new Date());
 
   // Getters
-  const currentYearMonth = computed(() => {
-    const year = currentDate.value.getFullYear();
-    const month = String(currentDate.value.getMonth() + 1).padStart(2, '0');
-    return `${year}-${month}`; // 예: '2026-04'
+  const monthLabel = computed(() => {
+    const year = selectedDate.value.getFullYear();
+    const month = selectedDate.value.getMonth() + 1;
+    return `${year}년 ${month}월`;
+  });
+
+  const currentMonthKey = computed(() => {
+    const year = selectedDate.value.getFullYear();
+    const month = String(selectedDate.value.getMonth() + 1).padStart(2, "0");
+    return `${year}-${month}`;
   });
 
   // Actions
-  const setMonth = (offset) => {
-    const newDate = new Date(currentDate.value);
-    newDate.setMonth(newDate.getMonth() + offset);
-    currentDate.value = newDate;
+  // 달 이동 함수
+  const moveMonth = (direction) => {
+    const newDate = new Date(selectedDate.value);
+    newDate.setMonth(newDate.getMonth() + direction);
+    selectedDate.value = newDate;
   };
 
-  return { currentDate, currentYearMonth, setMonth };
+  return { selectedDate, monthLabel, currentMonthKey, moveMonth };
 });

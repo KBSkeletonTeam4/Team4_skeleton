@@ -33,6 +33,11 @@
         </div>
       </div>
     </div>
+
+    <div v-if="items.length === 0" class="empty-box">
+      <p>아직 기록이 없습니다.</p>
+      <p>아래 "+ 거래 내역 추가" 버튼을 눌러 첫 지출을 등록해 보세요!</p>
+    </div>
   </div>
 </template>
 
@@ -103,6 +108,7 @@ const goToHistory = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
 }
 .recent-header h3 {
   font-size: 1.5em;
@@ -123,18 +129,26 @@ const goToHistory = () => {
   opacity: 0.75;
 }
 .recent-list {
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
 }
 .recent-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border-radius: 12px;
+  padding: 1rem;
+  border: none;
+  border-radius: 18px;
   background-color: #ffffff;
   border: 1px solid #eee;
+  box-shadow: 0 8px 20px rgba(26, 27, 35, 0.04);
+}
+.recent-item:last-child {
+  margin-bottom: 1rem;
 }
 .left {
   display: flex;
@@ -154,16 +168,23 @@ const goToHistory = () => {
   font-size: 1.5em;
   color: #4c56af;
 }
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
 .info .title {
   font-weight: bold;
   font-size: 1.25em;
 }
 .info .date {
-  font-size: 1.25em;
+  font-size: 1.15em;
   color: #666;
 }
 .amount {
   font-weight: bold;
+  font-size: 1.05em;
+  letter-spacing: -0.02em;
 }
 .amount.income {
   color: #1b6d24;
@@ -172,5 +193,16 @@ const goToHistory = () => {
 .amount.expense {
   color: #ba1a1a;
   font-size: 1.5em;
+}
+.empty-box {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1rem;
+  color: #666;
+  font-size: 1.2em;
+  box-shadow: 0 8px 20px rgba(26, 27, 35, 0.04);
+}
+.empty-box p {
+  margin: 0.5rem;
 }
 </style>

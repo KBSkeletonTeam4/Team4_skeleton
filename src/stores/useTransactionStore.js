@@ -1,8 +1,9 @@
-import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
-import api from '@/api/axios';
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
+import { useDateStore } from "./useDateStore";
+import api from "@/api/axios";
 
-export const useTransactionStore = defineStore('transaction', () => {
+export const useTransactionStore = defineStore("transaction", () => {
   const transactions = ref([]);
   const incomeCategories = ref([]);
   const expenseCategories = ref([]);
@@ -10,13 +11,13 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   const totalIncome = computed(() => {
     return transactions.value
-      .filter((t) => t.type === 'income')
+      .filter((t) => t.type === "income")
       .reduce((sum, t) => sum + Number(t.amount || 0), 0);
   });
 
   const totalExpense = computed(() => {
     return transactions.value
-      .filter((t) => t.type === 'expense')
+      .filter((t) => t.type === "expense")
       .reduce((sum, t) => sum + Number(t.amount || 0), 0);
   });
 
@@ -25,12 +26,12 @@ export const useTransactionStore = defineStore('transaction', () => {
   const fetchTransactions = async () => {
     try {
       isLoading.value = true;
-      const data = await api.get('/budget', {
-        _sort: '-date,-time',
+      const data = await api.get("/budget", {
+        _sort: "-date,-time",
       });
       transactions.value = Array.isArray(data) ? data : [];
     } catch (e) {
-      console.error('fetchTransactions error:', e);
+      console.error("fetchTransactions error:", e);
     } finally {
       isLoading.value = false;
     }
@@ -39,18 +40,18 @@ export const useTransactionStore = defineStore('transaction', () => {
   const fetchCategories = async () => {
     try {
       const [incomeData, expenseData] = await Promise.all([
-        api.get('/incomeCategory'),
-        api.get('/expenseCategory'),
+        api.get("/incomeCategory"),
+        api.get("/expenseCategory"),
       ]);
       incomeCategories.value = incomeData;
       expenseCategories.value = expenseData;
     } catch (e) {
-      console.error('fetchCategories error:', e);
+      console.error("fetchCategories error:", e);
     }
   };
 
   const addTransaction = async (newTransaction) => {
-    const created = await api.post('/budget', newTransaction);
+    const created = await api.post("/budget", newTransaction);
 
     if (created && created.id) {
       transactions.value.unshift(created);
@@ -61,7 +62,7 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   const updateTransaction = async (updatedTransaction) => {
     if (!updatedTransaction?.id) {
-      throw new Error('수정할 거래가 없습니다.');
+      throw new Error("수정할 거래가 없습니다.");
     }
 
     const updated = await api.put(
@@ -88,6 +89,42 @@ export const useTransactionStore = defineStore('transaction', () => {
     transactions.value = transactions.value.filter((t) => t.id !== id);
   };
 
+  // 날짜 스토어 사용 선언
+  const dateStore = useDateStore();
+
+  // 날짜 스토어의 키값을 가져와 필터링
+  const currentMonthTransactions = computed(() => {
+    return transactions.value.filter((item) => {
+      return item.date?.startsWith(dateStore.currentMonthKey);
+    });
+  });
+
+  const monthlyIncome = computed(() => {
+    return currentMonthTransactions.value
+      .filter((item) => item.type === "income")
+      .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  });
+
+  const monthlyExpense = computed(() => {
+    return currentMonthTransactions.value
+      .filter((item) => item.type === "expense")
+      .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  });
+
+  const monthlyBalance = computed(() => {
+    return monthlyIncome.value - monthlyExpense.value;
+  });
+
+  const recentTransactions = computed(() => {
+    return [...currentMonthTransactions.value]
+      .sort((a, b) => {
+        const aDateTime = `${a.date} ${a.time || "00:00"}`;
+        const bDateTime = `${b.date} ${b.time || "00:00"}`;
+        return new Date(bDateTime) - new Date(aDateTime);
+      })
+      .slice(0, 5);
+  });
+
   return {
     transactions,
     incomeCategories,
@@ -101,5 +138,10 @@ export const useTransactionStore = defineStore('transaction', () => {
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    currentMonthTransactions,
+    monthlyIncome,
+    monthlyExpense,
+    monthlyBalance,
+    recentTransactions,
   };
 });
