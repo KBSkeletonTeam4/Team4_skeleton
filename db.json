@@ -227,14 +227,6 @@
     },
     {
       "type": "expense",
-      "amount": 20000,
-      "category": "식비",
-      "memo": "김치찌개",
-      "date": "2026-04-11",
-      "id": "3adrR6uaeUY"
-    },
-    {
-      "type": "expense",
       "amount": 100000,
       "category": "용돈/경조사",
       "memo": "손주 용돈",
@@ -244,7 +236,7 @@
     {
       "id": "0hLh2iFQSNw",
       "type": "expense",
-      "amount": 50000,
+      "amount": 20000,
       "category": "병원/약국",
       "memo": "스케일링",
       "date": "2026-04-12"
