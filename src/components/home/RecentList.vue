@@ -15,7 +15,6 @@
           <div class="info">
             <div class="title">{{ item.memo }}</div>
             <div class="date">
-              <!-- {{ formatDateTime(item.date, item.time) }} -->
               {{ formatDateTime(item.date) }}
             </div>
           </div>
@@ -43,9 +42,9 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import { useTransactionStore } from "@/stores/useTransactionStore"; // 🌟 db.json 대신 스토어 임포트!
+import { useTransactionStore } from "@/stores/useTransactionStore";
 
-// 부모 컴포넌트(Home.vue)에서 데이터를 넘겨받습니다.
+// 부모 컴포넌트(Home.vue)에서 데이터를 넘겨받음
 const props = defineProps({
   items: {
     type: Array,
@@ -64,7 +63,7 @@ const getIcon = (type, category) => {
       ? transactionStore.expenseCategories
       : transactionStore.incomeCategories;
 
-  const cat = categories.find((c) => c.name === category);
+  const cat = categories?.find((c) => c.name === category);
 
   if (cat && cat.icon) {
     return cat.icon.split(" ")[1]; // 예: 'fa-cart-shopping'
@@ -73,23 +72,10 @@ const getIcon = (type, category) => {
   return "fa-coins"; // 기본 아이콘
 };
 
-// 날짜 포맷팅 함수 (기존 코드 유지)
-// const formatDateTime = (date, time) => {
-//   const d = new Date(`${date} ${time}`);
+// 날짜 포맷팅 함수
 const formatDateTime = (date) => {
-  const d = new Date(`${date}`);
-
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-
-  // let hours = d.getHours();
-  // const minutes = String(d.getMinutes()).padStart(2, '0');
-
-  // const period = hours < 12 ? '오전' : '오후';
-  // hours = hours % 12 || 12;
-
-  // return `${year}년 ${month}월 ${day}일 ${period} ${hours}시 ${minutes}분`;
+  if (!date) return ""; // 데이터가 없을 때를 대비한 안전장치
+  const [year, month, day] = date.split("-");
   return `${year}년 ${month}월 ${day}일`;
 };
 
@@ -100,7 +86,6 @@ const goToHistory = () => {
 </script>
 
 <style scoped>
-/* (기존의 CSS 스타일 코드는 충돌이 없으므로 그대로 두시면 됩니다!) */
 .recent-wrapper {
   margin-top: 20px;
 }

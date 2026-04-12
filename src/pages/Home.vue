@@ -7,11 +7,9 @@
     </section>
 
     <SummaryCard
-      :month-label="monthLabel"
       :total-income="monthlyIncome"
       :total-expense="monthlyExpense"
       :balance="monthlyBalance"
-      :is-loading="transactionStore.isLoading"
     />
 
     <RecentList :items="recentTransactions" />

@@ -35,9 +35,16 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useDateStore } from "@/stores/useDateStore";
+
 const dateStore = useDateStore();
 const { smartMonthLabel } = storeToRefs(dateStore);
 const { goToToday } = dateStore;
+
+const today = new Date();
+
+const formatCurrency = (value) => {
+  return `${new Intl.NumberFormat("ko-KR").format(value)}원`;
+};
 
 defineProps({
   totalIncome: {
@@ -53,10 +60,6 @@ defineProps({
     default: 0,
   },
 });
-const today = new Date();
-const formatCurrency = (value) => {
-  return `${new Intl.NumberFormat("ko-KR").format(value)}원`;
-};
 </script>
 
 <style scoped>
