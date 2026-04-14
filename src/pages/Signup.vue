@@ -120,7 +120,7 @@ const goToLogin = () => {
 .auth-title {
   margin: 0 0 0.5rem;
   text-align: center;
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 900;
   color: #000666;
 }
@@ -128,7 +128,7 @@ const goToLogin = () => {
 .auth-subtitle {
   margin: 0 0 1.5rem;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1em;
   color: #666b7a;
 }
 
@@ -139,7 +139,7 @@ const goToLogin = () => {
 .form-group label {
   display: block;
   margin-bottom: 0.45rem;
-  font-size: 0.95rem;
+  font-size: 0.95em;
   font-weight: 700;
   color: #1a1b23;
 }
@@ -149,7 +149,7 @@ const goToLogin = () => {
   padding: 0.95rem 1rem;
   border: 1px solid #d8d9e8;
   border-radius: 14px;
-  font-size: 1rem;
+  font-size: 1em;
   outline: none;
   background: #ffffff;
   box-sizing: border-box;
@@ -166,7 +166,7 @@ const goToLogin = () => {
   border: none;
   border-radius: 14px;
   padding: 0.95rem 1rem;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 800;
   cursor: pointer;
 }

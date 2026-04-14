@@ -1,11 +1,11 @@
 <template>
   <section class="summary-wrap">
     <div class="balance-card">
-      <p class="balance-label">이번 달 남은 생활비</p>
+      <p class="balance-label">{{ smartMonthLabel }} 남은 생활비</p>
       <h1 class="balance-amount">{{ formatCurrency(balance) }}</h1>
-      <p class="today-text">
+      <button class="today-button shadow-sm" @click="goToToday">
         오늘 {{ today.getMonth() + 1 }}월 {{ today.getDate() }}일
-      </p>
+      </button>
     </div>
 
     <div class="summary-row">
@@ -33,11 +33,20 @@
 </template>
 
 <script setup>
+import { storeToRefs } from "pinia";
+import { useDateStore } from "@/stores/useDateStore";
+
+const dateStore = useDateStore();
+const { smartMonthLabel } = storeToRefs(dateStore);
+const { goToToday } = dateStore;
+
+const today = new Date();
+
+const formatCurrency = (value) => {
+  return `${new Intl.NumberFormat("ko-KR").format(value)}원`;
+};
+
 defineProps({
-  monthLabel: {
-    type: String,
-    default: '이번 달',
-  },
   totalIncome: {
     type: Number,
     default: 0,
@@ -50,15 +59,7 @@ defineProps({
     type: Number,
     default: 0,
   },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
 });
-const today = new Date();
-const formatCurrency = (value) => {
-  return `${new Intl.NumberFormat('ko-KR').format(value)}원`;
-};
 </script>
 
 <style scoped>
@@ -66,6 +67,7 @@ const formatCurrency = (value) => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-bottom: 30px;
 }
 
 .balance-card {
@@ -79,7 +81,7 @@ const formatCurrency = (value) => {
 
 .balance-label {
   margin: 0 0 0.9rem;
-  font-size: 1.45rem;
+  font-size: 1.45em;
   color: #5c5f73;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -87,22 +89,31 @@ const formatCurrency = (value) => {
 
 .balance-amount {
   margin: 0;
-  font-size: 3.4rem;
+  font-size: 3.4em;
   line-height: 1.08;
   font-weight: 900;
   color: #000666;
   letter-spacing: -0.05em;
 }
 
-.balance-sub {
+.today-button {
   margin: 1rem auto 0;
   display: inline-block;
   padding: 0.45rem 0.9rem;
-  font-size: 0.95rem;
+  font-size: 0.95em;
   color: #5c5f73;
   background: #e2e1ed;
+  border: 0.5px solid #45465224;
   border-radius: 999px;
   font-weight: 600;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.today-button:hover {
+  transform: translateY(1px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(0, 6, 102, 0.4);
 }
 
 .summary-row {
@@ -128,7 +139,7 @@ const formatCurrency = (value) => {
 
 .summary-label {
   margin: 0;
-  font-size: 1.35rem;
+  font-size: 1.35em;
   color: #454652;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -141,7 +152,7 @@ const formatCurrency = (value) => {
 
 .summary-amount {
   display: block;
-  font-size: 2.1rem;
+  font-size: 2.1em;
   font-weight: 900;
   text-align: right;
   letter-spacing: -0.03em;
@@ -150,25 +161,25 @@ const formatCurrency = (value) => {
 
 .income .summary-icon,
 .income .summary-amount {
-  color: green;
+  color: #1b6d24;
 }
 
 .expense .summary-icon,
 .expense .summary-amount {
-  color: red;
+  color: #ba1a1a;
 }
 
 @media (max-width: 768px) {
   .balance-label {
-    font-size: 1.2rem;
+    font-size: 1.2em;
   }
 
   .balance-amount {
-    font-size: 2.6rem;
+    font-size: 2.6em;
   }
 
   .balance-sub {
-    font-size: 0.85rem;
+    font-size: 0.85em;
   }
 
   .summary-row {
@@ -176,11 +187,11 @@ const formatCurrency = (value) => {
   }
 
   .summary-label {
-    font-size: 1.15rem;
+    font-size: 1.15em;
   }
 
   .summary-amount {
-    font-size: 1.8rem;
+    font-size: 1.8em;
   }
 }
 </style>

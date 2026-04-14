@@ -39,7 +39,7 @@ export const useSettingStore = defineStore('setting', () => {
     );
 
     if (exists) {
-      throw new Error('이미 가입된 전화번호요.');
+      throw new Error('이미 가입된 전화번호입니다.');
     }
 
     const newProfile = await api.post('/profile', {
@@ -66,7 +66,7 @@ export const useSettingStore = defineStore('setting', () => {
     );
 
     if (!matchedUser) {
-      throw new Error('전화번호 또는 비밀번호가 틀림');
+      throw new Error('전화번호 또는 비밀번호가 잘못되었습니다.');
     }
 
     currentUser.value = matchedUser;

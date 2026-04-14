@@ -13,16 +13,19 @@
           "
           style="width: 80px; height: 80px"
         >
-          <i class="fa-solid fs-1" :class="categoryIcon"></i>
+          <i
+            class="fa-solid fs-1"
+            :class="['fas', getIcon(item.type, item.category)]"
+          ></i>
         </div>
 
         <div class="d-flex flex-column">
           <span class="text-muted fw-bold fs-5">
             {{ isIncome ? "수입" : "지출" }} · {{ item.category }}
           </span>
-          <span class="fs-2 fw-bold text-dark">{{
-            item.memo || "내역 없음"
-          }}</span>
+          <span class="fs-2 fw-bold text-dark">
+            {{ item.memo || "내역 없음" }}
+          </span>
         </div>
       </div>
 
@@ -33,24 +36,22 @@
           class="fs-1 fw-black text-nowrap"
           :class="isIncome ? 'text-success' : 'text-danger'"
         >
-          {{ isIncome ? "+" : "-" }} {{ item.amount.toLocaleString() }}원
+          {{ isIncome ? "+" : "-" }}
+          {{ Number(item.amount).toLocaleString() }}원
         </span>
 
         <div class="d-flex gap-3">
           <button
             class="btn btn-edit fs-4 fw-bold py-3 px-4 rounded-4 d-flex align-items-center gap-2"
-            @click="
-              $router.push({
-                name: 'history-transaction-id',
-                params: { id: item.id },
-              })
-            "
+            type="button"
+            @click="$emit('edit', item)"
           >
             <i class="fa-solid fa-pen"></i> 수정
           </button>
 
           <button
             class="btn btn-delete bg-opacity-10 text-danger border-0 fs-4 fw-bold py-3 px-4 rounded-4 d-flex align-items-center gap-2"
+            type="button"
             @click="handleDelete"
           >
             <i class="fa-solid fa-trash"></i> 삭제
@@ -65,55 +66,26 @@
 import { computed } from "vue";
 import { useTransactionStore } from "@/stores/useTransactionStore";
 
+defineEmits(["edit"]);
+
 const props = defineProps({
   item: { type: Object, required: true },
 });
 
-const transactionStore = useTransactionStore(); // 스토어 초기화
+const transactionStore = useTransactionStore();
 const isIncome = computed(() => props.item.type === "income");
 
-// 카테고리 아이콘 로직 (스토어/DB 연동 전 임시 폴백 포함)
-const categoryIcon = computed(() => {
-  // DB에 있는 카테고리 이름과 아이콘을 매칭 (필요에 따라 세밀화 가능)
-  if (
-    props.item.category.includes("식비") ||
-    props.item.category.includes("마트")
-  )
-    return "fa-cart-shopping";
-  if (props.item.category.includes("교통")) return "fa-bus";
-  if (
-    props.item.category.includes("병원") ||
-    props.item.category.includes("의료")
-  )
-    return "fa-notes-medical";
-  if (
-    props.item.category.includes("공과금") ||
-    props.item.category.includes("통신")
-  )
-    return "fa-file-invoice-dollar";
-  if (
-    props.item.category.includes("손주") ||
-    props.item.category.includes("경조사")
-  )
-    return "fa-gift";
-  if (
-    props.item.category.includes("연금") ||
-    props.item.category.includes("이자")
-  )
-    return "fa-piggy-bank";
-  if (props.item.category.includes("용돈")) return "fa-envelope-open-text";
-  return "fa-wallet";
-});
+const { getIcon } = transactionStore;
 
-// 🌟 실제 삭제 동작 구현
 const handleDelete = async () => {
-  if (confirm("이 내역을 정말 삭제하시겠습니까?")) {
-    try {
-      await transactionStore.deleteTransaction(props.item.id);
-      alert("성공적으로 삭제되었습니다.");
-    } catch (err) {
-      alert("삭제에 실패했습니다. 다시 시도해주세요.");
-    }
+  if (!confirm("이 내역을 정말 삭제하시겠습니까?")) return;
+
+  try {
+    await transactionStore.deleteTransaction(props.item.id);
+    alert("성공적으로 삭제되었습니다.");
+  } catch (err) {
+    console.error(err);
+    alert("삭제에 실패했습니다. 다시 시도해주세요.");
   }
 };
 </script>

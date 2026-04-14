@@ -41,19 +41,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useSettingStore } from '@/stores/useSettingStore';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useSettingStore } from "@/stores/useSettingStore";
 
 const router = useRouter();
 const settingStore = useSettingStore();
 
-const phone = ref('');
-const password = ref('');
+const phone = ref("");
+const password = ref("");
 
 const onlyNumbers = (value) => {
   return String(value)
-    .replace(/[^0-9]/g, '')
+    .replace(/[^0-9]/g, "")
     .slice(0, 11);
 };
 
@@ -78,21 +78,21 @@ const handleLogin = async () => {
       password: password.value,
     });
 
-    alert('로그인 성공');
-    router.push('/');
+    alert("로그인 성공");
+    router.push("/");
   } catch (error) {
-    alert(error.message || '로그인 실패');
+    alert(error.message || "로그인 실패");
   }
 };
 
 const goToSignup = () => {
-  router.push('/signup');
+  router.push("/signup");
 };
 </script>
 
 <style scoped>
 .auth-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   background: #fbf8ff;
   display: flex;
   justify-content: center;
@@ -113,7 +113,7 @@ const goToSignup = () => {
 .auth-title {
   margin: 0 0 0.5rem;
   text-align: center;
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 900;
   color: #000666;
 }
@@ -121,7 +121,7 @@ const goToSignup = () => {
 .auth-subtitle {
   margin: 0 0 1.5rem;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1em;
   color: #666b7a;
 }
 
@@ -132,7 +132,7 @@ const goToSignup = () => {
 .form-group label {
   display: block;
   margin-bottom: 0.45rem;
-  font-size: 0.95rem;
+  font-size: 0.95em;
   font-weight: 700;
   color: #1a1b23;
 }
@@ -142,7 +142,7 @@ const goToSignup = () => {
   padding: 0.95rem 1rem;
   border: 1px solid #d8d9e8;
   border-radius: 14px;
-  font-size: 1rem;
+  font-size: 1em;
   outline: none;
   background: #ffffff;
   box-sizing: border-box;
@@ -159,7 +159,7 @@ const goToSignup = () => {
   border: none;
   border-radius: 14px;
   padding: 0.95rem 1rem;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 800;
   cursor: pointer;
 }

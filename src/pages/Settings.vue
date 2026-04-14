@@ -1,6 +1,10 @@
 <template>
   <div class="settings-page">
-    <h1 class="page-title">프로필 설정</h1>
+    <div class="mb-5">
+      <h1 class="fw-black" style="font-weight: 900; color: #000666">
+        프로필 설정
+      </h1>
+    </div>
 
     <div class="settings-grid">
       <section class="profile-card">
@@ -31,7 +35,7 @@
           type="button"
           @click="changeFontSize('medium')"
         >
-          <span>표준</span>
+          <span class="font-m">표준</span>
           <span class="radio-circle"></span>
         </button>
 
@@ -41,7 +45,7 @@
           type="button"
           @click="changeFontSize('large')"
         >
-          <span>크게</span>
+          <span class="font-l">크게</span>
           <span class="radio-circle"></span>
         </button>
 
@@ -51,7 +55,7 @@
           type="button"
           @click="changeFontSize('xlarge')"
         >
-          <span>매우 크게</span>
+          <span class="font-xl">매우 크게</span>
           <span class="radio-circle"></span>
         </button>
       </section>
@@ -103,20 +107,20 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
-import { useSettingStore } from '@/stores/useSettingStore';
+import { ref, watchEffect } from "vue";
+import { useRouter } from "vue-router";
+import { useSettingStore } from "@/stores/useSettingStore";
 
 const router = useRouter();
 const settingStore = useSettingStore();
 
-const editName = ref('');
-const editPhone = ref('');
+const editName = ref("");
+const editPhone = ref("");
 const isEditModalOpen = ref(false);
 
 const onlyNumbers = (value) => {
   return String(value)
-    .replace(/[^0-9]/g, '')
+    .replace(/[^0-9]/g, "")
     .slice(0, 11);
 };
 
@@ -136,15 +140,15 @@ const onEditPhoneInput = (event) => {
 
 watchEffect(() => {
   if (settingStore.currentUser) {
-    editName.value = settingStore.currentUser.name || '';
-    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || '');
+    editName.value = settingStore.currentUser.name || "";
+    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || "");
   }
 });
 
 const openEditModal = () => {
   if (settingStore.currentUser) {
-    editName.value = settingStore.currentUser.name || '';
-    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || '');
+    editName.value = settingStore.currentUser.name || "";
+    editPhone.value = formatPhoneNumber(settingStore.currentUser.phone || "");
   }
   isEditModalOpen.value = true;
 };
@@ -160,10 +164,10 @@ const saveProfile = async () => {
       phone: editPhone.value,
     });
 
-    alert('내 정보가 수정되었습니다.');
+    alert("내 정보가 수정되었습니다.");
     closeEditModal();
   } catch (error) {
-    alert(error.message || '수정에 실패했습니다.');
+    alert(error.message || "수정에 실패했습니다.");
   }
 };
 
@@ -171,35 +175,36 @@ const changeFontSize = async (size) => {
   try {
     settingStore.setFontSize(size);
     await settingStore.saveFontSizeToProfile(size);
-    alert('글자 크기가 저장되었습니다.');
+    alert("글자 크기가 저장되었습니다.");
   } catch (error) {
-    alert(error.message || '글자 크기 저장에 실패했습니다.');
+    alert(error.message || "글자 크기 저장에 실패했습니다.");
   }
 };
 
 const handleLogout = () => {
   settingStore.logout();
-  router.push('/login');
+  router.push("/login");
 };
 
 const handleDeleteAccount = async () => {
-  const confirmed = window.confirm('정말 회원탈퇴 하시겠습니까?');
+  const confirmed = window.confirm("정말 회원탈퇴 하시겠습니까?");
 
   if (!confirmed) return;
 
   try {
     await settingStore.deleteAccount();
-    alert('회원탈퇴가 완료되었습니다.');
-    router.push('/login');
+    alert("회원탈퇴가 완료되었습니다.");
+    router.push("/login");
   } catch (error) {
-    alert(error.message || '회원탈퇴에 실패했습니다.');
+    alert(error.message || "회원탈퇴에 실패했습니다.");
   }
 };
 </script>
 
 <style scoped>
 .settings-page {
-  min-height: 100vh;
+  /* min-width: 100vw; */
+  flex: 1;
   background: linear-gradient(180deg, #fbf8ff 0%, #f4f6ff 100%);
   padding: 1rem;
   max-width: 520px;
@@ -208,7 +213,7 @@ const handleDeleteAccount = async () => {
 
 .page-title {
   margin: 0 0 1rem;
-  font-size: 1.8rem;
+  font-size: 1.8em;
   font-weight: 900;
   color: #4a4a57;
   letter-spacing: -0.03em;
@@ -241,18 +246,18 @@ const handleDeleteAccount = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2em;
   box-shadow: 0 6px 16px rgba(26, 27, 35, 0.08);
 }
 
 .profile-info {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .profile-name {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 900;
   color: #000666;
   letter-spacing: -0.04em;
@@ -260,7 +265,7 @@ const handleDeleteAccount = async () => {
 
 .profile-phone {
   margin: 0.5rem 0 0;
-  font-size: 1rem;
+  font-size: 1em;
   color: #777;
   font-weight: 600;
 }
@@ -277,16 +282,26 @@ const handleDeleteAccount = async () => {
   background: #ece9f7;
   color: #000666;
   font-weight: 900;
-  font-size: 1.05rem;
+  font-size: 1.05em;
   cursor: pointer;
 }
 
 .font-card-title {
   margin: 0 0 1rem;
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: 900;
   color: #2c2c76;
   letter-spacing: -0.03em;
+}
+
+.font-m {
+  font-size: 24px;
+}
+.font-l {
+  font-size: 28px;
+}
+.font-xl {
+  font-size: 32px;
 }
 
 .font-option {
@@ -299,7 +314,7 @@ const handleDeleteAccount = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.55rem;
+  /* font-size: 1.55em; */
   font-weight: 900;
   color: #2f2f45;
   cursor: pointer;
@@ -344,7 +359,7 @@ const handleDeleteAccount = async () => {
   padding: 1rem;
   background: #000666;
   color: #ffffff;
-  font-size: 1.05rem;
+  font-size: 1.05em;
   font-weight: 900;
   cursor: pointer;
 }
@@ -354,7 +369,7 @@ const handleDeleteAccount = async () => {
   border: none;
   border-radius: 14px;
   padding: 0.95rem 1rem;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 800;
   cursor: pointer;
   background: #d92d20;
@@ -389,7 +404,7 @@ const handleDeleteAccount = async () => {
 
 .modal-title {
   margin: 0 0 1rem;
-  font-size: 1.4rem;
+  font-size: 1.4em;
   font-weight: 900;
   color: #000666;
 }
@@ -400,7 +415,7 @@ const handleDeleteAccount = async () => {
   margin-bottom: 0.75rem;
   border: 1px solid #d8d9e8;
   border-radius: 16px;
-  font-size: 1rem;
+  font-size: 1em;
   box-sizing: border-box;
   outline: none;
 }
@@ -422,7 +437,7 @@ const handleDeleteAccount = async () => {
   border: none;
   border-radius: 16px;
   padding: 0.95rem 1rem;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 800;
   cursor: pointer;
 }
@@ -443,26 +458,26 @@ const handleDeleteAccount = async () => {
   }
 
   .page-title {
-    font-size: 1.6rem;
+    font-size: 1.6em;
   }
 
   .profile-name {
-    font-size: 1.8rem;
+    font-size: 1.8em;
   }
 
   .font-option {
-    font-size: 1.35rem;
+    font-size: 1.35em;
   }
 }
 
 @media (min-width: 1024px) {
   .settings-page {
     max-width: 1180px;
-    padding: 2.5rem 2rem 3rem;
+    padding: 2rem 2rem 3rem;
   }
 
   .page-title {
-    font-size: 2.4rem;
+    font-size: 2.4em;
     margin-bottom: 1.5rem;
   }
 
@@ -491,15 +506,15 @@ const handleDeleteAccount = async () => {
   .profile-image {
     width: 138px;
     height: 138px;
-    font-size: 2.7rem;
+    font-size: 2.7em;
   }
 
   .profile-name {
-    font-size: 2.3rem;
+    font-size: 2.3em;
   }
 
   .profile-phone {
-    font-size: 1.1rem;
+    font-size: 1.1em;
   }
 
   .profile-btn {
@@ -509,12 +524,12 @@ const handleDeleteAccount = async () => {
   }
 
   .font-card-title {
-    font-size: 1.8rem;
+    font-size: 1.8em;
     margin-bottom: 1.2rem;
   }
 
   .font-option {
-    font-size: 1.35rem;
+    font-size: 1.35em;
     padding: 1.4rem 1.3rem;
   }
 

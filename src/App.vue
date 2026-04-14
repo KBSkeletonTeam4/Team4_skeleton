@@ -42,14 +42,15 @@ onMounted(() => {
 * {
   margin: 0;
   padding: 0;
+  font-family: "Lexend", sans-serif;
 }
 
 .container {
   min-width: 100vw;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
-  background-color: #fbf8ff;
+  background: linear-gradient(180deg, #fbf8ff 0%, #f4f6ff 100%);
   color: #000666;
 }
 
@@ -70,7 +71,6 @@ body,
 } */
 
 body {
-  font-family: Lexend;
   background-color: #fbf8ff;
   color: #000666;
   margin: 0;

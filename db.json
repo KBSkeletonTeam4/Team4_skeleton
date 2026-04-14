@@ -23,7 +23,7 @@
       "date": "2026-02-16",
       "time": "10:30",
       "type": "expense",
-      "category": "손주/경조사",
+      "category": "용돈/경조사",
       "amount": 150000,
       "memo": "손주들 설날 세뱃돈"
     },
@@ -122,7 +122,7 @@
       "date": "2026-03-26",
       "time": "11:00",
       "type": "expense",
-      "category": "손주/경조사",
+      "category": "용돈/경조사",
       "amount": 50000,
       "memo": "지인 자녀 결혼식 축의금"
     },
@@ -194,7 +194,7 @@
       "date": "2026-04-05",
       "time": "15:30",
       "type": "expense",
-      "category": "손주/경조사",
+      "category": "용돈/경조사",
       "amount": 50000,
       "memo": "손녀 장난감 선물"
     },
@@ -224,6 +224,46 @@
       "category": "마트",
       "amount": 25000,
       "memo": "정육점 돼지고기"
+    },
+    {
+      "type": "expense",
+      "amount": 100000,
+      "category": "용돈/경조사",
+      "memo": "손주 용돈",
+      "date": "2026-04-11",
+      "id": "-3b-0uBm3QM"
+    },
+    {
+      "id": "0hLh2iFQSNw",
+      "type": "expense",
+      "amount": 20000,
+      "category": "병원/약국",
+      "memo": "스케일링",
+      "date": "2026-04-12"
+    },
+    {
+      "id": "uSXEm8ezNGk",
+      "type": "expense",
+      "amount": 15000,
+      "category": "식비",
+      "memo": "한식뷔페",
+      "date": "2026-04-09"
+    },
+    {
+      "id": "BVohaIgfvCQ",
+      "type": "income",
+      "amount": 1200000,
+      "category": "이자",
+      "memo": "주식 배당금",
+      "date": "2026-04-13"
+    },
+    {
+      "id": "leOV2GmEUos",
+      "type": "expense",
+      "amount": 100000,
+      "category": "식비",
+      "memo": "와이프와 외식",
+      "date": "2026-04-13"
     }
   ],
   "incomeCategory": [
@@ -261,23 +301,23 @@
     },
     {
       "id": "3",
-      "name": "교통",
-      "icon": "fa-solid fa-bus"
-    },
-    {
-      "id": "4",
-      "name": "공과금/통신",
-      "icon": "fa-solid fa-file-invoice-dollar"
-    },
-    {
-      "id": "5",
       "name": "병원/약국",
       "icon": "fa-solid fa-notes-medical"
     },
     {
-      "id": "6",
-      "name": "손주/경조사",
+      "id": "4",
+      "name": "용돈/경조사",
       "icon": "fa-solid fa-gift"
+    },
+    {
+      "id": "5",
+      "name": "교통",
+      "icon": "fa-solid fa-bus"
+    },
+    {
+      "id": "6",
+      "name": "공과금/통신",
+      "icon": "fa-solid fa-file-invoice-dollar"
     }
   ],
   "profile": [
@@ -308,6 +348,13 @@
       "password": "1234",
       "fontSize": "medium",
       "id": "MXiXg77x-e0"
+    },
+    {
+      "name": "김윤정",
+      "phone": "010-1234-5670",
+      "password": "1234",
+      "fontSize": "medium",
+      "id": "CDY25N9MqNk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

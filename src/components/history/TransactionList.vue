@@ -2,11 +2,10 @@
   <div class="transaction-list d-flex flex-column gap-5">
     <section v-for="(items, date) in groupedTransactions" :key="date">
       <div
-        class="d-flex align-items-center gap-3 mb-4 sticky-top py-2"
-        style="z-index: 10"
+        class="d-flex align-items-center gap-3 mb-4 sticky-top py-2 bg-gradient-to-bottom"
       >
-        <h2 class="fs-3 fw-bolder m-0" style="color: #000666">
-          {{ date }}
+        <h2 class="fs-3 fw-bolder m-0 date-tag">
+          {{ formatDate(date) }}
         </h2>
         <div
           class="flex-grow-1 bg-secondary rounded-pill opacity-25"
@@ -15,7 +14,12 @@
       </div>
 
       <div class="d-flex flex-column gap-3">
-        <TransactionItem v-for="item in items" :key="item.id" :item="item" />
+        <TransactionItem
+          v-for="item in items"
+          :key="item.id"
+          :item="item"
+          @edit="$emit('edit-transaction', $event)"
+        />
       </div>
     </section>
 
@@ -31,20 +35,37 @@
 <script setup>
 import { computed } from "vue";
 import TransactionItem from "./TransactionItem.vue";
+import { useDateStore } from "@/stores/useDateStore";
+
+defineEmits(["edit-transaction"]);
 
 const props = defineProps({
   transactions: { type: Array, required: true },
 });
 
-// 전달받은 데이터를 날짜(date) 기준으로 그룹화하는 계산 로직
+const dateStore = useDateStore();
+const { formatDate } = dateStore;
+
 const groupedTransactions = computed(() => {
   return props.transactions.reduce((acc, curr) => {
-    // 날짜 키가 없으면 배열 생성
-    if (!acc[curr.date]) {
-      acc[curr.date] = [];
+    const dateKey = curr.date || "날짜 없음";
+
+    if (!acc[dateKey]) {
+      acc[dateKey] = [];
     }
-    acc[curr.date].push(curr);
+
+    acc[dateKey].push(curr);
     return acc;
   }, {});
 });
 </script>
+
+<style scoped>
+.bg-gradient-to-bottom {
+  background: linear-gradient(to bottom, #fbf8ff 80%, rgba(255, 255, 255, 0));
+  z-index: 10;
+}
+.date-tag {
+  color: #000666;
+}
+</style>

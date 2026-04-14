@@ -1,10 +1,12 @@
 <template>
   <div class="container-root">
-    <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
+    <div class="modal-overlay" @click.self="handleClose">
       <div class="modal-card">
         <div class="modal-header">
-          <h2 class="modal-title">거래 등록 및 수정</h2>
-          <button @click="closeModal" class="btn-close">
+          <h2 class="modal-title">
+            {{ isEditMode ? "거래 수정" : "거래 등록" }}
+          </h2>
+          <button @click="handleClose" class="btn-close" type="button">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
@@ -14,6 +16,7 @@
             <div class="form-left">
               <div class="type-toggle">
                 <button
+                  type="button"
                   @click="changeType('income')"
                   :class="[
                     'toggle-btn',
@@ -24,6 +27,7 @@
                   수입
                 </button>
                 <button
+                  type="button"
                   @click="changeType('expense')"
                   :class="[
                     'toggle-btn',
@@ -35,15 +39,12 @@
                 </button>
               </div>
 
-              <div class="input-group">
+              <div class="input-container">
                 <label class="input-label">날짜</label>
-                <div class="date-selector">
+                <div class="date-selector" @click="openDatePicker">
                   <i class="fa-solid fa-calendar-day icon-primary"></i>
                   <span class="date-text">{{ formattedDate }}</span>
-                  <i
-                    class="fa-solid fa-chevron-down icon-expand"
-                    @click.stop="openDatePicker"
-                  ></i>
+                  <i class="fa-solid fa-chevron-down icon-expand"></i>
 
                   <input
                     ref="dateInputRef"
@@ -54,17 +55,19 @@
                 </div>
               </div>
 
-              <div class="input-group">
+              <div class="input-container">
                 <label class="input-label">금액</label>
                 <input
-                  v-model="amount"
+                  v-model="displayAmount"
                   class="amount-input"
                   placeholder="₩ 0"
                   type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
                 />
               </div>
 
-              <div class="input-group">
+              <div class="input-container">
                 <label class="input-label">메모</label>
                 <textarea
                   v-model="memo"
@@ -97,8 +100,12 @@
         </div>
 
         <div class="modal-footer">
-          <button @click="closeModal" class="btn-cancel">취소</button>
-          <button @click="saveTransaction" class="btn-save">저장하기</button>
+          <button @click="handleClose" class="btn-cancel" type="button">
+            취소
+          </button>
+          <button @click="saveTransaction" class="btn-save" type="button">
+            {{ isEditMode ? "수정하기" : "저장하기" }}
+          </button>
         </div>
       </div>
     </div>
@@ -106,154 +113,169 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { useTransactionStore } from "@/stores/useTransactionStore";
 
-// --- 모달 및 입력 상태 ---
-const isModalOpen = ref(true); // 데모를 위해 기본값 true
-const transactionType = ref('expense');
-const amount = ref('');
-const memo = ref('');
-const selectedCategoryId = ref('1');
-// const selectedDate = ref(new Date());
-const selectedDate = ref(new Date().toISOString().slice(0, 10)); //
+const transactionStore = useTransactionStore();
 
-// --- DB 카테고리 데이터 ---
-const incomeCategory = [
-  { id: '1', name: '월급', icon: 'fa-solid fa-money-bill-wave' },
-  { id: '2', name: '용돈', icon: 'fa-solid fa-envelope-open-text' },
-  { id: '3', name: '이자', icon: 'fa-solid fa-piggy-bank' },
-  { id: '4', name: '기타', icon: 'fa-solid fa-coins' },
-];
+const props = defineProps({
+  mode: {
+    type: String,
+    default: "create",
+  },
+  initialData: {
+    type: Object,
+    default: null,
+  },
+});
 
-const expenseCategory = [
-  { id: '1', name: '식비', icon: 'fa-solid fa-utensils' },
-  { id: '2', name: '마트', icon: 'fa-solid fa-cart-shopping' },
-  { id: '3', name: '교통', icon: 'fa-solid fa-bus' },
-  { id: '4', name: '공과금/통신', icon: 'fa-solid fa-file-invoice-dollar' },
-  { id: '5', name: '병원/약국', icon: 'fa-solid fa-notes-medical' },
-  { id: '6', name: '손주/경조사', icon: 'fa-solid fa-gift' },
-];
+const emit = defineEmits(["close", "save"]);
 
-// --- Computed ---
+const isEditMode = computed(() => props.mode === "edit");
+
+const transactionType = ref("expense");
+const amount = ref("");
+// ✨ 새로 추가할 코드: 화면에 콤마를 찍어주고, 문자 입력을 차단하는 마법의 변수
+const displayAmount = computed({
+  // 화면에 보여줄 때 (Get)
+  get() {
+    if (!amount.value) return "";
+    // 원본 숫자에 한국식 콤마(,)를 찍어서 보여줌
+    return Number(amount.value).toLocaleString("ko-KR");
+  },
+  // 사용자가 키보드로 입력할 때 (Set)
+  set(newValue) {
+    // 사용자가 '100,000'이나 '100원'을 쳐도, 숫자(0~9)가 아닌 모든 글자를 강제로 지워버림!
+    const numericValue = newValue.replace(/[^0-9]/g, "");
+    amount.value = numericValue; // 콤마가 다 빠진 순수 숫자만 amount에 저장
+  },
+});
+
+const memo = ref("");
+const selectedCategoryId = ref("1");
+
+const { incomeCategories, expenseCategories } = storeToRefs(transactionStore);
+
 const currentCategories = computed(() => {
-  return transactionType.value === 'income' ? incomeCategory : expenseCategory;
+  return transactionType.value === "income"
+    ? incomeCategories.value
+    : expenseCategories.value;
 });
 
-// 날짜 포맷팅 수정: Date 객체가 아닌 문자열을 받도록 함. openDatePicker에서 고른 값이 문자열로 전달되기 때문
-const formattedDate = computed(() => {
-  if (!selectedDate.value) return '';
-  const date = new Date(selectedDate.value);
-  const y = date.getFullYear();
-  const m = date.getMonth() + 1;
-  const d = date.getDate();
-  return `${y}년 ${m}월 ${d}일`;
-});
+const getLocalToday = () => {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const date = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${date}`;
+};
 
+const selectedDate = ref(getLocalToday());
 const dateInputRef = ref(null);
+
+const formattedDate = computed(() => {
+  if (!selectedDate.value) return "";
+
+  const date = new Date(selectedDate.value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+});
+
 const openDatePicker = () => {
   const input = dateInputRef.value;
-  input?.showPicker?.(); // 크롬
-  input?.click(); // fallback
-};
+  if (!input) return;
 
-// --- Methods ---
-const openModal = () => {
-  isModalOpen.value = true;
-};
-const closeModal = () => {
-  isModalOpen.value = false;
+  if (typeof input.showPicker === "function") {
+    input.showPicker();
+  } else {
+    input.click();
+  }
 };
 
 const changeType = (type) => {
   transactionType.value = type;
-  selectedCategoryId.value = '1';
+  selectedCategoryId.value = "1";
 };
+
+const handleClose = () => {
+  emit("close");
+};
+
+const resetForm = () => {
+  transactionType.value = "expense";
+  amount.value = "";
+  memo.value = "";
+  selectedCategoryId.value = "1";
+  selectedDate.value = getLocalToday();
+};
+
+const applyInitialData = (data) => {
+  if (!data) {
+    resetForm();
+    return;
+  }
+
+  transactionType.value = data.type ?? "expense";
+  amount.value = data.amount != null ? String(data.amount) : "";
+  memo.value = data.memo ?? "";
+  selectedDate.value = data.date ?? getLocalToday();
+
+  const categories =
+    transactionType.value === "income"
+      ? incomeCategories.value
+      : expenseCategories.value;
+
+  const matchedCategory = categories.find((cat) => cat.name === data.category);
+  selectedCategoryId.value = matchedCategory ? matchedCategory.id : "1";
+};
+
+watch(
+  () => [props.mode, props.initialData],
+  () => {
+    if (isEditMode.value) {
+      applyInitialData(props.initialData);
+    } else {
+      resetForm();
+    }
+  },
+  { immediate: true, deep: true },
+);
 
 const saveTransaction = () => {
   const category = currentCategories.value.find(
     (c) => c.id === selectedCategoryId.value,
   );
-  console.log('저장 데이터:', {
+
+  const payload = {
+    ...(isEditMode.value && props.initialData?.id
+      ? { id: props.initialData.id }
+      : {}),
     type: transactionType.value,
-    amount: amount.value,
-    category: category?.name,
+    amount: Number(String(amount.value).replace(/[^0-9]/g, "")) || 0,
+    category: category?.name ?? "",
     memo: memo.value,
-  });
-  alert('성공적으로 저장되었습니다.');
-  closeModal();
+    date: selectedDate.value,
+  };
+
+  console.log("transaction save payload:", payload);
+  emit("save", payload);
 };
 </script>
 
 <style scoped>
-/* 기본 테마 변수 */
 .container-root {
   --primary: #000666;
   --secondary: #1b6d24;
   --error: #ba1a1a;
   --surface: #ffffff;
   --surface-low: #f3f2fe;
-  --on-surface: #1a1b23;
   --outline: #767683;
-  font-family: 'Public Sans', sans-serif;
-  min-height: 100vh;
-  background-color: var(--surface);
+  /*   min-height: 100vh; */
 }
-
-/* Header */
-.header {
-  background: white;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-.header-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.logo {
-  font-family: 'Lexend';
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--primary);
-  letter-spacing: 0.05em;
-}
-.nav {
-  display: flex;
-  gap: 2rem;
-}
-.nav-link {
-  text-decoration: none;
-  color: #475569;
-  font-weight: 600;
-  font-family: 'Lexend';
-}
-.nav-link.active {
-  color: var(--primary);
-  border-bottom: 4px solid var(--primary);
-  padding-bottom: 0.25rem;
-}
-.profile-area {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.avatar {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid #bdc2ff;
-}
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 /* Main Content Area */
-.main-content {
+/* .main-content {
   max-width: 1440px;
   margin: 0 auto;
   padding: 2.5rem 2rem;
@@ -278,14 +300,14 @@ const saveTransaction = () => {
   border: none;
   font-weight: bold;
   cursor: pointer;
-  font-size: 1.1rem;
-}
+  font-size: 1.1em;
+} */
 
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 9999;
   background: rgba(26, 27, 35, 0.6);
   backdrop-filter: blur(5px);
   display: flex;
@@ -304,8 +326,6 @@ const saveTransaction = () => {
   overflow: hidden;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
 }
-
-/* Modal Header */
 .modal-header {
   padding: 2.5rem 3rem 1rem;
   display: flex;
@@ -313,8 +333,7 @@ const saveTransaction = () => {
   align-items: center;
 }
 .modal-title {
-  font-family: 'Lexend';
-  font-size: 2.5rem;
+  font-size: 2.5em;
   font-weight: 800;
   color: var(--primary);
 }
@@ -322,11 +341,9 @@ const saveTransaction = () => {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 2.5rem;
+  font-size: 2.5em;
   color: var(--outline);
 }
-
-/* Modal Body */
 .modal-body {
   padding: 0 3rem 3rem;
   overflow-y: auto;
@@ -343,8 +360,6 @@ const saveTransaction = () => {
 .form-right {
   grid-column: span 7;
 }
-
-/* Type Toggle */
 .type-toggle {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -362,8 +377,7 @@ const saveTransaction = () => {
   padding: 1.5rem;
   border-radius: 1.5rem;
   border: none;
-  font-family: 'Lexend';
-  font-size: 1.6rem;
+  font-size: 1.6em;
   font-weight: 700;
   cursor: pointer;
   background: transparent;
@@ -380,14 +394,12 @@ const saveTransaction = () => {
   color: white;
   box-shadow: 0 10px 20px rgba(186, 26, 26, 0.3);
 }
-
-/* Inputs */
-.input-group {
+.input-container {
   margin-bottom: 2rem;
 }
 .input-label {
   display: block;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   font-weight: 700;
   color: #454652;
   margin-bottom: 0.8rem;
@@ -403,11 +415,9 @@ const saveTransaction = () => {
   cursor: pointer;
 }
 .date-text {
-  font-family: 'Lexend';
-  font-size: 1.6rem;
+  font-size: 1.6em;
   font-weight: 700;
 }
-
 .hidden-date-input {
   position: absolute;
   opacity: 0;
@@ -415,11 +425,15 @@ const saveTransaction = () => {
 }
 .icon-primary {
   color: var(--primary);
-  font-size: 1.8rem;
+  font-size: 1.8em;
+}
+.icon-expand {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-left: auto;
 }
 .amount-input {
   width: 100%;
-  font-family: 'Lexend';
   font-size: 4rem;
   font-weight: 900;
   padding: 2rem;
@@ -436,12 +450,10 @@ const saveTransaction = () => {
   background: var(--surface-low);
   border: none;
   border-radius: 1.5rem;
-  font-size: 1.4rem;
+  font-size: 1.4em;
   resize: none;
   box-sizing: border-box;
 }
-
-/* Category Grid */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -461,7 +473,7 @@ const saveTransaction = () => {
 }
 .category-item.selected {
   border-color: var(--primary);
-  background: rgba(226, 225, 237, 0.5);
+  background: rgba(212, 210, 240, 0.5);
 }
 .category-icon-wrapper {
   width: 4.5rem;
@@ -471,7 +483,7 @@ const saveTransaction = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2em;
   color: #454652;
 }
 .selected .category-icon-wrapper {
@@ -479,14 +491,12 @@ const saveTransaction = () => {
   color: white;
 }
 .category-name {
-  font-size: 1.4rem;
+  font-size: 1.4em;
   font-weight: 900;
 }
-
-/* Modal Footer */
 .modal-footer {
-  padding: 2.5rem 3rem;
-  background: var(--surface-low);
+  padding: 2em 3rem;
+  /* background: var(--surface-low); */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
@@ -495,8 +505,7 @@ const saveTransaction = () => {
 .btn-save {
   padding: 1.8rem;
   border-radius: 5rem;
-  font-family: 'Lexend';
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 900;
   cursor: pointer;
   border: none;
@@ -504,14 +513,13 @@ const saveTransaction = () => {
 .btn-cancel {
   background: #e2e1ed;
   color: #454652;
+  box-shadow: 0 15px 30px #d2d1dd;
 }
 .btn-save {
   background: linear-gradient(to right, #000666, #1a237e);
   color: white;
   box-shadow: 0 15px 30px rgba(0, 6, 102, 0.4);
 }
-
-/* Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 10px;
 }

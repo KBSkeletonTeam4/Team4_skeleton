@@ -1,25 +1,15 @@
+<!-- 프레젠테이셔널 컴포넌트(Presentational Component) -->
+<!-- 데이터를 스스로 조작하지 않고 부모(History.vue)에게 이벤트를 올려보냄($emit)  -->
 <template>
   <div class="filter-container shadow-lg">
     <button
+      v-for="tab in filterTabs"
+      :key="tab.value"
       class="filter-btn"
-      :class="{ active: currentFilter === 'all' }"
-      @click="$emit('change-filter', 'all')"
+      :class="{ active: currentFilter === tab.value }"
+      @click="$emit('change-filter', tab.value)"
     >
-      전체
-    </button>
-    <button
-      class="filter-btn"
-      :class="{ active: currentFilter === 'income' }"
-      @click="$emit('change-filter', 'income')"
-    >
-      수입
-    </button>
-    <button
-      class="filter-btn"
-      :class="{ active: currentFilter === 'expense' }"
-      @click="$emit('change-filter', 'expense')"
-    >
-      지출
+      {{ tab.label }}
     </button>
   </div>
 </template>
@@ -29,15 +19,22 @@ defineProps({
   currentFilter: { type: String, required: true },
 });
 defineEmits(["change-filter"]);
+
+// 필터 목록을 배열로 관리
+const filterTabs = [
+  { label: "전체", value: "all" },
+  { label: "수입", value: "income" },
+  { label: "지출", value: "expense" },
+];
 </script>
 
 <style scoped>
 .filter-container {
   display: flex;
-  background-color: #e8e7f2; /* 연한 회보라색 배경 */
+  background-color: #e8e7f2;
   padding: 8px;
   border-radius: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   width: 100%;
 }
 
@@ -46,8 +43,8 @@ defineEmits(["change-filter"]);
   padding: 20px 16px;
   border-radius: 32px;
   background: transparent;
-  color: #000666; /* 메인 남색 */
-  font-size: 1.25rem;
+  color: #000666;
+  font-size: 1.25em;
   font-weight: 700;
   border: none;
   cursor: pointer;
